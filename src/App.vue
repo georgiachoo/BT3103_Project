@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
   <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   <Opportunities/>
@@ -14,6 +15,15 @@ export default {
     // HelloWorld,
     Opportunities
   }
+=======
+  <router-view/>
+</template>
+
+<script>
+
+export default {
+  name: 'App'
+>>>>>>> master
 }
 </script>
 
