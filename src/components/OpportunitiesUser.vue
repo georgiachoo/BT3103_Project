@@ -1,7 +1,9 @@
 <template>
-    
-    <div style="display:flex; flex-direction: row; justify-content: space-between; align-items: center; margin-left: 20px; margin-right: 20px;">
+    <h1>Opportunities</h1>
 
+    <br>
+
+    <div id = "container">
         <div id = "field1">
         <label for="category">Category:</label>
         <input list="category" id="category-label" name="category-label" placeholder="Select All"/>
@@ -26,16 +28,16 @@
         </datalist>
         </div>
 
-<!-- <div id = "field3"> -->
-    <div id = "start_d">
-        <label for="startDate">Start Date: </label>
-        <input type="date" id = "startDate"> 
-    </div>
-    <div id = "end_d">
-        <label for="endDate">End Date: </label>
-        <input type="date" id = "endDate">
-    </div>
-<!-- </div> -->
+        <div id = "field3">
+            <div id = "start_d">
+                <label for="startDate">Start Date: </label>
+                <input type="date" id = "startDate"> 
+            </div>
+            <div id = "end_d">
+                <label for="endDate">End Date: </label>
+                <input type="date" id = "endDate">
+            </div>
+        </div>
 
         <div id = "field4">
         <label for="skill-label">Skills:</label>
@@ -50,7 +52,7 @@
         </div>
 
         <div id = "search_btn">
-            <button v-on:click = "getCategory()">Search</button>
+            <button v-on:click = "searchQuery()" style = "margin: 45px 10px 25px;">Search</button>
         </div>
 
         
@@ -128,15 +130,26 @@ export default {
         },
     }
 }
-
-
 </script>
 
 
 <style scoped>
 
-    #field1, #field2, #field4 {
+    #field1, #field2, #start_d, #end_d, #field4 {
+        /* display: block; */
+        display: flex;
+        flex-direction: column;
     }
+
+    #container {
+        display:flex; 
+        flex-direction: row; 
+        justify-content: space-evenly; 
+        margin-right: 15px;
+        margin-left: 15px;
+        align-items: center;
+    }
+
 
     /* css for the dates */
     input[type="date"] {

@@ -18,10 +18,10 @@
         <label for="age"> Age: </label>
         <input list="age" name="age">
         <datalist id="age">
-            <option value="13-17"> 
-            <option value="18-20"> 
-            <option value="21-29"> 
-            <option value="30-39"> 
+            <option value="13-17">
+            <option value="18-20">
+            <option value="21-29">
+            <option value="30-39">
             <option value="40-59">
             <option value="Above 60">
         </datalist><br><br>
@@ -31,7 +31,7 @@
         <datalist id="gender">
             <option value="Male">
             <option value="Female">
-            <option value="Non-binary"> 
+            <option value="Non-binary">
         </datalist><br><br>
         
         <label for="email"> Email: </label>

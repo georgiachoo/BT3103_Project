@@ -1,29 +1,14 @@
 <template>
-<<<<<<< HEAD
-  <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-  <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-  <Opportunities/>
-</template>
-
-<script>
-// import HelloWorld from './components/HelloWorld.vue'
-import Opportunities from './components/Opportunities.vue'
-
-export default {
-  name: 'App',
-  components: {
-    // HelloWorld,
-    Opportunities
-  }
-=======
   <router-view/>
 </template>
 
 <script>
 
 export default {
-  name: 'App'
->>>>>>> master
+  name: 'App',
+  components: {
+
+  }
 }
 </script>
 
