@@ -3,6 +3,8 @@ import PreLogin from '@/components/PreLogin.vue'
 import Login from '@/components/Login.vue'
 import Home from '@/views/Home.vue';
 import UserAccount from '@/views/UserAccount.vue';
+import UserOpportunities from '@/views/UserOpportunities.vue';
+import UserMyEvents from '@/views/UserMyEvents.vue';
 
 const routes = [
 {
@@ -24,6 +26,16 @@ const routes = [
     path: '/UserAccount',
     name: 'UserAccount',
     component: UserAccount
+},
+{
+    path: '/UserOpportunities',
+    name: 'UserOpportunities',
+    component: UserOpportunities
+},
+{
+    path: '/UserMyEvents',
+    name: 'UserMyEvents',
+    component: UserMyEvents
 }
 ];
 
