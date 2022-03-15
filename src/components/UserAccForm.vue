@@ -1,16 +1,5 @@
 <template>
-  <h1>My Account</h1>
-
-  <form id="accountPage">
-
-        <img id="display">
-        <input type="file" id="input" accept="image/*">
-        <label for="input" id="uploadBtn"> Choose Profile Picture</label><br><br>
-
-        <img id="gameConsole" src="game.png">
-        <label for="gameConsole" id="score"> Score: </label><br><br>
-
-        <button id="editBtn"> Edit</button><br><br>
+  <form id="accForm">
 
         <label for="name"> Name: </label>
         <input type="text" id="name" required="" placeholder="Enter your name"> <br><br>
@@ -18,20 +7,20 @@
         <label for="age"> Age: </label>
         <input list="age" name="age">
         <datalist id="age">
-            <option value="13-17"> 
-            <option value="18-20"> 
-            <option value="21-29"> 
-            <option value="30-39"> 
-            <option value="40-59">
-            <option value="Above 60">
+            <option value="13-17"/> 
+            <option value="18-20"/> 
+            <option value="21-29"/> 
+            <option value="30-39"/> 
+            <option value="40-59"/>
+            <option value="Above 60"/>
         </datalist><br><br>
         
         <label for="gender"> Gender: </label>
         <input list="gender" name="gender">
         <datalist id="gender">
-            <option value="Male">
-            <option value="Female">
-            <option value="Non-binary"> 
+            <option value="Male"/>
+            <option value="Female"/>
+            <option value="Non-binary"/> 
         </datalist><br><br>
         
         <label for="email"> Email: </label>
@@ -51,12 +40,45 @@
     
         <label for="intro"> Self-Introduction: </label>
         <textarea name="intro" id="intro" cols="50" rows="10" placeholder="Let volunteer organisations know you better"></textarea><br><br>
+
+        <div class = "save">
+            <button id = "savebutton" type="button" v-on:click="savetofs()"> Save </button>
+        </div>
     </form>
 </template>
 
 <script>
-export default {
+import firebaseApp from '../firebase.js';
+import { getFirestore } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
+const db = getFirestore(firebaseApp);
 
+export default {
+    methods: {
+        async savetofs() {
+            var a = document.getElementById("name").value 
+            var b = document.getElementById("age").value
+            var c = document.getElementById("gender").value
+            var d = document.getElementById("email").value
+            var e = document.getElementById("skills").value
+            var f = document.getElementById("interest").value
+            var g = document.getElementById("cert").value
+            var h = document.getElementById("exp").value
+            var i = document.getElementById("intro").value
+            alert("Saving changes to My Account");
+
+            try {
+                const docRef = await setDoc(doc(db, "User", a), 
+                    {Name: a, Age: b, Gender: c, Email: d, Skills: e, Interest: f, 
+                    Certifications: g, Experience: h, Introduction: i});
+                console.log(docRef);
+                this.$emit("added");
+            }
+            catch(error) {
+                console.error("Error making changes: ", error);
+            }
+        }
+    }
 }
 </script>
 
@@ -74,38 +96,7 @@ export default {
         justify-content: center;
         align-items: center;
     }
-    #display{
-        height: 100px;
-        width: 100px;
-        border-radius: 50%;
-        border: 1px solid gray;
-        background-position: center;
-        background-size: cover;
-    }
-    #input{
-        display: none;
-        transform: translateX(-10%);
-    }
-    #uploadBtn{
-        height: 40px;
-        text-align: center;   
-        background: rgba(0, 0, 0, 0.5);
-        color: wheat;
-        line-height: 20px;
-        font-size: 15px;
-    }
-    #gameConsole{
-        height: 80px;
-        width: 120px;
-        float: right;
-        transform: translate(-130%, -150%);
-    }
-    #score{
-        transform: translate(205%, -150%);
-    }
-    #editBtn{
-        transform: translate(500px, -120px);
-        background-color: darkslategrey;
-        color: white;
+    .save {
+        text-align: center;
     }
 </style>
