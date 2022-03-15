@@ -1,13 +1,13 @@
 <template>
 <h1>SG Volunteer Platform</h1>
-    <router-link to="/Login">
-        <button v-on:click="nav('volunteer')">
+    <router-link :to="{ name: 'Login', params: { type: 'Volunteer' } }">
+        <button>
             <img :src="vol"><br>
             Volunteer<br>Log-in
         </button>
     </router-link>
-    <router-link to="/Login">
-        <button v-on:click="nav('organisation')">
+    <router-link :to="{ name: 'Login', params: { type: 'Organisation' } }">
+        <button>
             <img :src="org"><br>
             Organisation<br>Log-in
         </button>
@@ -22,11 +22,6 @@ export default {
       org: require('../assets/organisation.png'),
       vol: require('../assets/volunteer.png')
     }
-  },
-  methods: { 
-      nav(value) {
-        console.log(value)
-      }
   },
 };
 </script>
