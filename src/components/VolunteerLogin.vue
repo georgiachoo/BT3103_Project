@@ -1,5 +1,5 @@
 <template>
-    <h1>{{type}} Login</h1>
+    <h1>Volunteer Login</h1>
     <div id= "firebaseui-auth-container"></div>
 </template>
 
@@ -10,36 +10,20 @@ import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
 
 export default ({
-    name: 'Login',
-    data() {
-        return {
-            type: ""
-        }
-    },
+    name: 'VolunteerLogin',
     mounted() {
+
         var ui = firebaseui.auth.AuthUI.getInstance();
         if (!ui) {
             ui = new firebaseui.auth.AuthUI(firebase.auth());
         }
 
         var uiConfig = {
-            signInSuccessUrl: '/UserOpportunities',
-            signInOptions: [
-                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-                firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            ]
-        };
-
-        if (this.type == "Organisation") {
-            uiConfig = {
-            // to link to organisation home pg 
-            signInSuccessUrl: '/home',
-            signInOptions: [
-                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-                firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            ]};
-        }
-
+        signInSuccessUrl: '/UserOpportunities',
+        signInOptions: [
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        ]}
 
         ui.start("#firebaseui-auth-container", uiConfig)
     },

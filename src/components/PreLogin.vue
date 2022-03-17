@@ -1,12 +1,12 @@
 <template>
 <h1>SG Volunteer Platform</h1>
-    <router-link :to="{ name: 'Login', params: { type: 'Volunteer' } }">
+    <router-link :to="{ name: 'VolunteerLogin' }">
         <button>
             <img :src="vol"><br>
             Volunteer<br>Log-in
         </button>
     </router-link>
-    <router-link :to="{ name: 'Login', params: { type: 'Organisation' } }">
+    <router-link :to="{ name: 'OrganisationLogin' }">
         <button>
             <img :src="org"><br>
             Organisation<br>Log-in
