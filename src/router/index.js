@@ -1,3 +1,4 @@
+
 import { createRouter, createWebHistory } from 'vue-router'
 import PreLogin from '@/components/PreLogin.vue'
 import Home from '@/views/Home.vue';
@@ -11,10 +12,11 @@ import OrgPostEvent from "@/views/OrgPostEvent.vue";
 import OrgManageEvents from "@/views/OrgManageEvents.vue";
 
 const routes = [
-{
+  {
     path: "/",
-    name:"PreLogin",
+    name: "PreLogin",
     component: PreLogin,
+
 }, 
 {
     path: "/VolunteerLogin",
@@ -46,11 +48,41 @@ const routes = [
     name: 'UserMyEvents',
     component: UserMyEvents
 },
+
+
+  {
+    path: "/Login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/",
+    name: "Home",
+    component: Home,
+  },
+  {
+    path: "/UserAccount",
+    name: "UserAccount",
+    component: UserAccount,
+  },
+  {
+    path: "/UserOpportunities",
+    name: "UserOpportunities",
+    component: UserOpportunities,
+  },
+  {
+    path: "/UserMyEvents",
+    name: "UserMyEvents",
+    component: UserMyEvents,
+  },
+  {
+
 {
     path: '/OrganisationAccount',
     name: 'OrganisationAccount',
     component: OrganisationAccount
 }
+
     path: "/OrgPostEvent",
     name: "OrgPostEvent",
     component: OrgPostEvent,
@@ -59,12 +91,12 @@ const routes = [
     path: "/OrgManageEvents",
     name: "OrgManageEvents",
     component: OrgManageEvents,
-  }
+  },
 ];
 
 const router = createRouter({
- history: createWebHistory(),
- routes
+  history: createWebHistory(),
+  routes,
 });
 
 export default router;
