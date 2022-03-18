@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import PreLogin from '@/components/PreLogin.vue'
 import Home from '@/views/Home.vue';
 import UserAccount from '@/views/UserAccount.vue';
+import OrganisationAccount from '@/views/OrganisationAccount.vue';
 import UserOpportunities from '@/views/UserOpportunities.vue';
 import UserMyEvents from '@/views/UserMyEvents.vue';
 import VolunteerLogin from '@/components/VolunteerLogin.vue';
@@ -42,6 +43,11 @@ const routes = [
     path: '/UserMyEvents',
     name: 'UserMyEvents',
     component: UserMyEvents
+},
+{
+    path: '/OrganisationAccount',
+    name: 'OrganisationAccount',
+    component: OrganisationAccount
 }
 ];
 
