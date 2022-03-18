@@ -28,17 +28,10 @@ import { getAuth } from "firebase/auth"
             };
         },
         props: {
-            // email: {
-            //     type: String,
-            //     required: false
-            // },
             otherID: {
                 type: String,
                 required: false,
             },
-        },
-        created() {
-            // this.id = this.$routes.params.otherID
         },
 
   async mounted() {
@@ -53,10 +46,8 @@ import { getAuth } from "firebase/auth"
         var otherid = this.$route.params.otherID;
         if (otherid == null) {
             otherid = ''
-            console.log("entered2")
         }
         
-
       Talk.ready.then(function() {
 
         var me = new Talk.User({
