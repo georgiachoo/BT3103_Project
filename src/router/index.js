@@ -29,33 +29,6 @@ const routes = [
     component: OrganisationLogin,
 },
 {
-    path: '/',
-    name: 'Home',
-    component: Home
-},
-{
-    path: '/UserAccount',
-    name: 'UserAccount',
-    component: UserAccount
-},
-{
-    path: '/UserOpportunities',
-    name: 'UserOpportunities',
-    component: UserOpportunities
-},
-{
-    path: '/UserMyEvents',
-    name: 'UserMyEvents',
-    component: UserMyEvents
-},
-
-
-  {
-    path: "/Login",
-    name: "Login",
-    component: Login,
-  },
-  {
     path: "/",
     name: "Home",
     component: Home,
@@ -75,14 +48,12 @@ const routes = [
     name: "UserMyEvents",
     component: UserMyEvents,
   },
-  {
-
 {
     path: '/OrganisationAccount',
     name: 'OrganisationAccount',
     component: OrganisationAccount
-}
-
+},
+{
     path: "/OrgPostEvent",
     name: "OrgPostEvent",
     component: OrgPostEvent,
