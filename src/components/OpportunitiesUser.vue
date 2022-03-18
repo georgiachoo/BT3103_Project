@@ -57,15 +57,30 @@
 
         
     </div>
+<<<<<<< HEAD
+=======
+    <Logout/>
+>>>>>>> 615ff3208b34d8616459e388fc300b8126603c3a
 
 </template>
 
 
 <script>
+<<<<<<< HEAD
+=======
+import Logout from '@/components/Logout.vue';
+
+>>>>>>> 615ff3208b34d8616459e388fc300b8126603c3a
 export default {
     data () {
       return {}
     },
+<<<<<<< HEAD
+=======
+    components: {
+        Logout,
+    },
+>>>>>>> 615ff3208b34d8616459e388fc300b8126603c3a
     methods: {
         searchQuery() {
 
