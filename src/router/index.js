@@ -6,6 +6,8 @@ import UserOpportunities from '@/views/UserOpportunities.vue';
 import UserMyEvents from '@/views/UserMyEvents.vue';
 import VolunteerLogin from '@/components/VolunteerLogin.vue';
 import OrganisationLogin from '@/components/OrganisationLogin.vue';
+import OrgPostEvent from "@/views/OrgPostEvent.vue";
+import OrgManageEvents from "@/views/OrgManageEvents.vue";
 
 const routes = [
 {
@@ -42,7 +44,17 @@ const routes = [
     path: '/UserMyEvents',
     name: 'UserMyEvents',
     component: UserMyEvents
-}
+},
+{
+    path: "/OrgPostEvent",
+    name: "OrgPostEvent",
+    component: OrgPostEvent,
+  },
+  {
+    path: "/OrgManageEvents",
+    name: "OrgManageEvents",
+    component: OrgManageEvents,
+  }
 ];
 
 const router = createRouter({
