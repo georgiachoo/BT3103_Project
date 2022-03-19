@@ -1,5 +1,5 @@
 <template>
-  <h3>This is the opportunities page</h3>
+  <!-- <h3>This is the opportunities page</h3> -->
   <OpportunitiesUser/>
 </template>
 

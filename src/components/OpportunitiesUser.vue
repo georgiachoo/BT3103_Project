@@ -62,36 +62,63 @@
 
 
 <script>
+import firebaseApp from '../firebase.js';
+import { getFirestore } from "firebase/firestore";
+const db = getFirestore(firebaseApp);
+
+
 export default {
     data () {
       return {}
     },
+
+    mounted() {
+
+        // display all events initially
+        async function display() {
+            // get all organisations' collections
+            // loop through each organisation's collection to get all events posted
+            // for each event, get event details and put in table/list
+            // make each event clickable
+        }
+        display();
+    },
+
     methods: {
         searchQuery() {
 
-            // need to create composite index to query date in firebase !!!
+            // call getX functions to get selected values
+            var s_cat = this.getCategory();
+            var s_loc = this.getLocation();
+            var s_skill = this.getSkill();
+            var s_dates = this.getDates();
+            var s_fields = ['category', 'location', 'skill'];
+            var selected = [s_cat, s_loc, s_skill];
 
-            // // call getX functions to get selected values
-            // var s_cat = this.getCategory();
-            // var s_loc = this.getLocation();
-            // var s_skill = this.getSkill();
-            // var fields = ['category', 'location', 'skill'];
-            // var selected = [s_cat, s_loc, s_skill];
+            var sQuery = db.collection('event');
+            // for loop to create and append where queries
+            for (let i = 0; i < s_fields.length; i++) {
+                if (selected[i] != '') {
+                    sQuery = sQuery.where(s_fields[i], '==', selected[i]);
+                }
+            }
 
-            // sQuery = db.collection('event');
-            // // for loop to create and append where queries
-            // for (let i = 0; i < s_fields.length; i++) {
-            //     if (selected[i] != '') {
-            //         sQuery = sQuery.where(s_fields[i], '==', selected[i]);
-            //     }
-            // }
+            if (s_dates[0] != "") {
+                sQuery = sQuery.where('Date', '>=' , s_dates[0])
+            }
+            if (s_dates[1] != "") {
+                sQuery = sQuery.where('Date', '<=' , s_dates[1])
+            }
 
-            // // query, get and display results (need to write another function)
-            // sQuery.get().then((querySnapshot) => {
-            //     querySnapshot.forEach((doc) => {
-            //         console.log(doc.data());
-            //     });
-            // });
+
+            // query, get and display results (need to write another function)
+            // functiontodisplayresults(sQuery)
+
+            sQuery.get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log(doc.data());
+                });
+            });
 
             return;
         },

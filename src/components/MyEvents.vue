@@ -12,16 +12,30 @@
         </datalist>
     </div>
     <br>
+
+    <div id = "eventDisplay">
+        <table id= "table" class = "auto-index">
+        <tr>
+        <th>Event Name</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th>Location</th>
+        <th>Category</th>
+        <th>Required Skills</th>
+        <th>Options</th>
+        </tr>
+    </table> <br><br>
+    </div>
    
 </template>
 
 
 <script>
-// import firebaseApp from '../firebase.js';
-// import { getFirestore } from "firebase/firestore";
-// import { getAuth } from 'firebase/auth';
-// import { collection, getDocs, doc } from "firebase/firestore";
-// const db = getFirestore(firebaseApp);
+import firebaseApp from '../firebase.js';
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from 'firebase/auth';
+import { collection, getDocs } from "firebase/firestore";
+const db = getFirestore(firebaseApp);
 
 export default {
 
@@ -31,24 +45,90 @@ export default {
 
         async onSelect() {      // mount ? 
 
-            // const auth = getAuth();
-            // this.user = auth.currentUser.email;
-            // let z = await getDocs(collection(db, String(this.user)))
+            const auth = getAuth();
+            var currUser = auth.currentUser.email;
 
+            // retrieve input from user
             var selectedEvent = document.getElementById('event-id').value;
             console.log(selectedEvent);
 
-            // query from this user's collection 
-            // to obtain their ongoing / completed events
-            // display in the list
-            // if selectedEvent == 'completed', button to do feedback form needs to be included
+            let z = await getDocs(collection(db, String(currUser)));
 
+            z.forEach((docs) => {
+                let yy = docs.data()
+
+                var arrayOfEvents = []
+                if (selectedEvent === "Ongoing Events") {
+                    arrayOfEvents = (yy.ongoing);
+                } else if (selectedEvent === "Completed Events") {
+                    arrayOfEvents = (yy.completed);
+                } else {
+                    return;
+                }
+
+                // if array is empty, return.
+                if (arrayOfEvents.length === 0) {
+                    return;
+                }
+
+                let ind = 1
+                
+                arrayOfEvents.forEach((event) => {
+                    // let yy = docs.data()
+                    var table = document.getElementById("table")
+                    var row = table.insertRow(ind)
+
+                    var eName = (event.Event_Name)
+                    var eDescription = (event.Description)
+                    var eDate = (event.Date)
+                    var eLoc = (event.Location)
+                    var eCat = (event.Category)
+                    var eSkills = (event.Required_skills)
+
+                    var cell1 = row.insertCell(0); var cell2 = row.insertCell(1); var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3); var cell5 = row.insertCell(4); var cell6 = row.insertCell(5);
+                    // var cell7 = row.insertCell(6);
+
+                    cell1.innerHTML = eName; cell2.innerHTML = eDescription; cell3.innerHTML = eDate; cell4.innerHTML = eLoc; cell5.innerHTML = eCat;
+                    cell6.innerHTML = eSkills; 
+                    // cell7.innerHTML = 0;
+
+                    // need attribute to indicate whether user has completed feedback form ?
+                    // or just change the button html and disable it
+                    if (selectedEvent === "Completed") {
+                        var bu = document.createElement("button");
+                        bu.className = "bwt";
+                        bu.id = String(eName);
+                        bu.innerHTML = "Leave Feedback";
+                        bu.onclick = function() {
+                            this.leaveFeedback(currUser, eName);
+                        }
+                        cell7.appendChild(bu);
+                    } else {
+                        var cell7 = row.insertCell(6);
+                        cell7.innerHTML = "";
+                    }
+
+                    ind += 1
+                })    
+            })
             return;
+        },
+
+        async leaveFeedback(currUser, eName) {
+            // go to feedback form page
+
+            // Change button to indicate that feedback has been completed ?
+            document.getElementById(String(eName)).innerHTML = "Feedback Completed"
+            // disable button ?
+            document.getElementById(String(eName)).disabled = true;
+            return currUser, eName;
         }
        
     }
     
 }
+
 </script>
 
 
