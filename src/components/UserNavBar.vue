@@ -3,6 +3,7 @@
         <div>
             <router-link to="/UserOpportunities">Opportunities</router-link> |
             <router-link to="/UserMyEvents">My Event</router-link> |
+            <router-link to="/UserNotification"> Notifications</router-link> |
             <router-link to="/UserAccount">Account</router-link>
         </div>
     </div>
