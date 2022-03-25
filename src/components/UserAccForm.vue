@@ -1,5 +1,5 @@
 <template>
-   <div v-if="user">
+   <div> <!-- v-if="user" -->
     <img id="profilePic">
     <input type="file" id="input" accept="image/*">
     <label for="input" id="uploadBtn"> Choose Profile Picture</label><br><br>
@@ -13,7 +13,14 @@
   <form id="accForm">
     <label for="name"> Name: </label>
     <input type="text" id="name" required="" placeholder="Enter your name"> <br><br>
-        
+
+    <label for="age"> Age: </label>
+    <input type="text" id="age" required="" placeholder="Enter your age"> <br><br>
+
+    <label for="gender"> Gender: </label>
+    <input type="text" id="gender" required="" placeholder="Male/Female/Non-binary"> <br><br>
+
+    <!--    
     <label for="age"> Age: </label>
     <input list="age" name="age">
     <datalist id="age">
@@ -32,7 +39,8 @@
       <option value="Female"/>
       <option value="Non-binary"/> 
     </datalist><br><br>
-        
+    -->
+
     <label for="email"> Email: </label>
     <input type="email" id="email" required="" placeholder="Enter your email"><br><br>
 
@@ -66,6 +74,7 @@
     <p> Certifications: {{cert}} </p>
     <p> Experience: {{exp}} </p>
     <p> Self-Introduction: {{intro}} </p>
+    <button id="editBtn" type="button" @click="edit()"> Edit </button>
   </div>
 </template>
 
@@ -125,8 +134,8 @@ export default {
         //this.user = auth.currentUser.email;
 
         var a = document.getElementById("name").value 
-        var b = document.getElementById("age").value
-        var c = document.getElementById("gender").value
+        var b = document.getElementById("age").value 
+        var c = document.getElementById("gender").value 
         var d = document.getElementById("email").value
         var e = document.getElementById("skills").value
         var f = document.getElementById("interest").value
@@ -136,14 +145,29 @@ export default {
         var j = document.getElementById("input").value
         alert("Saving changes to My Account");
 
+      /*
+         function addValue(el, dl){
+         if(el.value.trim() != ''){
+           var opSelected = dl.querySelector(`[value="${el.value}"]`);
+           var option = document.createElement("option");
+           option.value = opSelected.value;
+           option.text = opSelected.getAttribute('label');
+           document.getElementById('Colors').appendChild(option);
+         }
+       }
+
+       addValue(document.getElementById('selectAge'), document.getElementById('allAge'));
+       addValue(document.getElementById('selectGender'), document.getElementById('allGender'));
+      */
+
+        const accForm = document.getElementById("accForm");
+        accForm.style.display = "none";
+
         try {
           const docRef = await setDoc(doc(db, String(this.user), this.a), 
             {Name: a, Age: b, Gender: c, Email: d, Skills: e, Interests: f, Certifications: g, 
             Experience: h, Introduction: i, ProfilePicture: j});
           console.log(docRef);
-                
-          const accForm = document.getElementById("accForm");
-          accForm.style.display = "none";
           //this.$emit('userinfo');
         }
         catch(error) {
@@ -151,8 +175,8 @@ export default {
         }
 
         this.name = a;
-        this.age = b; 
-        this.gender = c; 
+        this.age = b;
+        this.gender = c;
         this.email = d;
         this.skills = e; 
         this.interests = f; 
@@ -161,6 +185,13 @@ export default {
         this.intro = i;
         const infoContainer = document.getElementById("allInfo");
         infoContainer.style.display = "block";
+      },
+
+      edit() {
+        const editContainer = document.getElementById("accForm");
+        editContainer.style.display = "block";
+        const infoContainer = document.getElementById("allInfo");
+        infoContainer.style.display = "none";
       }
     }
 }

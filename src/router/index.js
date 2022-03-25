@@ -11,6 +11,7 @@ import OrganisationLogin from '@/components/OrganisationLogin.vue';
 import OrgPostEvent from "@/views/OrgPostEvent.vue";
 import OrgManageEvents from "@/views/OrgManageEvents.vue";
 import Messages from "@/components/Messages.vue";
+import UserNotification from "@/views/UserNotification.vue";
 
 const routes = [
   {
@@ -68,6 +69,11 @@ const routes = [
     path: "/Messages",
     name: "Messages",
     component: Messages,
+  },
+  {
+    path: "/UserNotification",
+    name: "UserNotification",
+    component: UserNotification,
   }
 ];
 
