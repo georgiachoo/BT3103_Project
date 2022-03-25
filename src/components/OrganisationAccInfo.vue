@@ -1,7 +1,7 @@
 <template>
     
     <div>
-        <img id = "OrganisationPic" src="@/assets/organisation.png" alt=""/>
+        <img id = "OrganisationPic" src="../assets/logo.png" class = center>
         <h2>Name of Organisation</h2>
     <table>
         <tr>
@@ -22,6 +22,24 @@
     <span class="fa fa-star checked"></span>
     <span class="fa fa-star"></span>
     <span class="fa fa-star"></span></div>
+
+    <table>
+        <tr>
+        <th>Comments from past volunteers:</th>
+        <td>
+            <div>
+                <table class ="noBorderTb" >
+                    <tr ><td id = "comment_td">one</td></tr>
+                    <tr><td id = "comment_td">two</td></tr>
+                    <tr><td id = "comment_td">three</td></tr>
+
+                </table>
+            </div>
+        </td>
+        </tr>
+  
+    </table>
+
     
 </template>
 
@@ -36,20 +54,42 @@ export default {
 <style scoped>
  th{
   
-  border: 1px solid;
+  border: px solid;
   
   
 }
 td {
+    
     text-align: start;
     border: 1px solid;
     width: 75%;
     height: 200px;
 
 }
+#comment_td {
+    text-align: start;
+    width: 75%;
+    height: 100px;
+  
+
+
+}
+#comment_tr {
+    text-align: start;
+    width: 75%;
+    height: 100px;
+    border: 0ch;
+
+
+}
 table {
     border: 1px solid;
     width: 100%;
+}
+.noBorderTb {
+    border: 0px solid;
+    width: 100%;
+
 }
 .checked {
   color: orange;
@@ -74,6 +114,11 @@ table {
             height: 100px;
             text-align: center;
         }
-
+#OrganisationPic{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width:60%;
+}
 
 </style>
