@@ -1,10 +1,11 @@
 <template>
     <div id="logged" v-if="user">
-        <div>
-            <router-link to="/UserOpportunities">Opportunities</router-link> |
-            <router-link to="/UserMyEvents">My Event</router-link> |
-            <router-link to="/UserNotification"> Notifications</router-link> |
-            <router-link to="/UserAccount">Account</router-link>
+        <div id="nav">
+            <router-link tag="li" to="/UserOpportunities">Opportunities</router-link> |
+            <router-link tag="li" to="/UserMyEvents">My Event</router-link> |
+            <router-link tag="li" to="/UserNotification"> Notifications</router-link> |
+            <router-link tag="li" to="/UserMessages">Messages</router-link> |
+            <router-link tag="li" to="/UserAccount">Account</router-link>
         </div>
     </div>
 </template>
@@ -46,4 +47,10 @@ export default {
 #nav a.router-link-exact-active {
     color: #42b983;
 }
+/*
+nav li:hover,
+nav li:active{
+    background-color: rgba(0, 153, 255, 0.609);;
+    cursor: pointer;
+}*/
 </style>
