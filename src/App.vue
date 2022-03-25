@@ -6,13 +6,13 @@
     <router-link to="/OrganisationAccount"> Organisation Account</router-link> |
     <router-link to="/Messages">Messages</router-link> | 
     <button v-on:click=passID()>Test Button To Msg Someone</button>
-
   </div>
   <router-view/>
 </template>
 
 <script>
 import {getAuth, onAuthStateChanged } from 'firebase/auth'
+
 export default {
   name: 'App',
   components: {

@@ -28,7 +28,7 @@ export default {
 
         cell1.innerHTML = '[Org name] sent you a message'
         var bu = document.createElement("button")
-        bu.class = "viewBtn"
+        bu.className = "viewBtn"
         bu.innerHTML = "View"
         bu.onclick = function() {
           router.push({name: 'UserMessages'})
@@ -48,7 +48,7 @@ export default {
         var detail = (yy.Detail) //'[Org name] sent you a message'. 
                                  //'Successful application to [Event name]'.
                                  //'Leave feedback for [Event name]'.
-        var category = (yy.Category) //Application success, Message, Feedback
+        var category = (yy.Category) //Application, Message, Feedback
 
         var table = document.getElementById("notifTable")
         var row = table.insertRow(ind)
@@ -79,7 +79,8 @@ export default {
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    width: 100%;
+    width: 88%;
+    margin-left: auto;
 }
 
 tr:nth-child(even) {
@@ -97,11 +98,11 @@ th{
 }
 
 .viewBtn{
-    background-color: rgba(0, 153, 255, 0.609);
-    color: white;
-    display: inline-block;
-    font-size: 12px;
-    margin: 2px 1px;
-    cursor: pointer;
+  background: rgba(231, 207, 27, 0.904);
+  color: black;
+  cursor: pointer;
+  text-align: center;
+  padding: 7px 14px;
+  border: none;
 }
 </style>

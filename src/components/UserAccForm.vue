@@ -6,7 +6,7 @@
   </div>
   
   <div>
-    <img id="gamePic" src="../assets/game.png">
+    <img id="gamePic" src="@/assets/game.png">
     <label for="gamePic" id="score"> Score: </label><br><br>
   </div>
 
@@ -19,27 +19,6 @@
 
     <label for="gender"> Gender: </label>
     <input type="text" id="gender" required="" placeholder="Male/Female/Non-binary"> <br><br>
-
-    <!--    
-    <label for="age"> Age: </label>
-    <input list="age" name="age">
-    <datalist id="age">
-      <option value="13-17"/> 
-      <option value="18-20"/> 
-      <option value="21-29"/> 
-      <option value="30-39"/> 
-      <option value="40-59"/>
-      <option value="Above 60"/>
-    </datalist><br><br>
-        
-    <label for="gender"> Gender: </label>
-    <input list="gender" name="gender">
-    <datalist id="gender">
-      <option value="Male"/>
-      <option value="Female"/>
-      <option value="Non-binary"/> 
-    </datalist><br><br>
-    -->
 
     <label for="email"> Email: </label>
     <input type="email" id="email" required="" placeholder="Enter your email"><br><br>
@@ -87,8 +66,6 @@ const db = getFirestore(firebaseApp);
 
 export default {
     name: 'UserAccForm',
-
-    //emits:["userinfo"],
     
     data() {
       return {
@@ -142,23 +119,8 @@ export default {
         var g = document.getElementById("cert").value
         var h = document.getElementById("exp").value
         var i = document.getElementById("intro").value
-        var j = document.getElementById("input").value
+        //var j = document.getElementById("input").value
         alert("Saving changes to My Account");
-
-      /*
-         function addValue(el, dl){
-         if(el.value.trim() != ''){
-           var opSelected = dl.querySelector(`[value="${el.value}"]`);
-           var option = document.createElement("option");
-           option.value = opSelected.value;
-           option.text = opSelected.getAttribute('label');
-           document.getElementById('Colors').appendChild(option);
-         }
-       }
-
-       addValue(document.getElementById('selectAge'), document.getElementById('allAge'));
-       addValue(document.getElementById('selectGender'), document.getElementById('allGender'));
-      */
 
         const accForm = document.getElementById("accForm");
         accForm.style.display = "none";
@@ -166,7 +128,7 @@ export default {
         try {
           const docRef = await setDoc(doc(db, String(this.user), this.a), 
             {Name: a, Age: b, Gender: c, Email: d, Skills: e, Interests: f, Certifications: g, 
-            Experience: h, Introduction: i, ProfilePicture: j});
+            Experience: h, Introduction: i});
           console.log(docRef);
           //this.$emit('userinfo');
         }
@@ -213,8 +175,8 @@ export default {
 #uploadBtn{
   height: 40px;
   text-align: center;   
-  background: rgba(0, 0, 0, 0.5);
-  color: wheat;
+  background: rgba(231, 207, 27, 0.904);
+  color: black;
   line-height: 20px;
   font-size: 15px;
 }
@@ -245,5 +207,21 @@ body{
 }
 #allInfo{
   display: none;
+}
+#editBtn{
+  background: rgba(231, 207, 27, 0.904);
+  color: black;
+  cursor: pointer;
+  text-align: center;
+  padding: 7px 14px;
+  border: none;
+}
+#savebutton{
+  background: rgba(231, 207, 27, 0.904);
+  color: black;
+  cursor: pointer;
+  text-align: center;
+  padding: 7px 14px;
+  border: none;
 }
 </style>
