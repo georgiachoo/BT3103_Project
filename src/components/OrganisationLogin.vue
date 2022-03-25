@@ -39,6 +39,8 @@ export default ({
 #firebaseui-auth-container {
     margin-top: 50px;
     margin-bottom: 50px;
+    margin-left: 35%;
+    margin-right: 35%;
 
     padding: 50px 50px 50px 50px;
     border-radius: 30px;

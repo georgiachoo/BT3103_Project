@@ -4,23 +4,22 @@
   <div :style="{ 'margin-left': sidebarWidth }">
     <router-view />
   </div>
-
-  <head> My Account </head>
-  <UserAccForm/>
+  <h3> My Notifications </h3>
+  <UserNotifTable/>
 </template>
 
 <script>
 //import UserNavBar from '@/components/UserNavBar.vue'
 import Sidebar from '@/components/sidebar/Sidebar'
 import { sidebarWidth } from '@/components/sidebar/state.js'
-import UserAccForm from '@/components/UserAccForm.vue'
+import UserNotifTable from '@/components/UserNotifTable.vue'
 
 export default {
-    name: 'UserAccount',
+    name: 'UserNotification',
     
     components:{
         Sidebar,
-        UserAccForm
+        UserNotifTable
     },
 
     setup() {

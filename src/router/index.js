@@ -10,6 +10,9 @@ import VolunteerLogin from '@/components/VolunteerLogin.vue';
 import OrganisationLogin from '@/components/OrganisationLogin.vue';
 import OrgPostEvent from "@/views/OrgPostEvent.vue";
 import OrgManageEvents from "@/views/OrgManageEvents.vue";
+import Messages from "@/components/Messages.vue";
+import UserNotification from "@/views/UserNotification.vue";
+import UserMessages from '@/views/UserMessages.vue'
 
 const routes = [
   {
@@ -29,33 +32,6 @@ const routes = [
     component: OrganisationLogin,
 },
 {
-    path: '/',
-    name: 'Home',
-    component: Home
-},
-{
-    path: '/UserAccount',
-    name: 'UserAccount',
-    component: UserAccount
-},
-{
-    path: '/UserOpportunities',
-    name: 'UserOpportunities',
-    component: UserOpportunities
-},
-{
-    path: '/UserMyEvents',
-    name: 'UserMyEvents',
-    component: UserMyEvents
-},
-
-
-  {
-    path: "/Login",
-    name: "Login",
-    component: Login,
-  },
-  {
     path: "/",
     name: "Home",
     component: Home,
@@ -75,14 +51,12 @@ const routes = [
     name: "UserMyEvents",
     component: UserMyEvents,
   },
-  {
-
 {
     path: '/OrganisationAccount',
     name: 'OrganisationAccount',
     component: OrganisationAccount
-}
-
+},
+{
     path: "/OrgPostEvent",
     name: "OrgPostEvent",
     component: OrgPostEvent,
@@ -92,6 +66,21 @@ const routes = [
     name: "OrgManageEvents",
     component: OrgManageEvents,
   },
+  {
+    path: "/Messages",
+    name: "Messages",
+    component: Messages,
+  },
+  {
+    path: "/UserNotification",
+    name: "UserNotification",
+    component: UserNotification,
+  },
+  {
+    path: "/UserMessages",
+    name: "UserMessages",
+    component: UserMessages,
+  }
 ];
 
 const router = createRouter({
