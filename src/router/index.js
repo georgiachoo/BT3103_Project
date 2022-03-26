@@ -15,7 +15,7 @@ import OrgSelectVolunteer from "@/views/OrgSelectVolunteer.vue";
 import Messages from "@/components/Messages.vue";
 import UserNotification from "@/views/UserNotification.vue";
 import UserMessages from '@/views/UserMessages.vue'
-
+import OrgMessages from '@/views/OrgMessages.vue'
 
 const routes = [
   {
@@ -93,6 +93,11 @@ const routes = [
     path: "/UserMessages",
     name: "UserMessages",
     component: UserMessages,
+  },
+  {
+    path: "/OrgMessages",
+    name: "OrgMessages",
+    component: OrgMessages,
   }
 ];
 

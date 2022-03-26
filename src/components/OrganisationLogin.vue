@@ -39,7 +39,7 @@ export default ({
         var uiConfig = {
         
         // to link to organisation home pg
-        signInSuccessUrl: '/Home' ,
+        signInSuccessUrl: '/OrgOpportunities' ,
         signInOptions: [
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
             firebase.auth.EmailAuthProvider.PROVIDER_ID,
