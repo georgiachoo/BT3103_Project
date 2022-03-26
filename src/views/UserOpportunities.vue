@@ -4,7 +4,7 @@
   <div :style="{ 'margin-left': sidebarWidth }">
     <router-view />
   </div>
-  <h3>This is the opportunities page</h3>
+  <h1>Opportunities</h1>
   <OpportunitiesUser/>
 </template>
 
