@@ -4,28 +4,27 @@
   <div :style="{ 'margin-left': sidebarWidth }">
     <router-view />
   </div>
-
-  <head> My Account </head>
-  <UserAccForm/>
+  <h3> My Messages </h3>
+  <Messages/>
 </template>
 
 <script>
 //import UserNavBar from '@/components/UserNavBar.vue'
 import Sidebar from '@/components/sidebar/Sidebar'
 import { sidebarWidth } from '@/components/sidebar/state.js'
-import UserAccForm from '@/components/UserAccForm.vue'
+import Messages from '@/components/Messages.vue'
 
 export default {
-    name: 'UserAccount',
-    
-    components:{
-        Sidebar,
-        UserAccForm
-    },
+  name: 'UserMessages',
 
-    setup() {
+  components: {
+      Sidebar,
+      Messages
+  },
+
+  setup() {
       return { sidebarWidth }
-    }
+  }
 }
 </script>
 
