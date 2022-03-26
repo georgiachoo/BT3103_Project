@@ -6,7 +6,7 @@
   </div>
   
   <div>
-    <img id="gamePic" src="@/assets/game.png">
+    <img id="gamePic" :src="game">
     <label for="gamePic" id="score"> Score: </label><br><br>
   </div>
 
@@ -78,7 +78,8 @@ export default {
         interests: "",
         cert: "",
         exp: "",
-        intro: "" 
+        intro: "",
+        game: require('../assets/game.png'),
       }
     },
 
