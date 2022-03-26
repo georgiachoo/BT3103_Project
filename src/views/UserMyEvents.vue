@@ -1,6 +1,7 @@
 <template>
   <UserNavBar/>
-  <h3>This is the MyEvents page</h3>
+  <h1>My Events</h1>
+  <br>
   <MyEvents/>
 </template>
 

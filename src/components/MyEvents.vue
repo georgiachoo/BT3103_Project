@@ -1,8 +1,5 @@
 <template>
 
-    <h1 id = "myevents">My Events</h1>
-    <br>
-
     <!-- Menu to select Ongoing or Completed events -->
     <div id = "eventSelect">
         <input list="event" id="event-id" oninput="onSelect()" placeholder="Select Events"/>
@@ -11,8 +8,9 @@
             <option value="Completed Events">Completed Events</option>
         </datalist>
     </div>
-    <br>
+    <br><br><br><br>
 
+    <!-- Table to display ongoing or completed events -->
     <div id = "eventDisplay">
         <table id= "table" class = "auto-index">
         <tr>
@@ -93,17 +91,25 @@ export default {
                     cell6.innerHTML = eSkills; 
                     // cell7.innerHTML = 0;
 
-                    // need attribute to indicate whether user has completed feedback form ?
-                    // or just change the button html and disable it
+
+                    // need additional attribute to indicate whether user has completed feedback form !!!
                     if (selectedEvent === "Completed") {
                         var bu = document.createElement("button");
                         bu.className = "bwt";
                         bu.id = String(eName);
+
+                        // if (user has already completed feedback form for this event) {
+                        //     this.disableButton(eName)
+                        // } else innerHTML == leaveFeedback ... {
+                        // }
+
                         bu.innerHTML = "Leave Feedback";
                         bu.onclick = function() {
+                            this.disableButton(eName);
                             this.leaveFeedback(currUser, eName);
                         }
                         cell7.appendChild(bu);
+
                     } else {
                         var cell7 = row.insertCell(6);
                         cell7.innerHTML = "";
@@ -115,14 +121,18 @@ export default {
             return;
         },
 
+        // go to feedback form page
         async leaveFeedback(currUser, eName) {
-            // go to feedback form page
+            console.log("feedback function");
+            // how to access feedback form?
+            return currUser, eName
+        },
 
-            // Change button to indicate that feedback has been completed ?
+        // disable button and indicate that feedback form has been completed
+        disableButton(eName) {
             document.getElementById(String(eName)).innerHTML = "Feedback Completed"
-            // disable button ?
             document.getElementById(String(eName)).disabled = true;
-            return currUser, eName;
+            return eName;
         }
        
     }
@@ -133,6 +143,28 @@ export default {
 
 
 <style scoped>
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        padding: 30px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #e3edee;
+    }
+
+    th, td {
+        border: 1px, solid #dddddd;
+        text-align: center;
+        padding: 8px;
+    }
+
+    /* .bwt {
+        color: rgb(243, 236, 236);
+        background-color: rgb(255, 94, 0);
+    } */
 
 /* #myevents {
     background-color: #da8a8a;

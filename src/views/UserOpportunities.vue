@@ -1,6 +1,7 @@
 <template>
   <UserNavBar/>
-  <h3>This is the opportunities page</h3>
+  <h1>Opportunities</h1>
+  <br>
   <OpportunitiesUser/>
 </template>
 
