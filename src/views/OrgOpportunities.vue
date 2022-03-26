@@ -1,6 +1,6 @@
 <template>
-<h1>Organisation Accounttt</h1>
-<OrganisationAccInfo/>
+<h1>Organisation Opportunities</h1>
+
 <Logout/>
 <OrgSidebar/>
 
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import OrganisationAccInfo from '@/components/OrganisationAccInfo.vue'
+
 import Logout from '@/components/Logout.vue'
 import OrgSidebar from '@/components/sidebar/OrgSidebar.vue'
 
@@ -21,7 +21,7 @@ export default {
    
 
     components:{
-      OrganisationAccInfo,
+      
       Logout,
       OrgSidebar
     },

@@ -10,9 +10,12 @@ import VolunteerLogin from '@/components/VolunteerLogin.vue';
 import OrganisationLogin from '@/components/OrganisationLogin.vue';
 import OrgPostEvent from "@/views/OrgPostEvent.vue";
 import OrgManageEvents from "@/views/OrgManageEvents.vue";
+import OrgOpportunities from "@/views/OrgOpportunities.vue";
+import OrgSelectVolunteer from "@/views/OrgSelectVolunteer.vue";
 import Messages from "@/components/Messages.vue";
 import UserNotification from "@/views/UserNotification.vue";
 import UserMessages from '@/views/UserMessages.vue'
+
 
 const routes = [
   {
@@ -66,6 +69,16 @@ const routes = [
     name: "OrgManageEvents",
     component: OrgManageEvents,
   },
+  {
+    path: "/OrgOpportunities",
+    name: "OrgOpportunities",
+    component: OrgOpportunities,
+  },
+  {
+    path: '/OrgSelectVolunteer',
+    name: 'OrgSelectVolunteer',
+    component: OrgSelectVolunteer
+},
   {
     path: "/Messages",
     name: "Messages",
