@@ -2,7 +2,7 @@
     
     <div >
         <img id = "OrganisationPic" :src="org" class = center>
-        <h2>Name of Organisation1111</h2>
+        <h2>Name of Organisation</h2>
     <table>
         <tr>
         <th>Organisation Details:</th>
