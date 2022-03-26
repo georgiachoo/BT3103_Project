@@ -1,8 +1,8 @@
 <template>
     
-    <div>
-        <img id = "OrganisationPic" src=org class = center>
-        <h2>Name of Organisation</h2>
+    <div >
+        <img id = "OrganisationPic" :src="org" class = center>
+        <h2>Name of Organisation1111</h2>
     <table>
         <tr>
         <th>Organisation Details:</th>
@@ -49,7 +49,7 @@ export default {
     name: 'OrganisationAccInfo',
     data() {
     return {
-      org: require('../assets/organisation.png'),
+      org: require('../assets/volunteer.png'),
       
     }
   },
