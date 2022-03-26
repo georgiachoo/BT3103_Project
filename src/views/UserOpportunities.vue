@@ -1,25 +1,26 @@
 <template>
-  <!-- <UserNavBar/> -->
   <Sidebar />
   <div :style="{ 'margin-left': sidebarWidth }">
     <router-view />
   </div>
   <h1>Opportunities</h1>
   <OpportunitiesUser/>
+  <Logout/>
 </template>
 
 <script>
-//import UserNavBar from '@/components/UserNavBar.vue';
 import Sidebar from '@/components/sidebar/Sidebar'
 import { sidebarWidth } from '@/components/sidebar/state.js'
-import OpportunitiesUser from '@/components/OpportunitiesUser.vue';
+import OpportunitiesUser from '@/components/OpportunitiesUser.vue'
+import Logout from '@/components/Logout.vue'
 
 export default {
   name: 'UserOpportunities',
 
   components:{
     Sidebar,
-    OpportunitiesUser
+    OpportunitiesUser,
+    Logout
   },
 
   setup() {

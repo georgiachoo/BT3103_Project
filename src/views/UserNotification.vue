@@ -1,25 +1,26 @@
 <template>
-  <!-- <UserNavBar/> -->
   <Sidebar />
   <div :style="{ 'margin-left': sidebarWidth }">
     <router-view />
   </div>
   <h3> My Notifications </h3>
   <UserNotifTable/>
+  <Logout/>
 </template>
 
 <script>
-//import UserNavBar from '@/components/UserNavBar.vue'
 import Sidebar from '@/components/sidebar/Sidebar'
 import { sidebarWidth } from '@/components/sidebar/state.js'
 import UserNotifTable from '@/components/UserNotifTable.vue'
+import Logout from '@/components/Logout.vue'
 
 export default {
     name: 'UserNotification',
     
     components:{
         Sidebar,
-        UserNotifTable
+        UserNotifTable,
+        Logout
     },
 
     setup() {

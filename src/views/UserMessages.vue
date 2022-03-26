@@ -6,6 +6,7 @@
   </div>
   <h3> My Messages </h3>
   <Messages/>
+  <Logout/>
 </template>
 
 <script>
@@ -13,13 +14,15 @@
 import Sidebar from '@/components/sidebar/Sidebar'
 import { sidebarWidth } from '@/components/sidebar/state.js'
 import Messages from '@/components/Messages.vue'
+import Logout from '@/components/Logout.vue'
 
 export default {
   name: 'UserMessages',
 
   components: {
       Sidebar,
-      Messages
+      Messages,
+      Logout
   },
 
   setup() {

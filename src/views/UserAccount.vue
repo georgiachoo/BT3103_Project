@@ -1,5 +1,4 @@
 <template>
-  <!-- <UserNavBar/> -->
   <Sidebar />
   <div :style="{ 'margin-left': sidebarWidth }">
     <router-view />
@@ -7,20 +6,22 @@
 
   <head> My Account </head>
   <UserAccForm/>
+  <Logout/>
 </template>
 
 <script>
-//import UserNavBar from '@/components/UserNavBar.vue'
 import Sidebar from '@/components/sidebar/Sidebar'
 import { sidebarWidth } from '@/components/sidebar/state.js'
 import UserAccForm from '@/components/UserAccForm.vue'
+import Logout from '@/components/Logout.vue'
 
 export default {
     name: 'UserAccount',
     
     components:{
         Sidebar,
-        UserAccForm
+        UserAccForm,
+        Logout
     },
 
     setup() {

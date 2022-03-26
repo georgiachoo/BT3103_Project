@@ -1,25 +1,26 @@
 <template>
-  <!-- <UserNavBar/> -->
   <Sidebar />
   <div :style="{ 'margin-left': sidebarWidth }">
     <router-view />
   </div>
   <h1>MyEvents</h1>
   <MyEvents/>
+  <Logout/>
 </template>
 
 <script>
-//import UserNavBar from '@/components/UserNavBar.vue';
 import Sidebar from '@/components/sidebar/Sidebar'
 import { sidebarWidth } from '@/components/sidebar/state.js'
-import MyEvents from '@/components/MyEvents.vue';
+import MyEvents from '@/components/MyEvents.vue'
+import Logout from '@/components/Logout.vue'
 
 export default {
   name: 'UserMyEvents',
 
   components:{
     Sidebar,
-    MyEvents
+    MyEvents,
+    Logout
   },
 
   setup() {
