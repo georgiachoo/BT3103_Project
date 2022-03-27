@@ -86,7 +86,7 @@ form {
 }
 
 input:hover {
-  box-shadow: 3px 3px purple;
+  box-shadow: 3px 3px rgb(156, 66, 81);
   border-radius: 5px;
 }
 
