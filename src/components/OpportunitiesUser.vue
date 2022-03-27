@@ -56,14 +56,16 @@
     <!-- code for display table -->
     <div id = "oppDisplay">
         <table id= "table" class = "auto-index">
+        <thead>
         <tr>
         <th>Event Name</th>
-        <th>Date</th>
-        <th>Location</th>
         <th>Category</th>
+        <th>Location</th>
+        <th>Date</th>
         <th>Required Skills</th>
         <th>Options</th>
         </tr>
+        </thead>
     </table> <br><br>
     </div>
 
@@ -78,8 +80,12 @@
             <p> <strong>Location:</strong> {{ eventLocation }} </p>
             <p> <strong>Date:</strong> {{ eventDate }} </p>
             <p> <strong>Required Skills:</strong> {{ eventSkills }} </p>
+            <p> <strong>Number of Volunteers required:</strong> {{ eventNumV }} </p>
+            <p> <strong>Deadline of sign up:</strong> {{ eventDL }} </p>
         
-            <button v-on:click = "register()">Register</button>
+            <button id = "registerBtn" v-on:click = "register()">Register</button>
+
+            <!-- <button v-on:click = "message()">Message Organisation</button> -->
         
         </div>
 
@@ -92,67 +98,136 @@
 <script>
 import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth"; 
+import { collection, getDoc,getDocs, query, where, collectionGroup, doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore"; //collection, getDoc, 
 const db = getFirestore(firebaseApp);
 
 
 export default {
     data () {
       return {
+          user: false,
           eventName: 'name',
           eventDescription: 'description',
           eventCategory: 'category',
           eventLocation: 'location',
           eventDate: 'date',
-          eventSkills: 'skills'
+          eventSkills: 'skills',
+          eventDL: 'deadLine',
+          eventNumV: 'numVol',
+          eventOrg: 'organisation'
       }
     },
 
     mounted() {
 
-        // display all events initially
-        async function displayAll() {
-            // get all organisations' collections
-            // loop through each organisation's collection to get all events posted
-            // for each event, get event details and put in table/list
-            // make each event clickable
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+        if (user) {
+            this.user = user;
         }
-        displayAll();
+        });
 
+        // display all events initially
+        this.displayAll(); 
+
+        // add event listerner to close button in modal
         document.getElementsByClassName('closeBtn')[0].addEventListener('click', this.closeModal);
 
     },
 
     methods: {
 
-        changeValue(name, description, category, location, date, skills) {
+        changeValue(name, description, category, location, date, skills, dl, numVol, org) {
             this.eventName = name;
-            this. eventDescription = description;
-            this. eventCategory = category;
+            this.eventDescription = description;
+            this.eventCategory = category;
             this.eventLocation = location;
             this.eventDate = date;
             this.eventSkills = skills;
+            this.eventDL = dl;
+            this.eventNumV = numVol;
+            this.eventOrg = org;
         },
 
-        displayTable(result) {
+        async displayAll() {
+            // get all events posted by organisations
+            const postedEvents = query(collectionGroup(db, 'Posted Events'));
+            const allEvents = await getDocs(postedEvents);
+
+            // display in table and append button
+            return this.displayTable(allEvents);
+        },
+
+        async displayTable(result) {
+            // clear table first
+            var table = document.getElementById("table");
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+
+            var thisInstance = this; 
+
+            var auth = getAuth();
+            var currUser = auth.currentUser.email;
+            this.user = currUser;
+            console.log(this.user)
+
+            let ind = 1;
+
             result.forEach((docs) => {
-                let y = docs.data()
-                console.log(y)
+                let y = docs.data();
+                
+                var table = document.getElementById("table");
+                var row = table.insertRow(ind);
 
-                var eName = y.Event_Name
+                var eName = (y.Event_Name);
+                var eDate = (y.Date);
+                var eLoc = (y.Location);
+                var eCat = (y.Category);
+                var eSkills = (y.Required_skills);
 
-                // button.onclick = function () {
-                    this.displayModal(eName)
-                // }
+                // variables to be displayed when user clicks on view (to be passed to displayModal)
+                var eDesc = (y.Description);
+                var eDL = (y.Deadline_of_sign_up);
+                var eNumV = (y.Number_of_volunteers_needed);
+                var eOrg = (y.Org_Email);
 
+                var cell1 = row.insertCell(0); var cell2 = row.insertCell(1); var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3); var cell5 = row.insertCell(4); var cell6 = row.insertCell(5);
+
+                cell1.innerHTML = eName; cell2.innerHTML = eCat; cell3.innerHTML = eLoc; 
+                cell4.innerHTML = eDate; cell5.innerHTML = eSkills;
+
+                var bu = document.createElement("button");
+                bu.className = "bwt";
+                bu.id = String(eName);
+
+                bu.innerHTML = "View";
+                bu.onclick = function() {
+                    thisInstance.displayModal(eName, eDesc, eCat, eLoc, eDate, eSkills, eDL, eNumV, eOrg);
+                }
+                cell6.appendChild(bu);
+
+                ind += 1;
             });
-  
+            return
         },
 
-        displayModal(name) {
-            // query (get details of event)
-            console.log(name);
-            // this.changeValue(name, description, category, location, date, skills);
+        displayModal(name, description, category, location, date, skills, dl, numV, orgEmail) {
+            // get event info as arguments from displayTable (or query)
+
+            // update mustache values
+            this.changeValue(name, description, category, location, date, skills, dl, numV, orgEmail);
+
+            // check if user has registered for event (disable button if so)
+            try {
+            this.checkRegistered();
+            } catch(error) {
+                console.error("display modal error: ", error)
+            }
+
+            // make modal visible
             this.openModal();
         },
 
@@ -168,9 +243,69 @@ export default {
             modal.style.display = 'none';
         },
 
+        async checkRegistered() { // works
+            // var thisInstance = this; 
 
-        register() {
-            console.log('registering')
+            console.log("checking")
+            // console.log(thisInstance.user)
+
+            const docRef = doc(db, "Users", this.user, "Applied Events", this.eventName);
+            const docSnap = await getDoc(docRef);
+
+            console.log("here")
+            
+            if (docSnap.exists()) { // if user has already registered for event
+                console.log("already registered for this event");
+                document.getElementById("registerBtn").disabled = true;
+                return;
+            } else { // if user has not registered for event
+                document.getElementById("registerBtn").disabled = false;
+                return;
+            }
+        },
+
+        async register() { // works
+            console.log('registering');
+
+            // USERS COLLECTION: add event to applied events collection (using mustache values)
+            const userDocRef = doc(db, "Users", this.user, "Applied Events", this.eventName);
+            try {
+                console.log(this.eventName);
+                console.log(this.eventDescription);
+                console.log(this.eventCategory);
+                console.log(this.eventLocation);
+                console.log(this.eventDate);
+                console.log(this.eventSkills);
+                console.log(this.eventDL);
+                console.log(this.eventNumV);
+                console.log(this.eventOrg);
+
+                await setDoc(userDocRef, {
+                    Event_Name: this.eventName,
+                    Description: this.eventDescription,
+                    Category: this.eventCategory,
+                    Location: this.eventLocation,
+                    Date: this.eventDate,
+                    Required_skills: this.eventSkills,
+                    Deadline_of_sign_up: this.eventDL,
+                    Number_of_volunteers_needed: this.eventNumV,
+                    Org_Email: this.eventOrg,
+                    Feedback_completed: false
+                });
+            } catch(error) {
+                console.error("Error in registering (user doc): ", error);
+            }
+
+            // ORG COLLECTION: push user email into applied volunteers array (get org email from event doc)
+            const orgDocRef = doc(db, "Organisations", this.eventOrg, "Posted Events", this.eventName);
+            try {
+                await updateDoc(orgDocRef, {
+                    Applied_volunteers: arrayUnion(this.user)
+                });
+            } catch(error) {
+                console.error("Error in registering (org doc): ", error);
+            }
+
         },
 
 
@@ -193,19 +328,34 @@ export default {
                 }
             }
 
-            if (s_dates[0] !== "") {
+            if (s_dates[0] !== 0) {
+                console.log("push start date")
+                console.log(s_dates[0])
+                // var convertedStart = firebase.firestore.Timestamp.fromDate(new Date());
+                var convertedStart = new Date(s_dates[0]);
+                convertedStart.setUTCHours(0, 0, 0, 0);
+                console.log(convertedStart);
                 filters.push(where('Date', '>=' , s_dates[0]))
             }
-            if (s_dates[1] !== "") {
+            if (s_dates[1] !== 0) {
+                console.log("push start date")
+                console.log(s_dates[1])
+                var convertedEnd = new Date(s_dates[0]);
+                convertedEnd.setUTCHours(23, 59, 59, 999);
+                console.log(convertedEnd);
                 filters.push(where('Date', '<=' , s_dates[1]))
             }
 
-            // need to figure out how to query across collections of organisations
-            // query, get and display results (in another function)
-            const sQuery = query(collection(db, 'events'), ...filters)
-            const result = await getDocs(sQuery)
+            // get query result
+            // const sQuery = query(collectionGroup(db, 'Posted Events'), ...filters);
+            // const result = await getDocs(sQuery);
 
-            return this.displayTable(result)
+            // test date query
+            const dateQuery = query(collection(db, "Organisations", 'testperson@gmail.com', 'Posted Events'), where('Date', '>=', convertedStart));
+            // const dateQuery = query(collection(db, "Organisations", 'testperson@gmail.com', 'Posted Events'), where('Date', '<=', convertedEnd));
+            const result = await getDocs(dateQuery)
+
+            return this.displayTable(result);
         },
 
 
