@@ -2,7 +2,8 @@
 
     <!-- Menu to select Ongoing or Completed events -->
     <div id = "eventSelect">
-        <input list="event" id="event-id" oninput="onSelect()" placeholder="Select Events"/>
+        <!-- oninput="this.displayEvent()"  -->
+        <input list="event" id="event-id" placeholder="Select Events"/> 
         <datalist id="event">
             <option value="Ongoing Events">Ongoing Events</option>
             <option value="Completed Events">Completed Events</option>
@@ -31,20 +32,47 @@
 <script>
 import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 export default {
 
+    data() {
+        return {
+            user: false
+        }
+    },
+
+    mounted() {
+
+        const auth = getAuth();
+        onAuthStateChanged(auth, (user) => {
+        if (user) {
+            this.user = user;
+        }
+        });
+
+        document.getElementById('event-id').addEventListener('input', this.displayEvent);
+    },
 
     methods: {
 
 
-        async onSelect() {      // mount ? 
+        async displayEvent() {  
 
+            var thisInstance = this; 
             const auth = getAuth();
             var currUser = auth.currentUser.email;
+            this.user = currUser;
+            console.log(this.user)
+
+            // clear table first
+            var table = document.getElementById("table");
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+
 
             // retrieve input from user
             var selectedEvent = document.getElementById('event-id').value;
@@ -78,7 +106,7 @@ export default {
 
                 var eName = (event.Event_Name)
                 var eDescription = (event.Description)
-                var eDate = (event.Date)
+                var eDate = ((event.Date).toDate()).toDateString()
                 var eLoc = (event.Location)
                 var eCat = (event.Category)
                 var eSkills = (event.Required_skills)
@@ -92,7 +120,7 @@ export default {
                 cell6.innerHTML = eSkills; 
                 // cell7.innerHTML = 0;
 
-                if (selectedEvent === "Completed") {
+                if (selectedEvent === "Completed Events") {
                     let status = (event.Feedback_completed);
 
                     var bu = document.createElement("button");
@@ -101,8 +129,8 @@ export default {
 
                     bu.innerHTML = "Leave Feedback";
                     bu.onclick = function() {
-                        this.disableButton(eName);
-                        this.leaveFeedback(currUser, eName);
+                        thisInstance.disableButton(eName);
+                        thisInstance.leaveFeedback(currUser, eName);
                     }
                     cell7.appendChild(bu);
 

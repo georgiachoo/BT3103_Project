@@ -182,14 +182,14 @@ export default {
                 var row = table.insertRow(ind);
 
                 var eName = (y.Event_Name);
-                var eDate = (y.Date);
+                var eDate = ((y.Date).toDate()).toDateString();
                 var eLoc = (y.Location);
                 var eCat = (y.Category);
                 var eSkills = (y.Required_skills);
 
                 // variables to be displayed when user clicks on view (to be passed to displayModal)
                 var eDesc = (y.Description);
-                var eDL = (y.Deadline_of_sign_up);
+                var eDL = ((y.Deadline_of_sign_up).toDate()).toDateString();
                 var eNumV = (y.Number_of_volunteers_needed);
                 var eOrg = (y.Org_Email);
 
@@ -249,19 +249,24 @@ export default {
             console.log("checking")
             // console.log(thisInstance.user)
 
-            const docRef = doc(db, "Users", this.user, "Applied Events", this.eventName);
+            const userEvents = ["Applied Events", "Successful Events", "Completed Events"]
+
+            for (let i = 0; i < userEvents.length; i++) {
+
+            const docRef = doc(db, "Users", this.user, userEvents[i], this.eventName);
             const docSnap = await getDoc(docRef);
 
-            console.log("here")
+            // console.log("here")
             
             if (docSnap.exists()) { // if user has already registered for event
                 console.log("already registered for this event");
                 document.getElementById("registerBtn").disabled = true;
                 return;
-            } else { // if user has not registered for event
-                document.getElementById("registerBtn").disabled = false;
-                return;
             }
+
+            }
+            document.getElementById("registerBtn").disabled = false;
+            return;
         },
 
         async register() { // works
