@@ -85,7 +85,7 @@
         
             <button id = "registerBtn" v-on:click = "register()">Register</button>
 
-            <!-- <button v-on:click = "message()">Message Organisation</button> -->
+            <button id = "messageOrg" v-on:click = "message()">Message Organisation</button>
         
         </div>
 
@@ -100,6 +100,7 @@ import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth"; 
 import { getDoc,getDocs, query, where, collectionGroup, doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore"; //collection, getDoc, Timestamp, orderBy 
+// import router from '@/router';
 const db = getFirestore(firebaseApp);
 
 
@@ -401,6 +402,12 @@ export default {
             console.log(selected_s)
             return selected_s;
         },
+
+        message() {
+            let orgEmail = this.eventOrg;
+            this.$router.push({name:"UserMessages", params:{otherID: orgEmail}});
+            // router.push({name:"Messages", params:{otherID: orgEmail}})
+        }
     }
 }
 </script>
