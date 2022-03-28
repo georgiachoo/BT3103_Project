@@ -3,7 +3,8 @@
   <div :style="{ 'margin-left': sidebarWidth }">
     <router-view />
   </div>
-  <h1>Opportunities</h1>
+  <h3>Opportunities</h3>
+  <br><br>
   <OpportunitiesUser/>
   <Logout/>
 </template>
