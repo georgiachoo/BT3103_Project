@@ -1,23 +1,35 @@
 <template>
     
-    <div >
-        <img id="OrganisationPic">
-        <label for="input" id="uploadBtn"> Choose Profile Picture</label> <br>
+    <div v-if = newUser>
+        <img id="profilePic">
+        <br>
     <input type="file" id="input" accept="image/*">
-    <br><br>
+     <label for="input" id="uploadBtn"> Choose Profile Picture</label><br><br>
+    <input type="text" id="name" required="" placeholder="Enter your name"> <br> <br>
+    <input type="text" id="intro" required="" placeholder="Enter Your Organisation Introduction">
+   
+    <div class = "save">
+        <br>
+      <button id = "savebutton" type="button" v-on:click="savetofs()"> Save </button><br><br>
+    </div>
+
+    
+    </div>
+    <div v-else>
         <img id = "OrganisationPic" :src="org" class = center>
-        <input type="text" id="name" required="" placeholder="Enter your name">
-        <h2>Name of Organisation</h2>
+        
+        <h2>{{name}}</h2>
     <table>
         <tr>
         <th>Organisation Details:</th>
-        <td>compulsory to fill</td>
+        <td>{{intro}}</td>
         </tr>
   
     </table>
     <br>
     
-    </div>
+
+   
     <div class="left"> 
         <h4>Rate:</h4>  </div>
     <div class="right"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -44,22 +56,133 @@
         </tr>
   
     </table>
-
-    
+    </div>
+    <br>
+<div v-if = !newUser>
+<button id = "savebutton" type="button" v-on:click="editProfile()"> Edit Profile </button><br>
+</div>
 </template>
 
 <script>
+import firebaseApp from '../firebase.js';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+import { doc, getDoc,getFirestore,setDoc } from 'firebase/firestore';
+const db = getFirestore(firebaseApp);
+//const auth = getAuth();
+//const email = auth.currentUser.email;
+
 
 export default {
     name: 'OrganisationAccInfo',
     data() {
     return {
+      newUser : true,
       org: require('../assets/volunteer.png'),
+      name : "",
+      intro : "",
       
     }
   },
+  created() {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.user = user;
+          
+          
+          }
+
+
+        }
+      );
+      //alert(auth.currentUser.email)
+      
+      getDoc(doc(db, "Organisations", String(auth.currentUser.email))).then(docSnap => {
+          alert("wuwuw")
+          alert(docSnap.data().Name)
+  if (docSnap.exists()) {
+      this.newUser  = false
+      this.name = docSnap.data().Name
+      this.intro = docSnap.data().Introduction
+    alert("Document data:");
     
+  } else {
+    alert("No such document!");
+  }
+})
+        },
+  mounted() {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.user = user;
+          
+          
+          }
+
+
+        });
+      var input = document.querySelector('#input');
+      input.addEventListener('change', load);
+    
+      function load() {
+        var fileReader = new FileReader();
+        var fileObject = this.files[0];
+        fileReader.readAsDataURL(fileObject);
+        fileReader.onload = () => {
+          var result = fileReader.result;
+          var img = document.querySelector('#profilePic');
+          img.setAttribute('src', result); 
+        };
+      
+
+    
+        }
+},
+methods: {
+      async savetofs() {
+        //const auth = getAuth();
+        //var this.user = auth.currentUser.email;
+        const auth = getAuth();
+        const email = auth.currentUser.email;
+        //const reader = new FileReader();
+        
+
+        var a = document.getElementById("name").value 
+        var b = document.getElementById("intro").value 
+        //var j = reader.readAsDataURL(document.getElementById("input"))
+        alert("dengzhe")
+        alert(document.getElementById("input").value);
+        alert("Saving changes to My Organisation Account");
+
+        //const accForm = document.getElementById("accForm");
+        //accForm.style.display = "none";
+
+        try {
+          const docRef = await setDoc(doc(db, "Organisations", email), 
+            {Name: a, Introduction: b, });
+          console.log(docRef);
+          //this.$emit('userinfo');
+        }
+        catch(error) {
+          console.error("Error making changes: ", error);
+        }
+
+        this.name = a;
+        this.intro = b;
+        this.newUser=false
+        
+      },
+      editProfile() {
+          this.newUser = true
+      }
 }
+}
+      
+
+    
+
 </script>
 
 <style scoped>
@@ -138,6 +261,27 @@ table {
   border: 1px solid gray;
   background-position: center;
   background-size: cover;
+}
+
+#input{
+  display: none;
+  transform: translateX(-10%);
+}
+#uploadBtn{
+  height: 40px;
+  text-align: center;   
+  background: rgba(231, 207, 27, 0.904);
+  color: black;
+  line-height: 20px;
+  font-size: 15px;
+  transform: translate(-100%, 95%)
+}
+#intro {
+    width: 300px;
+    height: 100px;
+}
+#name{
+    width: 300px;
 }
 
 </style>

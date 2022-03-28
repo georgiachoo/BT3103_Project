@@ -1,5 +1,5 @@
 <template>
-<h1>Organisation Accounttt</h1>
+<h1>Organisation Account</h1>
 <OrganisationAccInfo/>
 <Logout/>
 <OrgSidebar/>
