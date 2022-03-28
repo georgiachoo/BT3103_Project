@@ -38,7 +38,9 @@ export default {
 <style scoped>
 #btn {
     text-align: center;
-    margin: 20px;
+    margin: 30px;
+    background: rgba(231, 207, 27, 0.904);
+    color: black;
 }
 
 </style>

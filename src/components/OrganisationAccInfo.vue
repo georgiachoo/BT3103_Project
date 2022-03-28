@@ -1,7 +1,12 @@
 <template>
     
-    <div>
-        <img id = "OrganisationPic" src=org class = center>
+    <div >
+        <img id="OrganisationPic">
+        <label for="input" id="uploadBtn"> Choose Profile Picture</label> <br>
+    <input type="file" id="input" accept="image/*">
+    <br><br>
+        <img id = "OrganisationPic" :src="org" class = center>
+        <input type="text" id="name" required="" placeholder="Enter your name">
         <h2>Name of Organisation</h2>
     <table>
         <tr>
@@ -49,7 +54,7 @@ export default {
     name: 'OrganisationAccInfo',
     data() {
     return {
-      org: require('../assets/organisation.png'),
+      org: require('../assets/volunteer.png'),
       
     }
   },
@@ -125,6 +130,14 @@ table {
     margin-left: auto;
     margin-right: auto;
     width:60%;
+}
+#profilePic{
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  border: 1px solid gray;
+  background-position: center;
+  background-size: cover;
 }
 
 </style>

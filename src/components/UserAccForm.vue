@@ -6,7 +6,7 @@
   </div>
   
   <div>
-    <img id="gamePic" src="@/assets/game.png">
+    <img id="gamePic" :src="game">
     <label for="gamePic" id="score"> Score: </label><br><br>
   </div>
 
@@ -39,7 +39,7 @@
     <textarea name="intro" id="intro" cols="50" rows="10" placeholder="Let volunteer organisations know you better"></textarea><br><br>
 
     <div class = "save">
-      <button id = "savebutton" type="button" v-on:click="savetofs()"> Save </button>
+      <button id = "savebutton" type="button" v-on:click="savetofs()"> Save </button><br><br>
     </div>
   </form>
 
@@ -78,7 +78,8 @@ export default {
         interests: "",
         cert: "",
         exp: "",
-        intro: "" 
+        intro: "",
+        game: require('../assets/game.png'),
       }
     },
 
@@ -126,7 +127,7 @@ export default {
         accForm.style.display = "none";
 
         try {
-          const docRef = await setDoc(doc(db, String(this.user), this.a), 
+          const docRef = await setDoc(doc(db, "Users", d), 
             {Name: a, Age: b, Gender: c, Email: d, Skills: e, Interests: f, Certifications: g, 
             Experience: h, Introduction: i});
           console.log(docRef);
@@ -179,15 +180,16 @@ export default {
   color: black;
   line-height: 20px;
   font-size: 15px;
+  transform: translate(-100%, 95%)
 }
 #gamePic{
-  height: 80px;
-  width: 120px;
+  height: 70px;
+  width: 110px;
   float: right;
-  transform: translate(-130%, -150%);
+  transform: translate(-530%, -150%);
 }
 #score{
-  transform: translate(205%, -150%);
+  transform: translate(90%, -150%);
 }
 label {
   display: inline-block;
