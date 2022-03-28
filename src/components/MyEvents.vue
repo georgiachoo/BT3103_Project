@@ -9,7 +9,7 @@
             <option value="Completed Events">Completed Events</option>
         </datalist>
     </div>
-    <br><br><br><br>
+    <br><br><br>
 
     <!-- Table to display ongoing or completed events -->
     <div id = "eventDisplay">
@@ -182,8 +182,10 @@ export default {
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
-        width: 100%;
-        padding: 30px;
+        /* width: 100%; */
+        width: 88%;
+        margin: auto;
+        /* padding: 30px; */
     }
 
     tr:nth-child(even) {
@@ -191,15 +193,23 @@ export default {
     }
 
     th, td {
-        border: 1px, solid #dddddd;
+        border: 1px solid #dddddd;
         text-align: center;
         padding: 8px;
     }
 
-    /* .bwt {
-        color: rgb(243, 236, 236);
-        background-color: rgb(255, 94, 0);
-    } */
+    th{
+        background-color: rgba(20, 95, 145, 0.609);;
+    }
+
+    .bwt{
+        background-color: rgba(231, 207, 27, 0.904);
+        color: black;
+        cursor: pointer;
+        text-align: center;
+        padding: 7px 14px;
+        border: none;
+    }
 
 /* #myevents {
     background-color: #da8a8a;

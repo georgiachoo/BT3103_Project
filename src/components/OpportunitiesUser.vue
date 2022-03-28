@@ -37,10 +37,10 @@
         <label for="skill-label">Skills:</label>
         <input list="skill" id="skill-label" name="skill-label" placeholder="Select All" />
         <datalist id="skill">
-            <option value="All Skills">All Skills</option>
+            <option value="Admin">Admin</option>
             <option value="Communication">Communication</option>
             <option value="IT/Technology">IT/Technology</option>
-            <option value="Admin">Admin</option>
+
         </datalist>
         </div>
 
@@ -51,7 +51,7 @@
 
     </div>
 
-    <br><br><br><br>
+    <br><br><br>
 
     <!-- code for display table -->
     <div id = "oppDisplay">
@@ -99,8 +99,10 @@
 import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth"; 
-import { collection, getDoc,getDocs, query, where, collectionGroup, doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore"; //collection, getDoc, 
+import { getDoc,getDocs, query, where, collectionGroup, doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore"; //collection, getDoc, Timestamp, orderBy 
 const db = getFirestore(firebaseApp);
+
+
 
 
 export default {
@@ -152,6 +154,7 @@ export default {
 
         async displayAll() {
             // get all events posted by organisations
+            // const postedEvents = query(collectionGroup(db, 'Posted Events'), orderBy('Date'), orderBy('Category'), orderBy('Location'), orderBy('Required_skills'));
             const postedEvents = query(collectionGroup(db, 'Posted Events'));
             const allEvents = await getDocs(postedEvents);
 
@@ -177,11 +180,14 @@ export default {
 
             result.forEach((docs) => {
                 let y = docs.data();
+
+                console.log(y)
                 
                 var table = document.getElementById("table");
                 var row = table.insertRow(ind);
 
                 var eName = (y.Event_Name);
+                console.log(y.Date)
                 var eDate = ((y.Date).toDate()).toDateString();
                 var eLoc = (y.Location);
                 var eCat = (y.Category);
@@ -192,6 +198,7 @@ export default {
                 var eDL = ((y.Deadline_of_sign_up).toDate()).toDateString();
                 var eNumV = (y.Number_of_volunteers_needed);
                 var eOrg = (y.Org_Email);
+
 
                 var cell1 = row.insertCell(0); var cell2 = row.insertCell(1); var cell3 = row.insertCell(2);
                 var cell4 = row.insertCell(3); var cell5 = row.insertCell(4); var cell6 = row.insertCell(5);
@@ -244,10 +251,8 @@ export default {
         },
 
         async checkRegistered() { // works
-            // var thisInstance = this; 
 
             console.log("checking")
-            // console.log(thisInstance.user)
 
             const userEvents = ["Applied Events", "Successful Events", "Completed Events"]
 
@@ -255,8 +260,6 @@ export default {
 
             const docRef = doc(db, "Users", this.user, userEvents[i], this.eventName);
             const docSnap = await getDoc(docRef);
-
-            // console.log("here")
             
             if (docSnap.exists()) { // if user has already registered for event
                 console.log("already registered for this event");
@@ -310,7 +313,6 @@ export default {
             } catch(error) {
                 console.error("Error in registering (org doc): ", error);
             }
-
         },
 
 
@@ -322,43 +324,46 @@ export default {
             var s_skill = this.getSkill();
             var s_dates = this.getDates();
 
-            var s_fields = ['category', 'location', 'skill'];
+            var s_fields = ['Category', 'Location', 'Required_skills'];
             var selected = [s_cat, s_loc, s_skill];
             const filters = []
 
             // for loop to create and append where queries
             for (let i = 0; i < s_fields.length; i++) {
                 if (selected[i] !== '') {
+                    console.log("selected")
+                    console.log(s_fields[i])
+                    console.log(selected[i])
                     filters.push(where(s_fields[i], '==', selected[i]))
                 }
             }
 
             if (s_dates[0] !== 0) {
-                console.log("push start date")
-                console.log(s_dates[0])
-                // var convertedStart = firebase.firestore.Timestamp.fromDate(new Date());
-                var convertedStart = new Date(s_dates[0]);
-                convertedStart.setUTCHours(0, 0, 0, 0);
-                console.log(convertedStart);
-                filters.push(where('Date', '>=' , s_dates[0]))
+                var s = new Date(s_dates[0]);
+                console.log("s: ",s)
+                s.setHours(s.getHours() - 8);
+                console.log("s: ",s)
+                // Timestamp.fromDate(s)
+                filters.push(where('Date', '>=' , s))
             }
             if (s_dates[1] !== 0) {
-                console.log("push start date")
-                console.log(s_dates[1])
-                var convertedEnd = new Date(s_dates[0]);
-                convertedEnd.setUTCHours(23, 59, 59, 999);
-                console.log(convertedEnd);
-                filters.push(where('Date', '<=' , s_dates[1]))
+                var e = new Date(s_dates[1]);
+                console.log("e: ", e)
+                e.setHours(e.getHours() + 8);
+                console.log("e: ", e)
+                filters.push(where('Date', '<=' , e))
             }
 
             // get query result
-            // const sQuery = query(collectionGroup(db, 'Posted Events'), ...filters);
-            // const result = await getDocs(sQuery);
+            console.log(filters);
+            const sQuery = query(collectionGroup(db, 'Posted Events'), ...filters);
+            const result = await getDocs(sQuery);
+
 
             // test date query
-            const dateQuery = query(collection(db, "Organisations", 'testperson@gmail.com', 'Posted Events'), where('Date', '>=', convertedStart));
-            // const dateQuery = query(collection(db, "Organisations", 'testperson@gmail.com', 'Posted Events'), where('Date', '<=', convertedEnd));
-            const result = await getDocs(dateQuery)
+            // const dateQuery = query(collection(db, "Organisations", 'testperson@gmail.com', 'Posted Events'), where('Date', '>=', dd));
+            // const dateQuery = query(collection(db, "Organisations", 'testperson@gmail.com', 'Posted Events'), where('Date', '<=', e));
+            // const result = await getDocs(dateQuery)
 
             return this.displayTable(result);
         },
@@ -367,7 +372,7 @@ export default {
         getCategory() {
             let selected_c = document.getElementById("category-label").value;
             console.log(selected_c);
-            console.log(selected_c == "");
+            // console.log(selected_c == "");
             return selected_c;
         },
 
@@ -430,8 +435,10 @@ export default {
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
-        width: 100%;
-        padding: 30px;
+        /* width: 100%; */
+        width: 88%;
+        margin: auto;
+        /* padding: 30px; */
     }
 
     tr:nth-child(even) {
@@ -439,15 +446,23 @@ export default {
     }
 
     th, td {
-        border: 1px, solid #dddddd;
+        border: 1px solid #dddddd;
         text-align: center;
         padding: 8px;
     }
 
-    /* .bwt {
-        color: rgb(243, 236, 236);
-        background-color: rgb(255, 94, 0);
-    } */
+    th{
+        background-color: rgba(20, 95, 145, 0.609);;
+    }
+
+    .bwt{
+        background-color: rgba(231, 207, 27, 0.904);
+        color: black;
+        cursor: pointer;
+        text-align: center;
+        padding: 7px 14px;
+        border: none;
+    }
 
     .modal {
         display: none;

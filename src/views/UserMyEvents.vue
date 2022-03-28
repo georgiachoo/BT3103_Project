@@ -4,7 +4,8 @@
   <div :style="{ 'margin-left': sidebarWidth }">
     <router-view />
   </div>
-  <h1>MyEvents</h1>
+  <h3>MyEvents</h3>
+  <br><br>
   <MyEvents/>
 </template>
 
