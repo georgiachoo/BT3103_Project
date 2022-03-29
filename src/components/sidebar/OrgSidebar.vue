@@ -40,9 +40,9 @@ export default {
 
 <style>
 :root {
-  --sidebar-bg-color: #2f6385;
-  --sidebar-item-hover: #3895a1;
-  --sidebar-item-active: #1fc0c0;
+  --sidebar-bg-color: #e06666ff;
+  --sidebar-item-hover: #ff7575;
+  --sidebar-item-active: #f1c232ff;
 }
 </style>
 
