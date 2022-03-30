@@ -34,15 +34,12 @@
         </div>
 
         <div id = "field4">
-        <label for="skill-label">Skills:</label>
-        <input list="skill" id="skill-label" name="skill-label" placeholder="Select All" />
-        <datalist id="skill">
-            <option value="Admin">Admin</option>
-            <option value="Communication">Communication</option>
-            <option value="IT/Technology">IT/Technology</option>
-
-        </datalist>
+        <label for="Organisation Name">Organisation Name:</label>
+        <input type="text" id="orgName-label" name="orgName-label" placeholder="Enter Name" />
         </div>
+
+        
+        
 
         <div id = "search_btn">
             <button v-on:click = "searchQuery()" style = "margin: 45px 10px 25px;">Search</button>
@@ -62,7 +59,7 @@
         <th>Category</th>
         <th>Location</th>
         <th>Date</th>
-        <th>Required Skills</th>
+        <th>Organisation Name</th>
         <th>Options</th>
         </tr>
         </thead>
@@ -74,7 +71,8 @@
         <div class = "modal-content">
             <span class = "closeBtn" >&times;</span>
             <h2> {{ eventName }} </h2>
-            
+
+            <p> <strong>Organisation Name:</strong> {{ orgName }} </p>
             <p> <strong>Description:</strong> {{ eventDescription }} </p>
             <p> <strong>Category:</strong> {{ eventCategory }} </p>
             <p> <strong>Location:</strong> {{ eventLocation }} </p>
@@ -83,10 +81,6 @@
             <p> <strong>Number of Volunteers required:</strong> {{ eventNumV }} </p>
             <p> <strong>Deadline of sign up:</strong> {{ eventDL }} </p>
         
-            <button id = "registerBtn" v-on:click = "register()">Register</button>
-
-            <button id = "messageOrg" v-on:click = "message()">Message Organisation</button>
-        
         </div>
 
     </div>
@@ -94,12 +88,11 @@
 
 </template>
 
-
 <script>
 import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth"; 
-import { getDoc,getDocs, query, where, collectionGroup, doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore"; //collection, getDoc, Timestamp, orderBy 
+import { getDocs, query, where, collectionGroup} from "firebase/firestore"; //collection, getDoc, Timestamp, orderBy 
 // import router from '@/router';
 const db = getFirestore(firebaseApp);
 
@@ -118,7 +111,8 @@ export default {
           eventSkills: 'skills',
           eventDL: 'deadLine',
           eventNumV: 'numVol',
-          eventOrg: 'organisation'
+          eventOrg: 'organisation',
+          orgName:"organisationName"
       }
     },
 
@@ -141,7 +135,8 @@ export default {
 
     methods: {
 
-        changeValue(name, description, category, location, date, skills, dl, numVol, org) {
+        changeValue(name, description, category, location, date, skills, dl, numVol, org, orgName) {
+            this.orgName = orgName;
             this.eventName = name;
             this.eventDescription = description;
             this.eventCategory = category;
@@ -192,7 +187,10 @@ export default {
                 var eDate = ((y.Date).toDate()).toDateString();
                 var eLoc = (y.Location);
                 var eCat = (y.Category);
+                var eOrgName = (y.Organisation_Name);
                 var eSkills = (y.Required_skills);
+                
+
 
                 // variables to be displayed when user clicks on view (to be passed to displayModal)
                 var eDesc = (y.Description);
@@ -205,7 +203,7 @@ export default {
                 var cell4 = row.insertCell(3); var cell5 = row.insertCell(4); var cell6 = row.insertCell(5);
 
                 cell1.innerHTML = eName; cell2.innerHTML = eCat; cell3.innerHTML = eLoc; 
-                cell4.innerHTML = eDate; cell5.innerHTML = eSkills;
+                cell4.innerHTML = eDate; cell5.innerHTML = eOrgName;
 
                 var bu = document.createElement("button");
                 bu.className = "bwt";
@@ -213,7 +211,7 @@ export default {
 
                 bu.innerHTML = "View";
                 bu.onclick = function() {
-                    thisInstance.displayModal(eName, eDesc, eCat, eLoc, eDate, eSkills, eDL, eNumV, eOrg);
+                    thisInstance.displayModal(eName, eDesc, eCat, eLoc, eDate, eSkills, eDL, eNumV, eOrg,eOrgName);
                 }
                 cell6.appendChild(bu);
 
@@ -222,18 +220,12 @@ export default {
             return
         },
 
-        displayModal(name, description, category, location, date, skills, dl, numV, orgEmail) {
+        displayModal(name, description, category, location, date, skills, dl, numV, orgEmail,orgName) {
             // get event info as arguments from displayTable (or query)
 
             // update mustache values
-            this.changeValue(name, description, category, location, date, skills, dl, numV, orgEmail);
+            this.changeValue(name, description, category, location, date, skills, dl, numV, orgEmail,orgName);
 
-            // check if user has registered for event (disable button if so)
-            try {
-            this.checkRegistered();
-            } catch(error) {
-                console.error("display modal error: ", error)
-            }
 
             // make modal visible
             this.openModal();
@@ -251,82 +243,16 @@ export default {
             modal.style.display = 'none';
         },
 
-        async checkRegistered() { // works
-
-            console.log("checking")
-
-            const userEvents = ["Applied Events", "Successful Events", "Completed Events"]
-
-            for (let i = 0; i < userEvents.length; i++) {
-
-            const docRef = doc(db, "Users", this.user, userEvents[i], this.eventName);
-            const docSnap = await getDoc(docRef);
-            
-            if (docSnap.exists()) { // if user has already registered for event
-                console.log("already registered for this event");
-                document.getElementById("registerBtn").disabled = true;
-                return;
-            }
-
-            }
-            document.getElementById("registerBtn").disabled = false;
-            return;
-        },
-
-        async register() { // works
-            console.log('registering');
-
-            // USERS COLLECTION: add event to applied events collection (using mustache values)
-            const userDocRef = doc(db, "Users", this.user, "Applied Events", this.eventName);
-            try {
-                console.log(this.eventName);
-                console.log(this.eventDescription);
-                console.log(this.eventCategory);
-                console.log(this.eventLocation);
-                console.log(this.eventDate);
-                console.log(this.eventSkills);
-                console.log(this.eventDL);
-                console.log(this.eventNumV);
-                console.log(this.eventOrg);
-
-                await setDoc(userDocRef, {
-                    Event_Name: this.eventName,
-                    Description: this.eventDescription,
-                    Category: this.eventCategory,
-                    Location: this.eventLocation,
-                    Date: this.eventDate,
-                    Required_skills: this.eventSkills,
-                    Deadline_of_sign_up: this.eventDL,
-                    Number_of_volunteers_needed: this.eventNumV,
-                    Org_Email: this.eventOrg,
-                    Feedback_completed: false
-                });
-            } catch(error) {
-                console.error("Error in registering (user doc): ", error);
-            }
-
-            // ORG COLLECTION: push user email into applied volunteers array (get org email from event doc)
-            const orgDocRef = doc(db, "Organisations", this.eventOrg, "Posted Events", this.eventName);
-            try {
-                await updateDoc(orgDocRef, {
-                    Applied_volunteers: arrayUnion(this.user)
-                });
-            } catch(error) {
-                console.error("Error in registering (org doc): ", error);
-            }
-        },
-
 
         async searchQuery() {
 
             // call getX functions to get selected values
             var s_cat = this.getCategory();
             var s_loc = this.getLocation();
-            var s_skill = this.getSkill();
+            var s_orgName = this.getOrgName();
             var s_dates = this.getDates();
-
-            var s_fields = ['Category', 'Location', 'Required_skills'];
-            var selected = [s_cat, s_loc, s_skill];
+            var s_fields = ['Category', 'Location', 'Organisation_Name'];
+            var selected = [s_cat, s_loc, s_orgName];
             const filters = []
 
             // for loop to create and append where queries
@@ -397,16 +323,15 @@ export default {
             return [start_date, end_date];
         },
 
+        getOrgName() {
+            let selected_orgName = document.getElementById("orgName-label").value;
+            console.log(selected_orgName)
+            return selected_orgName;
+        },
 
-        message() {
-            let orgEmail = this.eventOrg;
-            this.$router.push({name:"UserMessages", params:{otherID: orgEmail}});
-            // router.push({name:"Messages", params:{otherID: orgEmail}})
-        }
     }
 }
 </script>
-
 
 <style scoped>
 
@@ -467,7 +392,7 @@ export default {
     }
 
     .modal {
-        /*display: none;*/
+        display: none;
         position: fixed;
         z-index: 1;
         left: 0;

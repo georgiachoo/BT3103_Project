@@ -1,21 +1,7 @@
 <template>
     
-    <div v-if = newUser>
-        <img id="profilePic">
-        <br>
-    <input type="file" id="input" accept="image/*">
-     <label for="input" id="uploadBtn"> Choose Profile Picture</label><br><br>
-    <input type="text" id="name" required="" placeholder="Enter your name"> <br> <br>
-    <input type="text" id="intro" required="" placeholder="Enter Your Organisation Introduction">
-   
-    <div class = "save">
-        <br>
-      <button id = "savebutton" type="button" v-on:click="savetofs()"> Save </button><br><br>
-    </div>
-
     
-    </div>
-    <div v-else>
+    <div v-if = !newUser>
         <img id = "OrganisationPic" :src="org" class = center>
         
         <h2>{{name}}</h2>
@@ -61,13 +47,28 @@
 <div v-if = !newUser>
 <button id = "savebutton" type="button" v-on:click="editProfile()"> Edit Profile </button><br>
 </div>
+<div v-if = newUser>
+        <img id="profilePic">
+        <br>
+    <input type="file" id="input" accept="image/*">
+     <label for="input" id="uploadBtn"> Choose Profile Picture</label><br><br>
+    <input type="text" id="name" required="" placeholder="Enter your name"> <br> <br>
+    <input type="text" id="intro" required="" placeholder="Enter Your Organisation Introduction">
+   
+    <div class = "save">
+        <br>
+      <button id = "savebutton" type="button" v-on:click="savetofs()"> Save </button><br><br>
+    </div>
+
+    
+    </div>
 </template>
 
 <script>
 import firebaseApp from '../firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
-import { doc, getDoc,getFirestore,setDoc } from 'firebase/firestore';
+import { getStorage, ref } from "firebase/storage";
+import { doc, getDoc,getFirestore,setDoc} from 'firebase/firestore';
 const db = getFirestore(firebaseApp);
 //const auth = getAuth();
 //const email = auth.currentUser.email;
@@ -78,13 +79,13 @@ export default {
     data() {
     return {
       newUser : true,
-      org: require('../assets/volunteer.png'),
+      org: require('../assets/organisation.png'),
       name : "",
       intro : "",
       
     }
   },
-  created() {
+  /*created() {
       const auth = getAuth();
       onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -99,19 +100,19 @@ export default {
       //alert(auth.currentUser.email)
       
       getDoc(doc(db, "Organisations", String(auth.currentUser.email))).then(docSnap => {
-          alert("wuwuw")
-          alert(docSnap.data().Name)
+         // alert("wuwuw")
+          //alert(docSnap.data().Name)
   if (docSnap.exists()) {
       this.newUser  = false
       this.name = docSnap.data().Name
       this.intro = docSnap.data().Introduction
-    alert("Document data:");
+   // alert("Document data:");
     
   } else {
-    alert("No such document!");
+   // alert("No such document!");
   }
 })
-        },
+        },*/
   mounted() {
       const auth = getAuth();
       onAuthStateChanged(auth, (user) => {
@@ -127,6 +128,7 @@ export default {
       input.addEventListener('change', load);
     
       function load() {
+        alert("test")
         var fileReader = new FileReader();
         var fileObject = this.files[0];
         fileReader.readAsDataURL(fileObject);
@@ -135,10 +137,21 @@ export default {
           var img = document.querySelector('#profilePic');
           img.setAttribute('src', result); 
         };
-      
-
-    
         }
+
+        getDoc(doc(db, "Organisations", String(auth.currentUser.email))).then(docSnap => {
+         // alert("wuwuw")
+          //alert(docSnap.data().Name)
+  if (docSnap.exists()) {
+      this.newUser  = false
+      this.name = docSnap.data().Name
+      this.intro = docSnap.data().Introduction
+   // alert("Document data:");
+    
+  } else {
+   // alert("No such document!");
+  }
+})
 },
 methods: {
       async savetofs() {
@@ -151,13 +164,30 @@ methods: {
 
         var a = document.getElementById("name").value 
         var b = document.getElementById("intro").value 
-        //var j = reader.readAsDataURL(document.getElementById("input"))
+        var j = document.getElementById("input")
+       // var j = '../assets/game.png'
         alert("dengzhe")
-        alert(document.getElementById("input").value);
-        alert("Saving changes to My Organisation Account");
+        //alert(document.getElementById("input").value.);
+        alert(j);
 
         //const accForm = document.getElementById("accForm");
         //accForm.style.display = "none";
+        const storage = getStorage();
+        const storageRef = ref(storage, 'photos/myPictureName');
+
+// 'file' comes from the Blob or File API
+        j.addEventListener('change', function(evt) {
+          alert("yes")
+      let firstFile = evt.target.files[0] // upload the first file only
+      storageRef.put(firstFile)
+  })
+       /* let storageRef = db.storage().ref('photos/myPictureName')
+        let fileUpload = document.getElementById("input")
+
+        fileUpload.addEventListener('change', function(evt) {
+        let firstFile = evt.target.files[0] // upload the first file only
+        storageRef.put(firstFile)
+        })*/
 
         try {
           const docRef = await setDoc(doc(db, "Organisations", email), 
@@ -252,7 +282,7 @@ table {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width:60%;
+    width:10%;
 }
 #profilePic{
   height: 100px;
