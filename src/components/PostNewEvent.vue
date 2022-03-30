@@ -32,7 +32,7 @@
 <script>
 import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth"
 const db = getFirestore(firebaseApp);
 
@@ -41,7 +41,11 @@ export default {
         
         async savetofs() {
             const auth = getAuth();
+            
             this.user = auth.currentUser.email;
+            const orgRef = doc(db, "Organisations",String(this.user));
+            const docSnap = await getDoc(orgRef);
+            
             
             var a = document.getElementById("event").value
             var b = document.getElementById("description").value
@@ -51,14 +55,19 @@ export default {
             var f = document.getElementById("skills").value
             var g = document.getElementById("numVol").value
             var h = document.getElementById("deadline").value
+            var i = docSnap.data().Name
+            var j = {} 
+            var k = {}
+            
 
 
             alert("Confirm to post Event: " + a + "?")
 
             try{ 
-                const docRef = await setDoc(doc(db, String(this.user), a),{
+                const docRef = await setDoc(doc(orgRef, "Posted Events", a),{
                 Event_Name: a, Description: b, Date: c, Location: d, Category: e,
-                Required_skills: f, Number_of_volunteers_needed: g, Deadline_of_sign_up: h
+                Required_skills: f, Number_of_volunteers_needed: g, Deadline_of_sign_up: h, Organisation_Name: i,
+                Accepted_volunteers:j,Applied_volunteers:k, Org_Email: this.user
                 })
                 console.log(docRef)
                 document.getElementById('userForm').reset();

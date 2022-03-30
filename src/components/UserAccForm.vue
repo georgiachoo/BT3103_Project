@@ -96,7 +96,7 @@ export default {
     
       function load() {
         var fileReader = new FileReader();
-        var fileObject = this.files[0];
+        var fileObject = this.files[5];
         fileReader.readAsDataURL(fileObject);
         fileReader.onload = () => {
           var result = fileReader.result;
