@@ -33,8 +33,6 @@ export default ({
 
     created() {
             this.type = this.$route.params.type;
-            
-
     },
 
 })

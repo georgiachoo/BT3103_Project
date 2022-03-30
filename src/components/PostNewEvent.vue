@@ -71,7 +71,7 @@ export default {
                 })
                 console.log(docRef)
                 document.getElementById('userForm').reset();
-                this.$emit("added") // emitting so that the parent knows that coin is added
+                this.$emit("added") // emitting so that the parent knows that event is added
                 }
             catch(error){
                 console.error("Error adding document: ", error);

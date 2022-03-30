@@ -1,5 +1,5 @@
 <template>
-    <h1 id="Current">Managed Posted Event</h1>
+    <h1 id="Current">Manage Posted Event</h1>
         <table id="table" class="auto-index">
         <tr>
             <th>Event_Name</th>
@@ -43,12 +43,8 @@ export default {
                 var row = table.insertRow(ind) // access the table
 
                 var event = (yy.Event_Name) // get values from the document
-                var description = (yy.Description)
                 var date = (yy.Date)
                 var loc = (yy.Location)
-                var cat = (yy.Category)
-                var skills = (yy.Required_skills)
-                var numVol = (yy.Number_of_volunteers_needed)
                 var deadline = (yy.Deadline_of_sign_up)
 
                 // create cells for the row
@@ -57,15 +53,14 @@ export default {
                 var cell7 = row.insertCell(6); var cell8 = row.insertCell(7); var cell9 = row.insertCell(8);
 
                 // fill up the row
-                cell1.innerHTML = event; cell2.innerHTML = description; cell3.innerHTML = date; cell4.innerHTML = loc; cell5.innerHTML = cat;
-                cell6.innerHTML = skills; cell7.innerHTML = numVol; cell8.innerHTML = deadline; // cell 6 and 7 are 0 because we are going to fetch real time data later
-
+                cell1.innerHTML = event; cell2.innerHTML = date; cell3.innerHTML = loc; cell4.innerHTML = deadline; cell5.innerHTML = 0;
+                cell6.innerHTML = 0; cell7.innerHTML = 0; cell8.innerHTML = 0;
 
                 // create the delete button for that row
                 var bu = document.createElement("button")
                 bu.className = "bwt"
                 bu.id = String(event)
-                bu.innerHTML = "Delete"
+                bu.innerHTML = "Close registration"
                 bu.onclick = function() {
                     deleteinstrument2(event, user)
                 }
@@ -77,9 +72,9 @@ export default {
         // Delete instruments
         async function deleteinstrument2(event, user) {
             var x = event
-            alert("You are going to delete " + x)
+            alert("You are going to close registration for " + x)
             await deleteDoc(doc(db, String(user), x))
-            console.log("Document successfully deleted!", x);
+            console.log("Registration closed", x);
             let tb = document.getElementById("table")
             while (tb.rows.length > 1) {
                 tb.deleteRow(1)
