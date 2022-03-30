@@ -1,6 +1,10 @@
 <template>
   <OrgSidebar/>
   <!-- <OrgNavBar/> -->
+  <div style="text-align:right">
+    <router-link to="/OrgManageEvents" tag="button" id="postedevents">Manage Posted Events</router-link>
+    <!--<button v-on:click="handleClick()">Manage Posted Events </button>-->
+  </div>
   <PostNewEvent/>
 </template>
 
@@ -15,10 +19,15 @@ export default {
     // OrgNavBar,
     PostNewEvent,
     OrgSidebar
-  }
+  },
+
+  //handleClick() {
+    //this.$router.push("/OrgManageEvents");
+    //router.push("/OrgManageEvents");
+  //}
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>
