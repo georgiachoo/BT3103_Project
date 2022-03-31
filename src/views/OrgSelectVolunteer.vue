@@ -2,6 +2,7 @@
 <h1>Organisation Select Volunteer</h1>
 <SelectVolunteer/>
 <Logout/>
+<OrgSelect/>
 <OrgSidebar/>
 </template>
 
@@ -16,15 +17,13 @@ import SelectVolunteer from '@/components/SelectVolunteer.vue'
 
 
 export default {
-    
-
-   
 
     components:{
       
       Logout,
       OrgSidebar,
       SelectVolunteer
+      
     },
    
         
