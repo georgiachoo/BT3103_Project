@@ -21,4 +21,3 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 export default firebaseApp;
-<script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-storage.js"></script>    
