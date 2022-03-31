@@ -396,6 +396,11 @@ export default {
             console.log([start_date, end_date])
             return [start_date, end_date];
         },
+        getSkill() {
+             let selected_s = document.getElementById("skill-label").value;
+             console.log(selected_s)
+             return selected_s;
+         },
 
 
         message() {
