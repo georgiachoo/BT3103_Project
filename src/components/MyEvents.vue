@@ -54,6 +54,7 @@ export default {
         });
 
         document.getElementById('event-id').addEventListener('input', this.displayEvent);
+
     },
 
     methods: {
