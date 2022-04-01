@@ -1,6 +1,7 @@
 <template>
    <div> <!-- v-if="user" -->
-    <img id="profilePic">
+    <!-- <img id="profilePic"> -->
+    <img id="pic" v-bind:src=profilePic>
     <input type="file" id="input" accept="image/*">
     <label for="input" id="uploadBtn"> Choose Profile Picture</label><br><br>
   </div>
@@ -10,8 +11,11 @@
     <label for="gamePic" id="score"> Score: </label><br><br>
   </div>
 
+  <br>
+  <br>
+
   <form id="accForm">
-    <label for="name"> Name: </label>
+    <label for="name" > Name: </label>
     <input type="text" id="name" required="" placeholder="Enter your name"> <br><br>
 
     <label for="age"> Age: </label>
@@ -44,6 +48,7 @@
   </form>
 
   <div id="allInfo">
+    <!-- <img id="pic" v-bind:src=profilePic> -->
     <p> Name: {{name}} </p>
     <p> Age: {{age}} </p>
     <p> Gender: {{gender}} </p>
@@ -61,7 +66,9 @@
 import firebaseApp from '../firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore } from 'firebase/firestore';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, updateDoc, getDoc, setDoc } from 'firebase/firestore';
+import { getStorage, ref, uploadString, getDownloadURL } from 'firebase/storage';
+
 const db = getFirestore(firebaseApp);
 
 export default {
@@ -80,7 +87,12 @@ export default {
         exp: "",
         intro: "",
         game: require('../assets/game.png'),
+        profilePic: "",
       }
+    },
+
+    beforeMount() {
+      this.loadData();
     },
 
     mounted() {
@@ -98,18 +110,76 @@ export default {
         var fileReader = new FileReader();
         var fileObject = this.files[0];
         fileReader.readAsDataURL(fileObject);
+        console.log("fileObject:")
+        console.log(fileObject)
         fileReader.onload = () => {
           var result = fileReader.result;
-          var img = document.querySelector('#profilePic');
+          var img = document.querySelector('#pic');
           img.setAttribute('src', result); 
+
         };
       }
+
+      this.loadData();
     },
 
     methods: {
+      async loadData() {
+
+        const auth = getAuth();
+        var email = auth.currentUser.email;
+        
+        const docRef = doc(db, "Users", email);
+        const docSnap = await getDoc(docRef);
+        const docdata = docSnap.data();
+
+        if (docdata != undefined) {
+
+          this.name = docdata['Name'] !== undefined ? docdata['Name'] : "",
+          this.age = docdata['Age'] !== undefined ? docdata['Age'] : "",
+          this.gender = docdata['Gender'] !== undefined ? docdata['Gender'] : "",
+          this.email = docdata['Email'] !== undefined ? docdata['Email'] : email,
+          this.skills = docdata['Skills'] !== undefined ? docdata['Skills'] : "",
+          this.interests = docdata['Interests'] !== undefined ? docdata['Interests'] : "",
+          this.cert = docdata['Certifications'] !== undefined ? docdata['Certifications'] : "",
+          this.exp = docdata['Experience'] !== undefined ? docdata['Experience'] : "",
+          this.intro = docdata['Introduction'] !== undefined ? docdata['Introduction'] : "",
+          this.profilePic = docdata['profilePic'] !== undefined ? docdata['profilePic'] : "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg",
+          console.log(docSnap.data())
+
+          console.log(this.name)
+          console.log(this.age)
+          console.log(this.gender)
+          console.log(this.email)
+          console.log(this.skills)
+          console.log(this.interests)
+          console.log(this.cert)
+          console.log(this.exp)
+          console.log(this.intro)
+          console.log(this.profilePic)
+        } else {
+
+            await setDoc(doc(db, "Users", email), {
+              Name: "",
+              Age: "",
+              Gender: "",
+              Email: email,
+              Skills: "",
+              Interests: "",
+              Certifications: "",
+              Experience: "",
+              Introduction: "",
+              profilePic: "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg",
+            });
+
+            this.email = email
+            this.profilePic = "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg";
+        }
+      },
       async savetofs() {
-        //const auth = getAuth();
-        //this.user = auth.currentUser.email;
+        const auth = getAuth();
+        email = auth.currentUser.email;
+        // this.user = auth.currentUser.email;
 
         var a = document.getElementById("name").value 
         var b = document.getElementById("age").value 
@@ -123,15 +193,42 @@ export default {
         //var j = document.getElementById("input").value
         alert("Saving changes to My Account");
 
+        const file = document.getElementById("pic").src
+        if (file.substring(0,4) !== 'http' && file !== '') {
+
+          const fileURL = file.split(',')[1]
+
+          const metadata = {
+            contentType: 'image/jpeg',
+          };
+
+          const storage = getStorage();
+          const auth = getAuth();
+          var email = auth.currentUser.email
+          var imgName = email + '.jpg'
+          const storageRef = ref(storage, imgName);
+          uploadString(storageRef, fileURL, 'base64', metadata).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((downloadURL) => {
+              console.log('File available at', downloadURL);
+              const userRef = doc(db, "Users", email);
+              updateDoc(userRef, {
+                profilePic: downloadURL
+              });
+          })});
+        }
+
+        
         const accForm = document.getElementById("accForm");
         accForm.style.display = "none";
 
         try {
-          const docRef = await setDoc(doc(db, "Users", d), 
+
+          const docRef = await updateDoc(doc(db, "Users", email), 
             {Name: a, Age: b, Gender: c, Email: d, Skills: e, Interests: f, Certifications: g, 
             Experience: h, Introduction: i});
           console.log(docRef);
           //this.$emit('userinfo');
+
         }
         catch(error) {
           console.error("Error making changes: ", error);
@@ -146,8 +243,17 @@ export default {
         this.cert = g; 
         this.exp = h; 
         this.intro = i;
+
+        const docRef = doc(db, "Users", email);
+        const docSnap = await getDoc(docRef);
+        const docdata = docSnap.data();
+        this.profilePic = docdata['profilePic'];
+        console.log("test")
+        console.log(this.profilePic)
+
         const infoContainer = document.getElementById("allInfo");
         infoContainer.style.display = "block";
+        document.getElementById("uploadBtn").style.display = "none";
       },
 
       edit() {
@@ -155,13 +261,16 @@ export default {
         editContainer.style.display = "block";
         const infoContainer = document.getElementById("allInfo");
         infoContainer.style.display = "none";
+        const uploadBtn = document.getElementById("uploadBtn");
+        uploadBtn.style.display = "inline-block";
+
       }
     }
 }
 </script>
 
 <style scoped>
-#profilePic{
+#pic{
   height: 100px;
   width: 100px;
   border-radius: 50%;
@@ -180,7 +289,8 @@ export default {
   color: black;
   line-height: 20px;
   font-size: 15px;
-  transform: translate(-100%, 95%)
+  transform: translate(-100%, 95%);
+  display: none;
 }
 #gamePic{
   height: 70px;
@@ -208,7 +318,7 @@ body{
   text-align: center;
 }
 #allInfo{
-  display: none;
+  display: block;
 }
 #editBtn{
   background: rgba(231, 207, 27, 0.904);
@@ -216,7 +326,7 @@ body{
   cursor: pointer;
   text-align: center;
   padding: 7px 14px;
-  border: none;
+  border: block;
 }
 #savebutton{
   background: rgba(231, 207, 27, 0.904);
@@ -225,5 +335,10 @@ body{
   text-align: center;
   padding: 7px 14px;
   border: none;
+}
+
+#accForm{
+  display: none;
+  text-align: center;
 }
 </style>
