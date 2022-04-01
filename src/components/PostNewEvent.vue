@@ -49,12 +49,14 @@ export default {
             
             var a = document.getElementById("event").value
             var b = document.getElementById("description").value
-            var c = document.getElementById("date").value
+            var date = new Date(document.getElementById("date").value);
+            var c = new Date(date);
             var d = document.getElementById("loc").value
             var e = document.getElementById("cat").value
             var f = document.getElementById("skills").value
             var g = document.getElementById("numVol").value
-            var h = document.getElementById("deadline").value
+            var ddl = new Date(document.getElementById("deadline").value);
+            var h = new Date(ddl);
             var i = docSnap.data().Name
             var j = {} 
             var k = {}
