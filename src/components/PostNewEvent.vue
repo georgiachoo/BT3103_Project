@@ -11,7 +11,7 @@
                     <label for="buy1">Date: </label>
                     <input type="date" id="date" required="" placeholder="Date" /> <br><br>
                     <label for="quant1">Location: </label>
-                    <input type="number" id="loc" required="" placeholder="Location" /> <br><br>
+                    <input type="text" id="loc" required="" placeholder="Location" /> <br><br>
                     <label for="quant1">Category: </label>
                     <input type="text" id="cat" required="" placeholder="Select category" /> <br><br>
                     <label for="quant1">Required skills: </label>
