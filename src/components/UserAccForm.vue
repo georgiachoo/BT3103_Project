@@ -1,6 +1,6 @@
 <template>
    <div>
-    <img id="pic" v-bind:src=profilePic>
+    <img id="pic" v-bind:src=this.profilePic>
     <input type="file" id="input" accept="image/*">
     <label for="input" id="uploadBtn"> Choose Profile Picture</label><br><br>
   </div>
@@ -138,26 +138,6 @@ export default {
           img.setAttribute('src', result); 
         };
       }
-
-      const file = document.getElementById("pic").src
-        if (file.substring(0,4) !== 'http' && file !== '') {
-          const fileURL = file.split(',')[1]
-          const metadata = {
-            contentType: 'image/jpeg',
-          };
-          const storage = getStorage();
-          const auth = getAuth();
-          var email = auth.currentUser.email
-          var imgName = email + '.jpg'
-          const storageRef = ref(storage, imgName);
-          uploadString(storageRef, fileURL, 'base64', metadata).then((snapshot) => {
-            getDownloadURL(snapshot.ref).then((downloadURL) => {
-              console.log('File available at', downloadURL);
-              const userRef = doc(db, "Users", email);
-              updateDoc(userRef, {profilePic: downloadURL});
-            })
-          });
-        }
     },
 
     methods: {
@@ -264,10 +244,10 @@ export default {
   height: 70px;
   width: 110px;
   float: right;
-  transform: translate(-530%, -150%);
+  transform: translate(-500%, -150%);
 }
 #score{
-  transform: translate(100%, -100%);
+  transform: translate(130%, -100%);
 }
 label {
   display: inline-block;
