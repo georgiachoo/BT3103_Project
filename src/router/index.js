@@ -16,6 +16,8 @@ import Messages from "@/components/Messages.vue";
 import UserNotification from "@/views/UserNotification.vue";
 import UserMessages from '@/views/UserMessages.vue'
 import OrgMessages from '@/views/OrgMessages.vue'
+import FeedbackForm from '@/components/FeedbackForm.vue'
+
 
 const routes = [
   {
@@ -98,7 +100,14 @@ const routes = [
     path: "/OrgMessages",
     name: "OrgMessages",
     component: OrgMessages,
-  }
+  },
+  
+    
+  { 
+    path: '/UserMyEvents/FeedbackForms/:orgID/Events/:eventName', 
+    component: FeedbackForm
+   },
+  
 ];
 
 const router = createRouter({
