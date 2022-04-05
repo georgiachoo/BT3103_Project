@@ -109,6 +109,7 @@ export default {
                 var eLoc = (event.Location)
                 var eCat = (event.Category)
                 var eSkills = (event.Required_skills)
+                var orgEmail = (event.Org_Email)
                 
 
                 var cell1 = row.insertCell(0); var cell2 = row.insertCell(1); var cell3 = row.insertCell(2);
@@ -129,7 +130,7 @@ export default {
                     bu.innerHTML = "Leave Feedback";
                     bu.onclick = function() {
                         thisInstance.disableButton(eName);
-                        thisInstance.leaveFeedback(currUser, eName);
+                        thisInstance.leaveFeedback(currUser, eName, orgEmail);
                         thisInstance.addScore(currUser);
                     }
                     cell7.appendChild(bu);
@@ -150,7 +151,7 @@ export default {
         },
 
         // go to feedback form page and update Feedback_completed
-        async leaveFeedback(currUser, eName) {
+        async leaveFeedback(currUser, eName, orgEmail) {
             console.log("in feedback function");
 
             // update Feedback_completed field in user's completed events subcol
@@ -158,7 +159,10 @@ export default {
             await updateDoc(currEvent, { Feedback_completed: true });
 
 
-            // how to access feedback form?
+            // how to access feedback form? 
+            //direct to Feedback Form page
+            this.$router.push('/UserMyEvents/FeedbackForms/' + orgEmail + '/Events/' + eName)
+            
             return 
         },
 
