@@ -2,10 +2,11 @@
     <div id = "fields">
         <div id = "field1">
         <label for="category">Category:</label>
-        <input list="category" id="category-label" name="category-label" placeholder="Select All"/>
+        <input list="category" id="category-label" name="category-label" onfocus="this.value=''" onchange="this.blur()" placeholder="Select All"/>
         <datalist id="category">
             <option value="Animals">Animals</option>
             <option value="Arts/Culture">Arts/Culture</option>
+            <option value="Children/Youth">Children/Youth</option>
             <option value="Education">Education</option>
             <option value="Environment">Environment</option>
         </datalist>
@@ -13,7 +14,7 @@
 
         <div id = "field2">
         <label for="location">Location:</label>
-        <input list="location" id="location-label" name="location-label" placeholder="Select All" />
+        <input list="location" id="location-label" name="location-label" onfocus="this.value=''" onchange="this.blur()" placeholder="Select All" />
         <datalist id="location">
             <option value="North">North</option>
             <option value="South">South</option>
@@ -35,11 +36,14 @@
 
         <div id = "field4">
         <label for="skill-label">Skills:</label>
-        <input list="skill" id="skill-label" name="skill-label" placeholder="Select All" />
+        <input list="skill" id="skill-label" name="skill-label" onfocus="this.value=''" onchange="this.blur()" placeholder="Select All" />
         <datalist id="skill">
             <option value="Admin">Admin</option>
             <option value="Communication">Communication</option>
             <option value="IT/Technology">IT/Technology</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Planning/Organisation">Planning/Organisation</option>
+            <option value="None">None</option>
 
         </datalist>
         </div>
