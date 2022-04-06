@@ -65,7 +65,7 @@
 import firebaseApp from '../firebase.js';
 import { collection, getFirestore,doc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth"; 
-import { getDocs, getDoc, updateDoc} from "firebase/firestore"; //collection, getDoc, Timestamp, orderBy 
+import { getDocs, getDoc, updateDoc, deleteDoc, setDoc } from "firebase/firestore"; //collection, getDoc, Timestamp, orderBy 
 // import router from '@/router';
 const db = getFirestore(firebaseApp);
 
@@ -178,6 +178,7 @@ export default {
                 alert("Accepted " + name + " for " + eventName)
                 thisInstance.removeFromAppliedArray(email,eventName)
                 thisInstance.displayAll()
+                thisInstance.updateUserSide(email, eventName);
             }
             cell3.appendChild(bu2); 
             this.oldCustomers.push(email)
@@ -200,7 +201,18 @@ export default {
             });
         },
 
-
+        async updateUserSide(userEmail, eventName) {
+            await deleteDoc(doc(db, "Users", userEmail, "Applied Events", eventName));
+            const docRef = doc(db, "Organisations", this.user.email, "Posted Events", eventName);
+            const docSnap = await getDoc(docRef);
+            await setDoc(doc(db, "Users", userEmail, "Registered Events", eventName), {
+                "Event_Name": eventName,
+                "Organisation": docSnap.data().Organisation_Name,
+                "Newly_Registered": true,
+                "Event_Date": docSnap.data().Date,
+                "Feedback_Completed": false
+            })
+        },
 
         async displayTable(result) {
             // clear table first

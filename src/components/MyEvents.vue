@@ -80,7 +80,7 @@ export default {
 
             let selectedCol = ""
             if (selectedEvent === "Ongoing Events") {
-                selectedCol = collection(db, "Users", currUser, "Successful Events");
+                selectedCol = collection(db, "Users", currUser, "Registered Events");
             } else if (selectedEvent === "Completed Events") {
                 selectedCol = collection(db, "Users", currUser, "Completed Events");
             } else {

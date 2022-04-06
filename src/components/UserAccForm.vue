@@ -57,8 +57,7 @@
 <script>
 import firebaseApp from '../firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore } from 'firebase/firestore';
-import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL, uploadString } from 'firebase/storage';
 
 const db = getFirestore(firebaseApp);

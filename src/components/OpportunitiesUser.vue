@@ -259,7 +259,7 @@ export default {
 
             console.log("checking")
 
-            const userEvents = ["Applied Events", "Successful Events", "Completed Events"]
+            const userEvents = ["Applied Events", "Registered Events", "Completed Events"]
 
             for (let i = 0; i < userEvents.length; i++) {
 

@@ -32,7 +32,7 @@ import { getAuth } from "firebase/auth"
             },
         },
 
-        emits:["notif"],
+        //emits:["notif"],
 
         async mounted() {
           const auth = getAuth();
@@ -82,7 +82,7 @@ import { getAuth } from "firebase/auth"
               inbox.mount(document.getElementById("talkjs-container"));
             }
             
-            this.$emits('notif', otherid);
+            //this.$emits('notif', otherid);
           });
         }         
     }
