@@ -32,8 +32,6 @@ import { getAuth } from "firebase/auth"
             },
         },
 
-        //emits:["notif"],
-
         async mounted() {
           const auth = getAuth();
           this.email = auth.currentUser.email;
@@ -81,8 +79,6 @@ import { getAuth } from "firebase/auth"
               inbox = talkSession.createInbox();
               inbox.mount(document.getElementById("talkjs-container"));
             }
-            
-            //this.$emits('notif', otherid);
           });
         }         
     }

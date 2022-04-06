@@ -206,10 +206,17 @@ export default {
             const docRef = doc(db, "Organisations", this.user.email, "Posted Events", eventName);
             const docSnap = await getDoc(docRef);
             await setDoc(doc(db, "Users", userEmail, "Registered Events", eventName), {
+                "Category": docSnap.data().Category,
+                "Date": docSnap.data().Date,
+                "Deadline_of_sign_up": docSnap.data().Deadline_of_sign_up,
+                "Description": docSnap.data().Description,
                 "Event_Name": eventName,
-                "Organisation": docSnap.data().Organisation_Name,
+                "Location": docSnap.data().Location,
+                "Number_of_volunteers_needed": docSnap.data().Number_of_volunteers_needed,
+                "Organisation_Name": docSnap.data().Organisation_Name,
+                "Org_Email": this.user.email,
+                "Required_skills": docSnap.data().Required_skills,
                 "Newly_Registered": true,
-                "Event_Date": docSnap.data().Date,
                 "Feedback_Completed": false
             })
         },

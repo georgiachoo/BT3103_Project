@@ -1,7 +1,4 @@
 <template>
- 
-    <!-- <Messages @notif = "messageNotif($event)" v-show="false"/>
-    <p> {{title}} </p> -->
 
     <table id="notifTable">
       <tr>
@@ -14,7 +11,6 @@
 <script>
 import firebaseApp from '../firebase.js';
 import router from '@/router';
-//import Messages from '@/components/Messages.vue';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, query, where, doc, updateDoc, onSnapshot } from 'firebase/firestore';
 
@@ -26,20 +22,11 @@ export default {
   data() {
     return {
       user: false,
-      title: "",
-      //emittedMsg: []
+      title: ""
     }
   },
 
-  // components: {
-  //   Messages
-  // },
-
   methods: {
-    // messageNotif(x) {
-    //   //this.emittedMsg.push(x);
-    //   this.title = x;
-    // },
 
     async updatefs(userEmail, eventName) {
       const docRef = await updateDoc(doc(db, "Users", userEmail, "Registered Events", eventName), 
@@ -95,26 +82,7 @@ export default {
         console.log(result1);
         console.log("Retrieved completed events");
       });
-    },
-
-    // displayMsgNotif(table, email, ind) {
-    //   for (var j = 0; j < this.emittedMsg.length; j++) {
-    //     var row = table.insertRow(ind);
-    //     var cell1 = row.insertCell(0); 
-    //     var cell2 = row.insertCell(1);
-    //     cell1.innerHTML = this.emittedMsg[j] + " sent you a message";
-    //     ind += 1;
-
-    //     var bu = document.createElement("button");
-    //     bu.className = "viewBtn";
-    //     bu.innerHTML = "View";
-    //     bu.onclick = function() {
-    //       router.push({name: 'UserMessages'});
-    //     }
-    //     cell2.appendChild(bu);
-    //   }
-    //   this.emittedMsg = [];
-    // }    
+    }, 
   },
 
   mounted() {
@@ -127,7 +95,6 @@ export default {
 
         this.getRegistered(table, user.email, ind);
         this.getCompleted(table, user.email, ind);
-        //this.displayMsgNotif(table, user.email, ind);
 
       } else {
         console.log("No user logged in");
