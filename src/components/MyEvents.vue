@@ -3,7 +3,7 @@
     <!-- Menu to select Ongoing or Completed events -->
     <div id = "eventSelect">
         <!-- oninput="this.displayEvent()"  -->
-        <input list="event" id="event-id" placeholder="Select Events"/> 
+        <input list="event" id="event-id" onfocus="this.value=''" onchange="this.blur()" placeholder="Select Events"/> 
         <datalist id="event">
             <option value="Ongoing Events">Ongoing Events</option>
             <option value="Completed Events">Completed Events</option>
@@ -33,7 +33,7 @@
 import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
+import { collection, getDoc, getDocs, updateDoc, doc } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 export default {
@@ -54,6 +54,7 @@ export default {
         });
 
         document.getElementById('event-id').addEventListener('input', this.displayEvent);
+
     },
 
     methods: {
@@ -73,15 +74,13 @@ export default {
                 table.deleteRow(1);
             }
 
-
             // retrieve input from user
             var selectedEvent = document.getElementById('event-id').value;
             console.log(selectedEvent);
 
-
             let selectedCol = ""
             if (selectedEvent === "Ongoing Events") {
-                selectedCol = collection(db, "Users", currUser, "Successful Events");
+                selectedCol = collection(db, "Users", currUser, "Registered Events");
             } else if (selectedEvent === "Completed Events") {
                 selectedCol = collection(db, "Users", currUser, "Completed Events");
             } else {
@@ -110,6 +109,7 @@ export default {
                 var eLoc = (event.Location)
                 var eCat = (event.Category)
                 var eSkills = (event.Required_skills)
+                var orgEmail = (event.Org_Email)
                 
 
                 var cell1 = row.insertCell(0); var cell2 = row.insertCell(1); var cell3 = row.insertCell(2);
@@ -130,7 +130,8 @@ export default {
                     bu.innerHTML = "Leave Feedback";
                     bu.onclick = function() {
                         thisInstance.disableButton(eName);
-                        thisInstance.leaveFeedback(currUser, eName);
+                        thisInstance.leaveFeedback(currUser, eName, orgEmail);
+                        thisInstance.addScore(currUser);
                     }
                     cell7.appendChild(bu);
 
@@ -150,7 +151,7 @@ export default {
         },
 
         // go to feedback form page and update Feedback_completed
-        async leaveFeedback(currUser, eName) {
+        async leaveFeedback(currUser, eName, orgEmail) {
             console.log("in feedback function");
 
             // update Feedback_completed field in user's completed events subcol
@@ -158,9 +159,31 @@ export default {
             await updateDoc(currEvent, { Feedback_completed: true });
 
 
-            // how to access feedback form?
+            // how to access feedback form? 
+            //direct to Feedback Form page
+            this.$router.push('/UserMyEvents/FeedbackForms/' + orgEmail + '/Events/' + eName)
             
             return 
+        },
+
+        async addScore(currUser) {
+            console.log("adding score")
+            const userDoc = doc(db, "Users", currUser);
+            const userSnap = await getDoc(userDoc);
+            if (userSnap.exists()) {
+                let userData = userSnap.data();
+                let currScore = (userData.Score)
+                let updatedScore = 0;
+                if (isNaN(parseFloat(currScore))) {
+                    updatedScore = 5;
+                } else {
+                    updatedScore = currScore + 5;
+                }
+                await updateDoc(userDoc, { Score: updatedScore });
+            } else {
+                console.log("could not add score")
+            }
+            return;
         },
 
         // disable button and indicate that feedback form has been completed

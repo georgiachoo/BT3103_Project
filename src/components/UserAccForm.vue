@@ -1,13 +1,13 @@
 <template>
-   <div> <!-- v-if="user" -->
-    <img id="profilePic">
+   <div>
+    <img id="pic" v-bind:src=this.profilePic>
     <input type="file" id="input" accept="image/*">
     <label for="input" id="uploadBtn"> Choose Profile Picture</label><br><br>
   </div>
   
   <div>
     <img id="gamePic" :src="game">
-    <label for="gamePic" id="score"> Score: </label><br><br>
+    <label for="gamePic" id="score"> Score: {{score}}</label><br><br>
   </div>
 
   <form id="accForm">
@@ -19,9 +19,6 @@
 
     <label for="gender"> Gender: </label>
     <input type="text" id="gender" required="" placeholder="Male/Female/Non-binary"> <br><br>
-
-    <label for="email"> Email: </label>
-    <input type="email" id="email" required="" placeholder="Enter your email"><br><br>
 
     <label for="skills"> Skills: </label>
     <textarea name="skills" id="skills" cols="30" rows="5" placeholder="Relevant skills"></textarea><br><br>
@@ -60,8 +57,9 @@
 <script>
 import firebaseApp from '../firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore } from 'firebase/firestore';
-import { doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
+import { getStorage, ref, getDownloadURL, uploadString } from 'firebase/storage';
+
 const db = getFirestore(firebaseApp);
 
 export default {
@@ -79,15 +77,50 @@ export default {
         cert: "",
         exp: "",
         intro: "",
+        score: 0,
         game: require('../assets/game.png'),
+        profilePic: ""
       }
     },
 
     mounted() {
       const auth = getAuth();
-      onAuthStateChanged(auth, (user) => {
+      onAuthStateChanged(auth, async (user) => {
         if (user) {
           this.user = user;
+          this.email = user.email;
+      
+          const currDoc = doc(db, "Users", this.email);
+          const docRef = await getDoc(currDoc);
+
+          if (docRef.exists()) {
+            const accForm = document.getElementById("accForm");
+            accForm.style.display = "none";
+            
+            this.name = docRef.data().Name;
+            this.age = docRef.data().Age;
+            this.gender = docRef.data().Gender;
+            this.skills = docRef.data().Skills;
+            this.interests = docRef.data().Interests; 
+            this.cert = docRef.data().Certifications;
+            this.exp = docRef.data().Experience;
+            this.intro = docRef.data().Introduction;
+            this.score = docRef.data().Score;
+
+            const docdata = docRef.data();
+            this.profilePic = docdata['profilePic'];
+
+            const infoContainer = document.getElementById("allInfo");
+            infoContainer.style.display = "block";
+            document.getElementById("uploadBtn").style.display = "none";
+
+          } else {
+            await setDoc(doc(db, "Users", this.email), {
+              Email: this.email, 
+              Score: 0, 
+              profilePic: "@/assets/volunteer.png"
+            });
+          }
         }
       });
 
@@ -100,7 +133,7 @@ export default {
         fileReader.readAsDataURL(fileObject);
         fileReader.onload = () => {
           var result = fileReader.result;
-          var img = document.querySelector('#profilePic');
+          var img = document.querySelector('#pic');
           img.setAttribute('src', result); 
         };
       }
@@ -108,30 +141,46 @@ export default {
 
     methods: {
       async savetofs() {
-        //const auth = getAuth();
-        //this.user = auth.currentUser.email;
 
         var a = document.getElementById("name").value 
         var b = document.getElementById("age").value 
         var c = document.getElementById("gender").value 
-        var d = document.getElementById("email").value
         var e = document.getElementById("skills").value
         var f = document.getElementById("interest").value
         var g = document.getElementById("cert").value
         var h = document.getElementById("exp").value
         var i = document.getElementById("intro").value
-        //var j = document.getElementById("input").value
+
         alert("Saving changes to My Account");
+
+        const file = document.getElementById("pic").src
+        if (file.substring(0,4) !== 'http' && file !== '') {
+          const fileURL = file.split(',')[1]
+          const metadata = {
+            contentType: 'image/jpeg',
+          };
+          const storage = getStorage();
+          const auth = getAuth();
+          var email = auth.currentUser.email
+          var imgName = email + '.jpg'
+          const storageRef = ref(storage, imgName);
+          uploadString(storageRef, fileURL, 'base64', metadata).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((downloadURL) => {
+              console.log('File available at', downloadURL);
+              const userRef = doc(db, "Users", email);
+              updateDoc(userRef, {profilePic: downloadURL});
+            })
+          });
+        }
 
         const accForm = document.getElementById("accForm");
         accForm.style.display = "none";
 
         try {
-          const docRef = await setDoc(doc(db, "Users", d), 
-            {Name: a, Age: b, Gender: c, Email: d, Skills: e, Interests: f, Certifications: g, 
+          const docRef = await updateDoc(doc(db, "Users", this.email), 
+            {Name: a, Age: b, Gender: c, Skills: e, Interests: f, Certifications: g, 
             Experience: h, Introduction: i});
           console.log(docRef);
-          //this.$emit('userinfo');
         }
         catch(error) {
           console.error("Error making changes: ", error);
@@ -140,14 +189,20 @@ export default {
         this.name = a;
         this.age = b;
         this.gender = c;
-        this.email = d;
         this.skills = e; 
         this.interests = f; 
         this.cert = g; 
         this.exp = h; 
         this.intro = i;
+
+        const docRef = doc(db, "Users", this.email);
+        const docSnap = await getDoc(docRef);
+        const docdata = docSnap.data();
+        this.profilePic = docdata['profilePic'];
+
         const infoContainer = document.getElementById("allInfo");
         infoContainer.style.display = "block";
+        document.getElementById("uploadBtn").style.display = "none";
       },
 
       edit() {
@@ -155,13 +210,15 @@ export default {
         editContainer.style.display = "block";
         const infoContainer = document.getElementById("allInfo");
         infoContainer.style.display = "none";
+        const uploadBtn = document.getElementById("uploadBtn");
+        uploadBtn.style.display = "inline-block";
       }
     }
 }
 </script>
 
 <style scoped>
-#profilePic{
+#pic{
   height: 100px;
   width: 100px;
   border-radius: 50%;
@@ -186,10 +243,10 @@ export default {
   height: 70px;
   width: 110px;
   float: right;
-  transform: translate(-530%, -150%);
+  transform: translate(-500%, -150%);
 }
 #score{
-  transform: translate(90%, -150%);
+  transform: translate(130%, -100%);
 }
 label {
   display: inline-block;

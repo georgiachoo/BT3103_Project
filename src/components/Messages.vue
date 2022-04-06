@@ -18,9 +18,7 @@ import { getAuth } from "firebase/auth"
 
     export default {
         name: "Messages",
-        // components: {
-        //     NavBar,
-        // },
+
         data() {
             return {
                 conversation: null,
@@ -34,59 +32,59 @@ import { getAuth } from "firebase/auth"
             },
         },
 
-  async mounted() {
+        //emits:["notif"],
+
+        async mounted() {
+          const auth = getAuth();
+          this.email = auth.currentUser.email;
+
+          // to query name and photo from firebase for 'me' and 'other' user
+          var email = this.email
+          console.log(this.email)
+
+          var otherid = this.$route.params.otherID;
+          if (otherid == null) {
+              otherid = ''
+          }
         
-        const auth = getAuth();
-        this.email = auth.currentUser.email;
+          Talk.ready.then(function() {
 
-        // to query name and photo from firebase for 'me' and 'other' user
-        var email = this.email
-        console.log(this.email)
+            var me = new Talk.User({
+              id: email,
+              name: email,
+              email: email,
+              photoUrl: "https://thumbs.dreamstime.com/b/man-profile-cartoon-smiling-round-icon-vector-illustration-graphic-design-135443422.jpg",
+              role: "default",
+            });
 
-        var otherid = this.$route.params.otherID;
-        if (otherid == null) {
-            otherid = ''
-        }
+            var talkSession = new Talk.Session({
+              appId: "tbmsHGYO",
+              me: me
+            });
+
+            var inbox;
+
+            if (otherid !== '') {
+              var other = new Talk.User({
+                id: otherid,
+                name: otherid,
+                role: "default",
+
+              });
         
-      Talk.ready.then(function() {
-
-        var me = new Talk.User({
-            id: email,
-            name: email,
-            email: email,
-            photoUrl: "https://thumbs.dreamstime.com/b/man-profile-cartoon-smiling-round-icon-vector-illustration-graphic-design-135443422.jpg",
-            role: "default",
-        });
-
-        var talkSession = new Talk.Session({
-            appId: "tbmsHGYO",
-            me: me
-        });
-
-    var inbox;
-
-    if (otherid !== '') {
-        var other = new Talk.User({
-            id: otherid,
-            name: otherid,
-            role: "default",
-
-        });
-        
-        var conversation = talkSession.getOrCreateConversation(Talk.oneOnOneId(me, other));
-        conversation.setParticipant(me);
-        conversation.setParticipant(other);
-        inbox = talkSession.createInbox({selected: conversation});
-        inbox.mount(document.getElementById("talkjs-container"));
-    } else {
-        inbox = talkSession.createInbox();
-        inbox.mount(document.getElementById("talkjs-container"));
-    }
-
-    });
-    
-  }
+              var conversation = talkSession.getOrCreateConversation(Talk.oneOnOneId(me, other));
+              conversation.setParticipant(me);
+              conversation.setParticipant(other);
+              inbox = talkSession.createInbox({selected: conversation});
+              inbox.mount(document.getElementById("talkjs-container"));
+            } else {
+              inbox = talkSession.createInbox();
+              inbox.mount(document.getElementById("talkjs-container"));
+            }
             
+            //this.$emits('notif', otherid);
+          });
+        }         
     }
 
 </script>
