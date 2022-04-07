@@ -80,10 +80,11 @@ export default {
         //display()
 
         // Delete instruments
-        async function deleteinstrument2(event, user) {
+        async function deleteinstrument2(event) {
             var x = event
             alert("You are going to close registration for " + x)
-            await deleteDoc(doc(db, String(user), x))
+            //await deleteDoc(doc(db, String(user), x))
+            await deleteDoc(doc(db, "Organisations", auth.currentUser.email, "Posted Events", x))
             console.log("Registration closed", x);
             let tb = document.getElementById("table")
             while (tb.rows.length > 1) {
