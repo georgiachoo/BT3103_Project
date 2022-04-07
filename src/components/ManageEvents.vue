@@ -70,14 +70,13 @@ export default {
                 var bu = document.createElement("button")
                 bu.className = "bwt"
                 bu.id = String(event)
-                bu.innerHTML = "Close registration"
+                bu.innerHTML = "Close event"
                 bu.onclick = function() {
                     deleteinstrument2(event, user)
                 }
                 cell5.appendChild(bu)
             })
         }
-        //display()
 
         // Delete instruments
         async function deleteinstrument2(event) {
@@ -124,7 +123,6 @@ th, td {
   color: black;
   cursor: pointer;
   text-align: center;
-  padding: 7px 14px;
-  border: none;
+  padding: 20px /*7px 14px 7px 7px*/;
 }
 </style>
