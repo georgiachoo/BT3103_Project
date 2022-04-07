@@ -1,11 +1,12 @@
 <template>
-
+    <div style="overflow: scroll; height: 300px; width: 100%; overflow: auto">
     <table id="notifTable">
       <tr>
         <th>Details</th>
         <th>Action</th>
       </tr>
     </table><br><br>
+    </div>
 </template>
 
 <script>

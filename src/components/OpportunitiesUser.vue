@@ -13,7 +13,7 @@
         </div>
 
         <div id = "field2">
-        <label for="location">Location:</label>
+        <label for="location-label">Location:</label>
         <input list="location" id="location-label" name="location-label" onfocus="this.value=''" onchange="this.blur()" placeholder="Select All" />
         <datalist id="location">
             <option value="North">North</option>
@@ -58,9 +58,9 @@
     <br><br><br>
 
     <!-- code for display table -->
-    <div id = "oppDisplay">
+    <div id = "oppDisplay" style="overflow: scroll; height: 300px; width: 100%; overflow: auto">
+    <!-- <div id = "oppDisplay"> -->
         <table id= "table" class = "auto-index">
-        <thead>
         <tr>
         <th>Event Name</th>
         <th>Category</th>
@@ -69,7 +69,6 @@
         <th>Required Skills</th>
         <th>Options</th>
         </tr>
-        </thead>
     </table> <br><br>
     </div>
 
@@ -84,6 +83,7 @@
             <p> <strong>Location:</strong> {{ eventLocation }} </p>
             <p> <strong>Date:</strong> {{ eventDate }} </p>
             <p> <strong>Required Skills:</strong> {{ eventSkills }} </p>
+            <p> <strong>Organiser:</strong> {{ eventOrgName }} </p>
             <p> <strong>Number of Volunteers required:</strong> {{ eventNumV }} </p>
             <p> <strong>Deadline of sign up:</strong> {{ eventDL }} </p>
         
@@ -122,7 +122,8 @@ export default {
           eventSkills: 'skills',
           eventDL: 'deadLine',
           eventNumV: 'numVol',
-          eventOrg: 'organisation'
+          eventOrg: 'organisation',
+          eventOrgName: 'organisation name'
       }
     },
 
@@ -145,7 +146,7 @@ export default {
 
     methods: {
 
-        changeValue(name, description, category, location, date, skills, dl, numVol, org) {
+        changeValue(name, description, category, location, date, skills, dl, numVol, org, orgName) {
             this.eventName = name;
             this.eventDescription = description;
             this.eventCategory = category;
@@ -155,11 +156,12 @@ export default {
             this.eventDL = dl;
             this.eventNumV = numVol;
             this.eventOrg = org;
+            this.eventOrgName = orgName;
         },
 
         async displayAll() {
             // get all events posted by organisations
-            // const postedEvents = query(collectionGroup(db, 'Posted Events'), orderBy('Date'), orderBy('Category'), orderBy('Location'), orderBy('Required_skills'));
+            // const postedEvents = query(collectionGroup(db, 'Posted Events'), orderBy('Event_Name'));
             const postedEvents = query(collectionGroup(db, 'Posted Events'));
             const allEvents = await getDocs(postedEvents);
 
@@ -192,7 +194,6 @@ export default {
                 var row = table.insertRow(ind);
 
                 var eName = (y.Event_Name);
-                console.log(y.Date)
                 var eDate = ((y.Date).toDate()).toDateString();
                 var eLoc = (y.Location);
                 var eCat = (y.Category);
@@ -203,6 +204,7 @@ export default {
                 var eDL = ((y.Deadline_of_sign_up).toDate()).toDateString();
                 var eNumV = (y.Number_of_volunteers_needed);
                 var eOrg = (y.Org_Email);
+                var eOrgName = (y.Organisation_Name);
 
 
                 var cell1 = row.insertCell(0); var cell2 = row.insertCell(1); var cell3 = row.insertCell(2);
@@ -222,7 +224,7 @@ export default {
                 
                 bu.innerHTML = "View";
                 bu.onclick = function() {
-                    thisInstance.displayModal(eName, eDesc, eCat, eLoc, eDate, eSkills, eDL, eNumV, eOrg);
+                    thisInstance.displayModal(eName, eDesc, eCat, eLoc, eDate, eSkills, eDL, eNumV, eOrg, eOrgName);
                 }
                 cell6.appendChild(bu);
 
@@ -231,11 +233,11 @@ export default {
             return
         },
 
-        displayModal(name, description, category, location, date, skills, dl, numV, orgEmail) {
+        displayModal(name, description, category, location, date, skills, dl, numV, orgEmail, eOrgName) {
             // get event info as arguments from displayTable (or query)
 
             // update mustache values
-            this.changeValue(name, description, category, location, date, skills, dl, numV, orgEmail);
+            this.changeValue(name, description, category, location, date, skills, dl, numV, orgEmail, eOrgName);
 
             // check if user has registered for event (disable button if so)
             try {
@@ -297,6 +299,7 @@ export default {
                 console.log(this.eventDL);
                 console.log(this.eventNumV);
                 console.log(this.eventOrg);
+                console.log(this.eventOrgName);
 
                 await setDoc(userDocRef, {
                     Event_Name: this.eventName,
@@ -308,6 +311,7 @@ export default {
                     Deadline_of_sign_up: this.eventDL,
                     Number_of_volunteers_needed: this.eventNumV,
                     Org_Email: this.eventOrg,
+                    Organisation_Name: this.eventOrgName,
                     Feedback_completed: false
                 });
             } catch(error) {
@@ -323,6 +327,7 @@ export default {
             } catch(error) {
                 console.error("Error in registering (org doc): ", error);
             }
+            this.checkRegistered();
         },
 
 
@@ -369,12 +374,6 @@ export default {
             const sQuery = query(collectionGroup(db, 'Posted Events'), ...filters);
             const result = await getDocs(sQuery);
 
-
-            // test date query
-            // const dateQuery = query(collection(db, "Organisations", 'testperson@gmail.com', 'Posted Events'), where('Date', '>=', dd));
-            // const dateQuery = query(collection(db, "Organisations", 'testperson@gmail.com', 'Posted Events'), where('Date', '<=', e));
-            // const result = await getDocs(dateQuery)
-
             return this.displayTable(result);
         },
 
@@ -382,7 +381,6 @@ export default {
         getCategory() {
             let selected_c = document.getElementById("category-label").value;
             console.log(selected_c);
-            // console.log(selected_c == "");
             return selected_c;
         },
 
@@ -415,7 +413,6 @@ export default {
         message() {
             let orgEmail = this.eventOrg;
             this.$router.push({name:"UserMessages", params:{otherID: orgEmail}});
-            // router.push({name:"Messages", params:{otherID: orgEmail}})
         }
     }
 }
@@ -504,6 +501,7 @@ export default {
         float: right;
         font-size: 30px;
     }
+
 
     .closeBtn:hover,.closeBtn:focus{
         color: #000;
