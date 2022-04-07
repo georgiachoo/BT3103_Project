@@ -52,9 +52,8 @@
      <br><br><br>
 
      <!-- code for display table -->
-     <div id = "oppDisplay">
+     <div id = "oppDisplay" style="overflow: scroll; height: 300px; width: 100%; overflow: auto">
          <table id= "table" class = "auto-index">
-         <thead>
          <tr>
          <th>Event Name</th>
          <th>Category</th>
@@ -63,7 +62,6 @@
          <th>Organisation Name</th>
          <th>Options</th>
          </tr>
-         </thead>
      </table> <br><br>
      </div>
 

@@ -1,20 +1,17 @@
 <template>
- 
-    <!-- <Messages @notif = "messageNotif($event)" v-show="false"/>
-    <p> {{title}} </p> -->
-
+    <div style="overflow: scroll; height: 300px; width: 100%; overflow: auto">
     <table id="notifTable">
       <tr>
         <th>Details</th>
         <th>Action</th>
       </tr>
     </table><br><br>
+    </div>
 </template>
 
 <script>
 import firebaseApp from '../firebase.js';
 import router from '@/router';
-//import Messages from '@/components/Messages.vue';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, query, where, doc, updateDoc, onSnapshot } from 'firebase/firestore';
 
@@ -26,20 +23,11 @@ export default {
   data() {
     return {
       user: false,
-      title: "",
-      //emittedMsg: []
+      title: ""
     }
   },
 
-  // components: {
-  //   Messages
-  // },
-
   methods: {
-    // messageNotif(x) {
-    //   //this.emittedMsg.push(x);
-    //   this.title = x;
-    // },
 
     async updatefs(userEmail, eventName) {
       const docRef = await updateDoc(doc(db, "Users", userEmail, "Registered Events", eventName), 
@@ -62,6 +50,12 @@ export default {
           var bu = document.createElement("button");
           bu.className = "viewBtn"
           bu.innerHTML = "View"
+          bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
+          bu.style.cursor = "pointer"
+          bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
+          bu.style.textAlign = "center"
+          bu.style.padding = "5px 14px"
+         
           bu.onclick = function() {
             router.push({name: 'UserMyEvents'});
             thisInstance.updatefs(email, change.doc.data().Event_Name);
@@ -81,12 +75,18 @@ export default {
           var row = table.insertRow(ind);
           var cell1 = row.insertCell(0); 
           var cell2 = row.insertCell(1);
-          cell1.innerHTML = "Leave feedback for " + doc.data().Event_Name;
+          cell1.innerHTML = "Leave feedback for " + doc.data().Event_Name
           ind += 1;
 
           var bu = document.createElement("button");
-          bu.className = "viewBtn";
-          bu.innerHTML = "View";
+          bu.className = "viewBtn"
+          bu.innerHTML = "View"
+          bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
+          bu.style.cursor = "pointer"
+          bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
+          bu.style.textAlign = "center"
+          bu.style.padding = "5px 14px"
+
           bu.onclick = function() {
             router.push({name: 'UserMyEvents'});
           }
@@ -95,26 +95,7 @@ export default {
         console.log(result1);
         console.log("Retrieved completed events");
       });
-    },
-
-    // displayMsgNotif(table, email, ind) {
-    //   for (var j = 0; j < this.emittedMsg.length; j++) {
-    //     var row = table.insertRow(ind);
-    //     var cell1 = row.insertCell(0); 
-    //     var cell2 = row.insertCell(1);
-    //     cell1.innerHTML = this.emittedMsg[j] + " sent you a message";
-    //     ind += 1;
-
-    //     var bu = document.createElement("button");
-    //     bu.className = "viewBtn";
-    //     bu.innerHTML = "View";
-    //     bu.onclick = function() {
-    //       router.push({name: 'UserMessages'});
-    //     }
-    //     cell2.appendChild(bu);
-    //   }
-    //   this.emittedMsg = [];
-    // }    
+    }, 
   },
 
   mounted() {
@@ -127,7 +108,6 @@ export default {
 
         this.getRegistered(table, user.email, ind);
         this.getCompleted(table, user.email, ind);
-        //this.displayMsgNotif(table, user.email, ind);
 
       } else {
         console.log("No user logged in");
@@ -155,11 +135,4 @@ th{
   background-color: rgba(20, 95, 145, 0.609);;
 }
 
-.viewBtn{
-  color: rgba(231, 207, 27, 0.904);
-  cursor: pointer;
-  text-align: center;
-  padding: 7px 14px;
-  border: none;
-}
 </style>

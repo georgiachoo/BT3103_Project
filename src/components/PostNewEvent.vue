@@ -10,13 +10,56 @@
                     <input type="text" id="description" required="" placeholder="Event Description" /> <br><br>
                     <label for="buy1">Date: </label>
                     <input type="date" id="date" required="" placeholder="Date" /> <br><br>
-                    <label for="quant1">Location: </label>
-                    <input type="text" id="loc" required="" placeholder="Location" /> <br><br>
-                    <label for="quant1">Category: </label>
-                    <input type="text" id="cat" required="" placeholder="Select category" /> <br><br>
-                    <label for="quant1">Required skills: </label>
-                    <input type="text" id="skills" required="" placeholder="Required skills" /> <br><br>
-                    <label for="quant1">Number of volunteers needed: </label>
+
+
+
+                    <!-- <label for="quant1">Location: </label> -->
+                    <!-- <input type="number" id="loc" required="" placeholder="Location" /> <br><br> -->
+                    <div id = "loc field">
+                    <label for="loc">Location: </label>
+                    <input list="locations" id="loc" name="loc" onfocus="this.value=''" onchange="this.blur()" placeholder="Location" />
+                    <datalist id="locations">
+                        <option value="North">North</option>
+                        <option value="South">South</option>
+                        <option value="East">East</option>
+                        <option value="West">West</option>
+                    </datalist>
+                    </div>
+                    <br>
+
+                    <!-- <label for="quant1">Category: </label> -->
+                    <!-- <input type="text" id="cat" required="" placeholder="Select category" /> <br><br> -->
+                    <div id = "cat field">
+                    <label for="cat">Category: </label>
+                    <input list="categories" id="cat" name="cat" onfocus="this.value=''" onchange="this.blur()" placeholder="Category"/>
+                    <datalist id="categories">
+                        <option value="Animals">Animals</option>
+                        <option value="Arts/Culture">Arts/Culture</option>
+                        <option value="Children/Youth">Children/Youth</option>
+                        <option value="Education">Education</option>
+                        <option value="Environment">Environment</option>
+                    </datalist>
+                    </div>
+                    <br>
+
+                    <!-- <label for="quant1">Required skills: </label> -->
+                    <!-- <input type="text" id="skills" required="" placeholder="Required skills" /> <br><br> -->
+                    <div id = "skill field">
+                    <label for="skills">Required skills: </label>
+                    <input list="skill" id="skills" name="skills" onfocus="this.value=''" onchange="this.blur()" placeholder="Required skills" />
+                    <datalist id="skill">
+                        <option value="Admin">Admin</option>
+                        <option value="Communication">Communication</option>
+                        <option value="IT/Technology">IT/Technology</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Planning/Organisation">Planning/Organisation</option>
+                        <option value="None">None</option>
+                    </datalist>
+                    </div>
+                    <br>
+
+                    <label for="quant1">Number of volunteered needed: </label>
+
                     <input type="number" id="numVol" required="" placeholder="Enter number" /> <br><br>
                     <label for="quant1">Deadline of Sign Up: </label>
                     <input type="date" id="deadline" required="" placeholder="Enter deadline" /> <br><br>

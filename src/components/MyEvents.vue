@@ -1,9 +1,13 @@
 <template>
 
+
+    <h4><span style="font-weight:normal">Select event type to view events</span></h4>
+    <!-- <h4>Select event type to view events</h4> -->
+
     <!-- Menu to select Ongoing or Completed events -->
     <div id = "eventSelect">
         <!-- oninput="this.displayEvent()"  -->
-        <input list="event" id="event-id" onfocus="this.value=''" onchange="this.blur()" placeholder="Select Events"/> 
+        <input list="event" id="event-id" value="Ongoing Events" onfocus="this.value=''" onchange="this.blur()" placeholder="Select Events"/> 
         <datalist id="event">
             <option value="Ongoing Events">Ongoing Events</option>
             <option value="Completed Events">Completed Events</option>
@@ -12,7 +16,7 @@
     <br><br><br>
 
     <!-- Table to display ongoing or completed events -->
-    <div id = "eventDisplay">
+    <div id = "eventDisplay" style="overflow: scroll; height: 300px; width: 100%; overflow: auto">
         <table id= "table" class = "auto-index">
         <tr>
         <th>Event Name</th>
@@ -54,6 +58,8 @@ export default {
         });
 
         document.getElementById('event-id').addEventListener('input', this.displayEvent);
+
+        this.displayEvent()
 
     },
 
@@ -126,6 +132,11 @@ export default {
                     var bu = document.createElement("button");
                     bu.className = "bwt";
                     bu.id = String(eName);
+                    bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
+                    bu.style.cursor = "pointer"
+                    bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
+                    bu.style.textAlign = "center"
+                    bu.style.padding = "5px 14px"
 
                     bu.innerHTML = "Leave Feedback";
                     bu.onclick = function() {
@@ -142,7 +153,7 @@ export default {
 
                 // Ongoing events do not require users to take any action
                 } else {
-                    cell7.innerHTML = "";
+                    cell7.innerHTML = "-";
                 }
                 ind += 1
             })
@@ -158,8 +169,6 @@ export default {
             const currEvent = doc(db, "Users", currUser, "Completed Events", eName);
             await updateDoc(currEvent, { Feedback_completed: true });
 
-
-            // how to access feedback form? 
             //direct to Feedback Form page
             this.$router.push('/UserMyEvents/FeedbackForms/' + orgEmail + '/Events/' + eName)
             
@@ -245,6 +254,11 @@ export default {
     margin: 50px;
     display: -webkit-flex;
 } */
+
+/* label {
+    display: block;
+} */
+
 
 input {
     /* -webkit-flex: 1; */
