@@ -53,7 +53,7 @@
 
      <!-- code for display table -->
      <div id = "oppDisplay" style="overflow: scroll; height: 300px; width: 100%; overflow: auto">
-         <table id= "table" class = "auto-index">
+         <table id= "table" class = "auto-index" align="right">
          <tr>
          <th>Event Name</th>
          <th>Category</th>
@@ -349,7 +349,6 @@
          align-items: center;
      }
 
-
      /* css for the dates */
      input[type="date"] {
          color: #95a5a6;
@@ -362,8 +361,8 @@
          font-family: arial, sans-serif;
          border-collapse: collapse;
          /* width: 100%; */
-         width: 88%;
-         margin: auto;
+         width: 80%;
+         margin-right: 30px;
          /* padding: 30px; */
      }
 
