@@ -34,24 +34,62 @@
     
     <label for="intro"> Self-Introduction: </label>
     <textarea name="intro" id="intro" cols="50" rows="10" placeholder="Let volunteer organisations know you better"></textarea><br><br>
-
+ 
     <div class = "save">
-      <button id = "savebutton" type="button" v-on:click="savetofs()"> Save </button><br><br>
+      <button id = "savebutton" type="button" v-on:click="savetofs()"> Save </button><br>
     </div>
   </form>
 
-  <div id="allInfo">
-    <p> Name: {{name}} </p>
-    <p> Age: {{age}} </p>
-    <p> Gender: {{gender}} </p>
-    <p> Email: {{email}} </p>
-    <p> Skills: {{skills}} </p>
-    <p> Interests: {{interests}} </p>
-    <p> Certifications: {{cert}} </p>
-    <p> Experience: {{exp}} </p>
-    <p> Self-Introduction: {{intro}} </p>
-    <button id="editBtn" type="button" @click="edit()"> Edit </button>
-  </div>
+  <table id="accTable" class="center">
+    <tr>
+      <th> Name: </th>
+      <td id="nameT"> {{name}} </td>
+    </tr>
+
+    <tr>
+      <th> Age: </th>
+      <td id="ageT"> {{age}} </td>
+    </tr>
+
+    <tr>
+      <th> Gender: </th>
+      <td id="genderT"> {{gender}} </td>
+    </tr>
+
+    <tr>
+      <th> Email: </th>
+      <td id="genderT"> {{email}} </td>
+    </tr>
+
+    <tr>
+      <th> Skills: </th>
+      <td id="skillsT"> {{skills}} </td>
+    </tr>
+
+    <tr>
+      <th> Volunteering Interests: </th>
+      <td id="interestT"> {{interests}} </td>
+    </tr>
+
+    <tr>
+      <th> Certifications: </th>
+      <td id="certT"> {{cert}} </td>
+    </tr>
+
+    <tr>
+      <th> Experience: </th>
+      <td id="expT"> {{exp}} </td>
+    </tr>
+
+    <tr>
+      <th> Self-Introduction: </th>
+      <td id="introT"> {{intro}} </td>
+    </tr>
+
+  </table> <br><br>
+
+  <button id="editBtn" type="button" @click="edit()"> Edit </button> <br><br>
+
 </template>
 
 <script>
@@ -96,6 +134,14 @@ export default {
           if (docRef.exists()) {
             const accForm = document.getElementById("accForm");
             accForm.style.display = "none";
+            document.getElementById('name').setAttribute('value', docRef.data().Name);
+            document.getElementById('age').setAttribute('value', docRef.data().Age);
+            document.getElementById('gender').setAttribute('value', docRef.data().Gender);
+            document.getElementById('skills').value = docRef.data().Skills;
+            document.getElementById('interest').value = docRef.data().Interests;
+            document.getElementById('cert').value = docRef.data().Certifications;
+            document.getElementById('exp').value = docRef.data().Experience;
+            document.getElementById('intro').value = docRef.data().Introduction;
             
             this.name = docRef.data().Name;
             this.age = docRef.data().Age;
@@ -110,8 +156,8 @@ export default {
             const docdata = docRef.data();
             this.profilePic = docdata['profilePic'];
 
-            const infoContainer = document.getElementById("allInfo");
-            infoContainer.style.display = "block";
+            const infoTable = document.getElementById("accTable");
+            infoTable.style.display = "block";
             document.getElementById("uploadBtn").style.display = "none";
 
           } else {
@@ -200,18 +246,22 @@ export default {
         const docdata = docSnap.data();
         this.profilePic = docdata['profilePic'];
 
-        const infoContainer = document.getElementById("allInfo");
-        infoContainer.style.display = "block";
+        const infoTable = document.getElementById("accTable");
+        infoTable.style.display = "block";
         document.getElementById("uploadBtn").style.display = "none";
+        const editBtn = document.getElementById("editBtn");
+        editBtn.style.display = "block";
       },
 
       edit() {
         const editContainer = document.getElementById("accForm");
         editContainer.style.display = "block";
-        const infoContainer = document.getElementById("allInfo");
-        infoContainer.style.display = "none";
+        const infoTable = document.getElementById("accTable");
+        infoTable.style.display = "none";
         const uploadBtn = document.getElementById("uploadBtn");
         uploadBtn.style.display = "inline-block";
+        const editBtn = document.getElementById("editBtn");
+        editBtn.style.display = "none";
       }
     }
 }
@@ -237,7 +287,8 @@ export default {
   color: black;
   line-height: 20px;
   font-size: 15px;
-  transform: translate(-100%, 95%)
+  transform: translate(-100%, 95%);
+  border-color: rgba(231, 207, 27, 0.904);
 }
 #gamePic{
   height: 70px;
@@ -252,6 +303,8 @@ label {
   display: inline-block;
   text-align: right;
   width: 100px;
+  font-weight: bold;
+  color: rgba(11, 55, 84, 0.609);
 }
 textarea{
   vertical-align: middle;
@@ -264,23 +317,31 @@ body{
 .save {
   text-align: center;
 }
-#allInfo{
+#accTable{
   display: none;
+  width: 30%;
+}
+.center{
+  margin-left:auto;
+  margin-right:auto;
+}
+th, td {
+  padding: 8px;
 }
 #editBtn{
   background: rgba(231, 207, 27, 0.904);
   color: black;
   cursor: pointer;
   text-align: center;
-  padding: 7px 14px;
-  border: none;
+  padding: 5px 14px;
+  border-color: rgba(231, 207, 27, 0.904);
 }
 #savebutton{
   background: rgba(231, 207, 27, 0.904);
   color: black;
   cursor: pointer;
   text-align: center;
-  padding: 7px 14px;
-  border: none;
+  padding: 5px 14px;
+  border-color: rgba(231, 207, 27, 0.904);
 }
 </style>

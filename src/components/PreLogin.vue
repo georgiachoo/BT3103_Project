@@ -1,4 +1,5 @@
 <template>
+<body>
 <h1>SG Volunteer Platform</h1>
     <router-link :to="{ name: 'VolunteerLogin' }">
         <button>
@@ -12,6 +13,7 @@
             Organisation<br>Log-in
         </button>
     </router-link>
+</body>
 </template>
 
 <script>
@@ -20,7 +22,8 @@ export default {
   data() {
     return {
       org: require('../assets/organisation.png'),
-      vol: require('../assets/volunteer.png')
+      vol: require('../assets/volunteer.png'),
+      bg: require('../assets/background.jpeg')
     }
   },
 };
@@ -45,5 +48,13 @@ button:hover {
 img {
     height: 100px;
     padding: 15px;
+}
+
+body {
+  height: 100%;
+  background-image: url('../assets/background.jpeg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
 }
 </style>
