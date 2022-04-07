@@ -49,6 +49,12 @@ export default {
           var bu = document.createElement("button");
           bu.className = "viewBtn"
           bu.innerHTML = "View"
+          bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
+          bu.style.cursor = "pointer"
+          bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
+          bu.style.textAlign = "center"
+          bu.style.padding = "5px 14px"
+         
           bu.onclick = function() {
             router.push({name: 'UserMyEvents'});
             thisInstance.updatefs(email, change.doc.data().Event_Name);
@@ -68,12 +74,18 @@ export default {
           var row = table.insertRow(ind);
           var cell1 = row.insertCell(0); 
           var cell2 = row.insertCell(1);
-          cell1.innerHTML = "Leave feedback for " + doc.data().Event_Name;
+          cell1.innerHTML = "Leave feedback for " + doc.data().Event_Name
           ind += 1;
 
           var bu = document.createElement("button");
-          bu.className = "viewBtn";
-          bu.innerHTML = "View";
+          bu.className = "viewBtn"
+          bu.innerHTML = "View"
+          bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
+          bu.style.cursor = "pointer"
+          bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
+          bu.style.textAlign = "center"
+          bu.style.padding = "5px 14px"
+
           bu.onclick = function() {
             router.push({name: 'UserMyEvents'});
           }
@@ -122,11 +134,4 @@ th{
   background-color: rgba(20, 95, 145, 0.609);;
 }
 
-.viewBtn{
-  color: rgba(231, 207, 27, 0.904);
-  cursor: pointer;
-  text-align: center;
-  padding: 7px 14px;
-  border: none;
-}
 </style>
