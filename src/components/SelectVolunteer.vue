@@ -66,7 +66,8 @@ import firebaseApp from '../firebase.js';
 import { collection, getFirestore,doc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth"; 
 import { getDocs, getDoc, updateDoc, deleteDoc, setDoc } from "firebase/firestore"; //collection, getDoc, Timestamp, orderBy 
-// import router from '@/router';
+import router from '@/router';
+
 const db = getFirestore(firebaseApp);
 
             
@@ -292,7 +293,7 @@ export default {
                 var intro = y.Introduction;
                 var email = docs.id;
                 if(!this.oldCustomers.includes(email)) {
-                    this.otherUsersRow(name,intro,ind);
+                    this.otherUsersRow(name,intro,ind,email);
                     ind += 1;
                 }
                
@@ -308,7 +309,7 @@ export default {
              this.openModalOtherUsers();
          },
 
-         async otherUsersRow(name,intro,ind) {
+         async otherUsersRow(name,intro,ind,email) {
             //var thisInstance = this; 
             var table = document.getElementById("otherUsersTable");
             var row = table.insertRow(ind);
@@ -332,6 +333,11 @@ export default {
             //bu.id = String(eName);
             bu.innerHTML = "Message";
             bu.onclick = function() {
+
+                console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!1")
+                let userEmail = email;
+                console.log(userEmail)
+                router.push({name:"OrgMessages", params:{otherID: userEmail}});
 
                 //thisInstance.displayModal(age,certifi,email,exper,gender,interests,intro,name,skills);
             }

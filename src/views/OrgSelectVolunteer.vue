@@ -1,5 +1,5 @@
 <template>
-<h1>Organisation Select Volunteer</h1>
+<h1>Select Volunteers</h1>
 <SelectVolunteer/>
 <Logout/>
 <OrgSelect/>
