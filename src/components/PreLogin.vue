@@ -1,18 +1,31 @@
 <template>
 <body>
-<h1>SG Volunteer Platform</h1>
+<h1>Easy Volunteer</h1>
+<h4>Welcome to the one-stop platform for all your volunteering opportunities! </h4>
     <router-link :to="{ name: 'VolunteerLogin' }">
         <button>
-            <img :src="vol"><br>
+            <img :src="vol" id="logo"><br>
             Volunteer<br>Log-in
         </button>
     </router-link>
     <router-link :to="{ name: 'OrganisationLogin' }">
         <button>
-            <img :src="org"><br>
+            <img :src="org" id="logo"><br>
             Organisation<br>Log-in
         </button>
     </router-link>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 </body>
 </template>
 
@@ -45,16 +58,24 @@ button:hover {
   background-color: #da8a8a;
 }
 
-img {
+#logo {
     height: 100px;
     padding: 15px;
 }
 
 body {
   height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  min-height: 100%; 
   background-image: url('../assets/background.jpeg');
   background-repeat: no-repeat;
   background-attachment: fixed;  
   background-size: cover;
+}
+
+h1, h4 {
+  color: aliceblue;
 }
 </style>

@@ -2,6 +2,18 @@
     <body>
     <h1>Volunteer Login</h1>
     <div id= "firebaseui-auth-container"></div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     </body>
 </template>
 
@@ -28,7 +40,7 @@ export default ({
         }
 
         var uiConfig = {
-        signInSuccessUrl: '/UserAccount',
+        signInSuccessUrl: '/UserOpportunities',
         signInOptions: [
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
             firebase.auth.EmailAuthProvider.PROVIDER_ID,
@@ -63,6 +75,10 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;  
   background-size: cover;
+}
+
+h1 {
+  color: aliceblue;
 }
 
 </style>

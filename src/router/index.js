@@ -12,7 +12,8 @@ import OrgPostEvent from "@/views/OrgPostEvent.vue";
 import OrgManageEvents from "@/views/OrgManageEvents.vue";
 import OrgOpportunities from "@/views/OrgOpportunities.vue";
 import OrgSelectVolunteer from "@/views/OrgSelectVolunteer.vue";
-import Messages from "@/components/Messages.vue";
+import MessagesForUsers from "@/components/MessagesForUsers.vue";
+import MessagesForOrganisations from "@/components/MessagesForOrganisations.vue";
 import UserNotification from "@/views/UserNotification.vue";
 import UserMessages from '@/views/UserMessages.vue'
 import OrgMessages from '@/views/OrgMessages.vue'
@@ -83,9 +84,14 @@ const routes = [
     component: OrgSelectVolunteer
 },
   {
-    path: "/Messages",
-    name: "Messages",
-    component: Messages,
+    path: "/MessagesForUsers",
+    name: "MessagesForUsers",
+    component: MessagesForUsers,
+  },
+  {
+    path: "/MessagesForOrgansiations",
+    name: "MessagesForOrganisations",
+    component: MessagesForOrganisations,
   },
   {
     path: "/UserNotification",
