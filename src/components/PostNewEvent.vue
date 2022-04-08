@@ -65,7 +65,7 @@
                     <input type="date" id="deadline" required="" placeholder="Enter deadline" /> <br><br>
 
                     <div class = "save">
-                        <button id="savebutton" type="button" v-on:click="savetofs()">POST</button>
+                        <button id="savebutton" type="button" style="background-color:rgba(231, 207, 27, 0.904); border-color:rgba(231, 207, 27, 0.904); text-align:center; padding:5px 14px" v-on:click="savetofs()">POST</button>
                     </div>
                 </div>
             </form>
@@ -146,5 +146,13 @@ input:hover {
 
 .save{
     text-align:center;
+}
+
+.savebutton{
+    background-color: rgb(231, 207, 27);
+    cursor: pointer;
+    border-color: rgb(231, 207, 27);
+    text-align: center;
+    padding: 5px 14px;
 }
 </style>

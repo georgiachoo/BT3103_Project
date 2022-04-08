@@ -71,6 +71,11 @@ export default {
                 bu.className = "bwt"
                 bu.id = String(event)
                 bu.innerHTML = "Close event"
+                bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
+                bu.style.cursor = "pointer"
+                bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
+                bu.style.textAlign = "center"
+                bu.style.padding = "5px 14px"
                 bu.onclick = function() {
                     deleteinstrument2(event, user)
                 }
@@ -81,16 +86,18 @@ export default {
         // Delete instruments
         async function deleteinstrument2(event) {
             var x = event
-            alert("You are going to close registration for " + x)
+            alert("You are going to close the event: " + x)
             //await deleteDoc(doc(db, String(user), x))
             const docRef = await getDoc(db, "Organisations", auth.currentUser.email, "Posted Events", x)
             await deleteDoc(doc(db, "Organisations", auth.currentUser.email, "Posted Events", x))
-            console.log("Registration closed", x);
+
+            console.log("Event closed");
 
             const acceptedArr = docRef.data().Accepted_volunteers
             for (var i = 0; i < acceptedArr.length; i++) {
                 await setDoc(db, "User", acceptedArr[i], "Completed Events", docRef)
             }
+
 
             let tb = document.getElementById("table")
             while (tb.rows.length > 1) {
