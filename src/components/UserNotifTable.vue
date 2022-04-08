@@ -132,7 +132,7 @@ th,td {
 }
 
 th{
-  background-color: rgba(20, 95, 145, 0.609);;
+  background-color: rgba(20, 95, 145, 0.609);
 }
 
 </style>
