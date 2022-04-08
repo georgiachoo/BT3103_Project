@@ -4,7 +4,7 @@
   <div :style="{ 'margin-left': sidebarWidth }">
     <router-view />
   </div>
-  <h3> My Messages </h3>
+  <h1> Messages </h1>
   <MessagesForUsers/>
   <Logout/>
 </template>

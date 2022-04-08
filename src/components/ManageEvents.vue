@@ -88,16 +88,27 @@ export default {
             var x = event
             alert("You are going to close the event: " + x)
             //await deleteDoc(doc(db, String(user), x))
-            const docRef = await getDoc(db, "Organisations", auth.currentUser.email, "Posted Events", x)
-            await deleteDoc(doc(db, "Organisations", auth.currentUser.email, "Posted Events", x))
-
+            const docRef = await getDoc(doc(db, "Organisations", auth.currentUser.email, "Posted Events", x))
             console.log("Event closed");
 
             const acceptedArr = docRef.data().Accepted_volunteers
             for (var i = 0; i < acceptedArr.length; i++) {
-                await setDoc(db, "User", acceptedArr[i], "Completed Events", docRef)
+                await setDoc(doc(db, "Users", acceptedArr[i], "Completed Events", x), {
+                  "Category": docRef.data().Category,
+                  "Date": docRef.data().Date,
+                  "Deadline_of_sign_up": docRef.data().Deadline_of_sign_up,
+                  "Description": docRef.data().Description,
+                  "Event_Name": x,
+                  "Location": docRef.data().Location,
+                  "Number_of_volunteers_needed": docRef.data().Number_of_volunteers_needed,
+                  "Organisation_Name": docRef.data().Organisation_Name,
+                  "Org_Email": auth.currentUser.email,
+                  "Required_skills": docRef.data().Required_skills,
+                  "Feedback_Completed": false
+                })
             }
 
+            await deleteDoc(doc(db, "Organisations", auth.currentUser.email, "Posted Events", x))
 
             let tb = document.getElementById("table")
             while (tb.rows.length > 1) {
