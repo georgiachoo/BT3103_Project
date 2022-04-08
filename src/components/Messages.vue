@@ -43,17 +43,15 @@ const db = getFirestore(firebaseApp);
           var email = this.email
           const userRef = await getDoc(doc(db, "Users", this.email))
           const userData = userRef.data();
-          console.log(userData)
-
 
           var otherid = this.$route.params.otherID;
+
           if (otherid == null) {
               otherid = ''
           }
 
           var otherData = undefined
           if (otherid != '') {
-
             const otherRef = await getDoc(doc(db, "Users", otherid))
             otherData = otherRef.data()
           } 
@@ -67,19 +65,15 @@ const db = getFirestore(firebaseApp);
           var mypic = "https://thumbs.dreamstime.com/b/man-profile-cartoon-smiling-round-icon-vector-illustration-graphic-design-135443422.jpg"
 
           if (userData != undefined) {
-            myname = userData['Name']
-            mypic = userData['profilePic']
+            myname = userData['Name'] != undefined ? userData['Name'] : this.email
+            mypic = userData['profilePic'] != undefined ? userData['profilePic'] : mypic
             
           } 
 
           if (otherData != undefined) {
-            othername = otherData['Name']
-            otherpic = otherData['profilePic']
-
+            othername = otherData['Name'] != undefined ? otherData['Name'] : otherid
+            otherpic = otherData['profilePic'] != undefined ? otherData['profilePic'] : otherpic
           }
-  
-          
-
 
           Talk.ready.then(function() {
 
