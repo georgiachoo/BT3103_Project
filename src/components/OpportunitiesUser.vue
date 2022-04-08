@@ -90,6 +90,8 @@
             <button id = "registerBtn" v-on:click = "register()">Register</button>
 
             <button id = "messageOrg" v-on:click = "message()">Message Organisation</button>
+
+            <button id = "viewOrg" v-on:click = "viewOrgProfile()">View Organisation profile</button>
         
         </div>
 
@@ -408,6 +410,11 @@ export default {
         message() {
             let orgEmail = this.eventOrg;
             this.$router.push({name:"UserMessages", params:{otherID: orgEmail}});
+        },
+
+        viewOrgProfile() {
+            let orgEmail = this.eventOrg;
+            this.$router.push('/UserOpportunities/OrganisationProfile/' + orgEmail);
         }
     }
 }

@@ -17,6 +17,7 @@ import UserNotification from "@/views/UserNotification.vue";
 import UserMessages from '@/views/UserMessages.vue'
 import OrgMessages from '@/views/OrgMessages.vue'
 import FeedbackForm from '@/components/FeedbackForm.vue'
+import OrganisationProfile from '@/components/OrganisationProfile'
 
 
 const routes = [
@@ -106,6 +107,11 @@ const routes = [
   { 
     path: '/UserMyEvents/FeedbackForms/:orgID/Events/:eventName', 
     component: FeedbackForm
+   },
+
+   { 
+    path: '/UserOpportunities/OrganisationProfile/:orgID', 
+    component: OrganisationProfile
    },
   
 ];
