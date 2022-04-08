@@ -51,8 +51,13 @@ const db = getFirestore(firebaseApp);
               otherid = ''
           }
 
-          const otherRef = await getDoc(doc(db, "Users", otherid))
-          const otherData = otherRef.data()
+          var otherData = undefined
+          if (otherid != '') {
+
+            const otherRef = await getDoc(doc(db, "Users", otherid))
+            otherData = otherRef.data()
+          } 
+
           console.log(otherData)
 
 
