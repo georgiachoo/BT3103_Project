@@ -11,6 +11,8 @@
                     <label for="buy1">Date: </label>
                     <input type="date" id="date" required="" placeholder="Date" /> <br><br>
 
+
+
                     <!-- <label for="quant1">Location: </label> -->
                     <!-- <input type="number" id="loc" required="" placeholder="Location" /> <br><br> -->
                     <div id = "loc field">
@@ -57,6 +59,7 @@
                     <br>
 
                     <label for="quant1">Number of volunteered needed: </label>
+
                     <input type="number" id="numVol" required="" placeholder="Enter number" /> <br><br>
                     <label for="quant1">Deadline of Sign Up: </label>
                     <input type="date" id="deadline" required="" placeholder="Enter deadline" /> <br><br>

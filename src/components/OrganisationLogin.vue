@@ -1,7 +1,8 @@
 <template>
+    <body>
     <h1>Organisation Login</h1>
     <div id= "firebaseui-auth-container"></div>
-
+    </body>
 </template>
 
 <script>
@@ -12,6 +13,12 @@ import 'firebaseui/dist/firebaseui.css'
 
 export default ({
     name:'OrganisationLogin',
+
+    data() {
+        return {
+            bg: require('../assets/background.jpeg')
+        }
+    },
     
     mounted() {
         var ui = firebaseui.auth.AuthUI.getInstance();
@@ -51,6 +58,14 @@ export default ({
     border-color: transparent;
     background-color: #dfb7b7;
     box-shadow: 0 5px 15px rgb(0 0 0 / 0.2);
+}
+
+body {
+  height: 100%;
+  background-image: url('../assets/background.jpeg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
 }
 
 </style>
