@@ -4,21 +4,21 @@
     <router-view />
   </div>
   <h3> My Messages </h3>
-  <Messages/>
+  <MessagesForOrganisations/>
 </template>
 
 <script>
 //import UserNavBar from '@/components/UserNavBar.vue'
 import OrgSidebar from '@/components/sidebar/OrgSidebar'
 import { sidebarWidth } from '@/components/sidebar/state.js'
-import Messages from '@/components/Messages.vue'
+import MessagesForOrganisations from '@/components/MessagesForOrganisations.vue'
 
 export default {
   name: 'OrgMessages',
 
   components: {
       OrgSidebar,
-      Messages
+      MessagesForOrganisations
   },
 
   setup() {

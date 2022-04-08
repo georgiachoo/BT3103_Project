@@ -1,15 +1,15 @@
 <template>
 <body>
-<h1>SG Volunteer Platform</h1>
+<h1>Easy Volunteer</h1>
     <router-link :to="{ name: 'VolunteerLogin' }">
         <button>
-            <img :src="vol"><br>
+            <img :src="vol" id="logo"><br>
             Volunteer<br>Log-in
         </button>
     </router-link>
     <router-link :to="{ name: 'OrganisationLogin' }">
         <button>
-            <img :src="org"><br>
+            <img :src="org" id="logo"><br>
             Organisation<br>Log-in
         </button>
     </router-link>
@@ -45,13 +45,17 @@ button:hover {
   background-color: #da8a8a;
 }
 
-img {
+#logo {
     height: 100px;
     padding: 15px;
 }
 
 body {
   height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  min-height: 100%; 
   background-image: url('../assets/background.jpeg');
   background-repeat: no-repeat;
   background-attachment: fixed;  

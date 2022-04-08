@@ -52,7 +52,7 @@ const db = getFirestore(firebaseApp);
 
           var otherData = undefined
           if (otherid != '') {
-            const otherRef = await getDoc(doc(db, "Users", otherid))
+            const otherRef = await getDoc(doc(db, "Organisations", otherid))
             otherData = otherRef.data()
           } 
 
@@ -74,6 +74,9 @@ const db = getFirestore(firebaseApp);
             othername = otherData['Name'] != undefined ? otherData['Name'] : otherid
             otherpic = otherData['profilePic'] != undefined ? otherData['profilePic'] : otherpic
           }
+
+          console.log("!!!")
+          console.log(othername)
 
           Talk.ready.then(function() {
 

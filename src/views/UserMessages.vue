@@ -5,7 +5,7 @@
     <router-view />
   </div>
   <h3> My Messages </h3>
-  <Messages/>
+  <MessagesForUsers/>
   <Logout/>
 </template>
 
@@ -13,7 +13,7 @@
 //import UserNavBar from '@/components/UserNavBar.vue'
 import Sidebar from '@/components/sidebar/Sidebar'
 import { sidebarWidth } from '@/components/sidebar/state.js'
-import Messages from '@/components/Messages.vue'
+import MessagesForUsers from '@/components/MessagesForUsers.vue'
 import Logout from '@/components/Logout.vue'
 
 export default {
@@ -21,7 +21,7 @@ export default {
 
   components: {
       Sidebar,
-      Messages,
+      MessagesForUsers,
       Logout
   },
 
