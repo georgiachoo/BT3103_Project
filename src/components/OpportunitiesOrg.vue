@@ -207,6 +207,11 @@
                  var bu = document.createElement("button");
                  bu.className = "bwt";
                  bu.id = String(eName);
+                bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
+                bu.style.cursor = "pointer"
+                bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
+                bu.style.textAlign = "center"
+                bu.style.padding = "5px 14px"
 
                  bu.innerHTML = "View";
                  bu.onclick = function() {
