@@ -2,6 +2,18 @@
     <body>
     <h1>Volunteer Login</h1>
     <div id= "firebaseui-auth-container"></div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
     </body>
 </template>
 
@@ -63,6 +75,10 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;  
   background-size: cover;
+}
+
+h1 {
+  color: aliceblue;
 }
 
 </style>

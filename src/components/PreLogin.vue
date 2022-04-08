@@ -1,6 +1,7 @@
 <template>
 <body>
 <h1>Easy Volunteer</h1>
+<h4>Welcome to the one-stop platform for all your volunteering opportunities! </h4>
     <router-link :to="{ name: 'VolunteerLogin' }">
         <button>
             <img :src="vol" id="logo"><br>
@@ -13,6 +14,18 @@
             Organisation<br>Log-in
         </button>
     </router-link>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 </body>
 </template>
 
@@ -60,5 +73,9 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;  
   background-size: cover;
+}
+
+h1, h4 {
+  color: aliceblue;
 }
 </style>

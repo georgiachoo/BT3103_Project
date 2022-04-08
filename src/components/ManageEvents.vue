@@ -16,7 +16,7 @@
 <script>
 import firebaseApp from '../firebase.js';
 import { collection, query, where, getFirestore } from "firebase/firestore";
-import { getDocs, doc, deleteDoc } from "firebase/firestore";
+import { getDocs, doc, deleteDoc, getDoc, setDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import OrgSidebar from '@/components/sidebar/OrgSidebar.vue';
 
@@ -83,8 +83,15 @@ export default {
             var x = event
             alert("You are going to close registration for " + x)
             //await deleteDoc(doc(db, String(user), x))
+            const docRef = await getDoc(db, "Organisations", auth.currentUser.email, "Posted Events", x)
             await deleteDoc(doc(db, "Organisations", auth.currentUser.email, "Posted Events", x))
             console.log("Registration closed", x);
+
+            const acceptedArr = docRef.data().Accepted_volunteers
+            for (var i = 0; i < acceptedArr.length; i++) {
+                await setDoc(db, "User", acceptedArr[i], "Completed Events", docRef)
+            }
+
             let tb = document.getElementById("table")
             while (tb.rows.length > 1) {
                 tb.deleteRow(1)
