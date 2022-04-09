@@ -18,7 +18,7 @@
   
 
     <div id = "search_btn">
-            <button v-on:click = "displayModalOtherUsers()" style = "margin: 45px 10px 25px;">View Other users</button>
+            <button id="usersBtn" v-on:click = "displayModalOtherUsers()" style = "margin: 45px 10px 25px;">View Other users</button>
     </div>
 
     <div id = "eventModal" class = "modal">
@@ -127,6 +127,7 @@ export default {
             // display in table and append button
             return this.displayTable(allEvents);
         },
+
         async getUserNameByEmailAndDisplayEachRow(email,ind,eventName) {
             var thisInstance = this; 
             var nameRef = await getDoc(doc(db,"Users",email));
@@ -148,6 +149,11 @@ export default {
             var bu = document.createElement("button");
             bu.className = "bwt";
             bu.innerHTML = "View Profile";
+            bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
+            bu.style.cursor = "pointer"
+            bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
+            bu.style.textAlign = "center"
+            bu.style.padding = "5px 14px"
             bu.onclick = function() {
                 thisInstance.displayModal(age,certifi,email,exper,gender,interests,intro,name,skills);
             }
@@ -156,6 +162,11 @@ export default {
             var bu2 = document.createElement("button");
             bu2.className = "bwt";
             bu2.innerHTML = "Accept";
+            bu2.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
+            bu2.style.cursor = "pointer"
+            bu2.style.borderColor = "rgba(231, 207, 27, 0.904)"
+            bu2.style.textAlign = "center"
+            bu2.style.padding = "5px 14px"
             bu2.onclick = function() {
                 thisInstance.addToAcceptedArray(email,eventName)
                 alert("Accepted " + name + " for " + eventName)
@@ -240,6 +251,7 @@ export default {
             this.skills = skills;
             this.email = email;
          },
+
          displayModal(age,certifi,email,exper,gender,interests,intro,name,skills) {
              // get event info as arguments from displayTable (or query)
 
@@ -250,12 +262,13 @@ export default {
              // make modal visible
              this.openModal();
          },
-         async displayModalOtherUsers() {
-             // get event info as arguments from displayTable (or query)
 
-             // update mustache values
-             const allUsers = await getDocs(collection(db,"Users"));
-             var table = document.getElementById("otherUsersTable");
+         async displayModalOtherUsers() {
+            // get event info as arguments from displayTable (or query)
+
+            // update mustache values
+            const allUsers = await getDocs(collection(db,"Users"));
+            var table = document.getElementById("otherUsersTable");
             while (table.rows.length > 0) {
                 table.deleteRow(0);
             }
@@ -298,6 +311,11 @@ export default {
             var bu = document.createElement("button");
             bu.className = "bwt";
             bu.innerHTML = "Message";
+            bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
+            bu.style.cursor = "pointer"
+            bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
+            bu.style.textAlign = "center"
+            bu.style.padding = "5px 14px"
             bu.onclick = function() {
                 let userEmail = email;
                 console.log(userEmail)
@@ -374,7 +392,7 @@ export default {
     }
 
     th{
-        background-color: rgba(20, 95, 145, 0.609);;
+        background-color: rgba(20, 95, 145, 0.609);
     }
 
     .bwt{
@@ -446,6 +464,12 @@ export default {
         color: #000;
         text-decoration: none;
         cursor: pointer;
+    }
+    #usersBtn {
+        background-color: rgba(20, 95, 145, 0.609);
+        cursor: pointer;
+        text-align: center;
+        padding: 5px 14px;
     }
 
 </style>

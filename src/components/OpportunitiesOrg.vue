@@ -45,7 +45,7 @@
 
 
          <div id = "search_btn">
-             <button v-on:click = "searchQuery()" style = "margin: 45px 10px 25px;">Search</button>
+             <button id="searchBtn" v-on:click = "searchQuery()" style = "margin: 45px 10px 25px;">Search</button>
          </div>
 
 
@@ -411,6 +411,14 @@
          color: #000;
          text-decoration: none;
          cursor: pointer;
+     }
+
+     #searchBtn{
+        background-color: rgba(231, 207, 27, 0.904);
+        cursor: pointer;
+        border-color: rgba(231, 207, 27, 0.904);
+        text-align: center;
+        padding: 5px 14px;
      }
 
 </style> 
