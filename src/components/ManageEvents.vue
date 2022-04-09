@@ -1,4 +1,5 @@
 <template>
+    <p align= "right"><a href="#" class="previous" onclick="history.back()">&laquo;</a> </p>
     <OrgSidebar/>
     <h1 id="Current">Manage Posted Event</h1>
         <table id="table" class="auto-index" align="right">
@@ -40,11 +41,6 @@ export default {
 
         async function display(user) {
             const email = auth.currentUser.email
-            //let z = await getDocs(collection(db, "Organisation"))
-            //String(user)
-            //let z = await db.collection("Portfolio").get() // get the whole collection of documents. await because firebse API is promise based
-            //const z = query(collectionGroup(db, "Posted Events").where("Event_Name", "array-contains", "test event")).get();
-            //yanyushan368@gmail.com
             const q = query(collection(db, "Organisations", email, "Posted Events"), where("Org_Email", "==", email));
             const events = await getDocs(q);
             let ind = 1
@@ -55,9 +51,9 @@ export default {
                 var row = table.insertRow(ind) // access the table
 
                 var event = (yy.Event_Name) // get values from the document
-                var date = ((yy.Date).toDate()).toDateString()//(yy.Date)
+                var date = ((yy.Date).toDate()).toDateString()
                 var loc = (yy.Location)
-                var deadline = ((yy.Deadline_of_sign_up).toDate()).toDateString()//(yy.Deadline_of_sign_up)
+                var deadline = ((yy.Deadline_of_sign_up).toDate()).toDateString()
 
                 // create cells for the row
                 var cell1 = row.insertCell(0); var cell2 = row.insertCell(1); var cell3 = row.insertCell(2);
@@ -87,7 +83,6 @@ export default {
         async function deleteinstrument2(event) {
             var x = event
             alert("You are going to close the event: " + x)
-            //await deleteDoc(doc(db, String(user), x))
             const docRef = await getDoc(doc(db, "Organisations", auth.currentUser.email, "Posted Events", x))
             console.log("Event closed");
 
@@ -114,7 +109,7 @@ export default {
             while (tb.rows.length > 1) {
                 tb.deleteRow(1)
             }
-            //document.getElementById("totalProfit").innerHTML=""
+
             display()
         }
     }
@@ -142,12 +137,24 @@ th, td {
 }
 
 .bwt {
-  /*color: rgb(243, 236, 236);
-  background-color: rgb(255, 94, 0);*/
   background-color: rgba(231, 207, 27, 0.904);
   color: black;
   cursor: pointer;
   text-align: center;
-  padding: 20px /*7px 14px 7px 7px*/;
+  padding: 20px;
+}
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+a {
+  
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+}
+a:hover {
+  background-color: rgb(234, 220, 86);
+  color: black;
 }
 </style>
