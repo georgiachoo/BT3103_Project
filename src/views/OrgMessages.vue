@@ -5,19 +5,22 @@
   </div>
   <h3> My Messages </h3>
   <MessagesForOrganisations/>
+  <Logout/>
 </template>
 
 <script>
 import OrgSidebar from '@/components/sidebar/OrgSidebar'
 import { sidebarWidth } from '@/components/sidebar/state.js'
 import MessagesForOrganisations from '@/components/MessagesForOrganisations.vue'
+import Logout from '@/components/Logout.vue'
 
 export default {
   name: 'OrgMessages',
 
   components: {
       OrgSidebar,
-      MessagesForOrganisations
+      MessagesForOrganisations,
+      Logout
   },
 
   setup() {
