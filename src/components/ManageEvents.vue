@@ -97,7 +97,8 @@ export default {
                   "Organisation_Name": docRef.data().Organisation_Name,
                   "Org_Email": auth.currentUser.email,
                   "Required_skills": docRef.data().Required_skills,
-                  "Feedback_Completed": false
+                  "Feedback_Completed": false,
+                  "New": true
                 })
             }
 

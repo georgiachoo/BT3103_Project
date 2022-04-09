@@ -35,6 +35,11 @@ export default {
       console.log(docRef);
     },
 
+    async updateNew(userEmail, eventName) {
+      const docRef = await updateDoc(doc(db, "Users", userEmail, "Registered Events", eventName), {"New": false});
+      console.log(docRef);
+    },
+
     getRegistered(table, email, ind) {
       var thisInstance = this; 
       const q = query(collection(db, "Users", email, "Registered Events"), where("Newly_Registered", "==", true));
@@ -58,9 +63,9 @@ export default {
          
           bu.onclick = function() {
             router.push({name: 'UserMyEvents'});
-            thisInstance.updatefs(email, change.doc.data().Event_Name);
           }
           cell2.appendChild(bu);
+          thisInstance.updatefs(email, change.doc.data().Event_Name);
 
           console.log(result);
           console.log("Retrieved registered events");
@@ -69,7 +74,8 @@ export default {
     },
 
     getCompleted(table, email, ind) {
-      const q1 = query(collection(db, "Users", email, "Completed Events"), where("Feedback_Completed", "==", false));
+      var thisInstance = this; 
+      const q1 = query(collection(db, "Users", email, "Completed Events"), where("Feedback_Completed", "==", false), where("New", "==", true));
       const result1 = onSnapshot(q1, (snapshot) => {
         snapshot.forEach((doc) => {
           var row = table.insertRow(ind);
@@ -91,6 +97,7 @@ export default {
             router.push({name: 'UserMyEvents'});
           }
           cell2.appendChild(bu);
+          thisInstance.updateNew(email, doc.data().Event_Name);
         });
         console.log(result1);
         console.log("Retrieved completed events");
