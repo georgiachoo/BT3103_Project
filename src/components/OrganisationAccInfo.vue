@@ -19,22 +19,65 @@
     <div class="left"> 
         <h4>Rate:</h4>  </div>
     <div class="right"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <div v-if= star1>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+      </div>
 
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span></div>
+      <div v-else-if= star2>
+       <span class="fa fa-star checked"></span>
+       <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+      </div>
+
+      <div v-else-if= star3>
+        <span class="fa fa-star checked"></span>
+         <span class="fa fa-star checked"></span>
+         <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+       
+      </div>
+
+      <div v-else-if= star4>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+      </div>
+
+      <div v-else-if= star5>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+       
+      </div>
+
+      <div v-else><span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+      </div>
+
+      
+   
+     </div>
 
     <table>
         <tr>
         <th>Comments from past volunteers:</th>
         <td>
             <div>
-                <table class ="noBorderTb" >
-                    <tr ><td id = "comment_td">one</td></tr>
-                    <tr><td id = "comment_td">two</td></tr>
-                    <tr><td id = "comment_td">three</td></tr>
+                <table class ="noBorderTb" id = "table">
 
                 </table>
             </div>
@@ -47,7 +90,9 @@
 <div v-if = !newUser>
 <button id = "savebutton" type="button" v-on:click="editProfile()"> Edit Profile </button><br>
 </div>
+
 <div v-if = newUser>
+
         <img id="profilePic">
         <br>
     <input type="file" id="input" accept="image/*">
@@ -68,7 +113,7 @@
 import firebaseApp from '../firebase.js';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getStorage, ref } from "firebase/storage";
-import { doc, getDoc,getFirestore,setDoc} from 'firebase/firestore';
+import { doc, getDoc,getFirestore,setDoc,getDocs,collection} from 'firebase/firestore';
 const db = getFirestore(firebaseApp);
 //const auth = getAuth();
 //const email = auth.currentUser.email;
@@ -78,41 +123,19 @@ export default {
     name: 'OrganisationAccInfo',
     data() {
     return {
-      newUser : true,
+      newUser :false,
       org: require('../assets/organisation.png'),
       name : "",
       intro : "",
+      star1: false,
+      star2: false,
+      star3: false,
+      star4: false,
+      star5: false,
       
     }
   },
-  /*created() {
-      const auth = getAuth();
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          this.user = user;
-          
-          
-          }
 
-
-        }
-      );
-      //alert(auth.currentUser.email)
-      
-      getDoc(doc(db, "Organisations", String(auth.currentUser.email))).then(docSnap => {
-         // alert("wuwuw")
-          //alert(docSnap.data().Name)
-  if (docSnap.exists()) {
-      this.newUser  = false
-      this.name = docSnap.data().Name
-      this.intro = docSnap.data().Introduction
-   // alert("Document data:");
-    
-  } else {
-   // alert("No such document!");
-  }
-})
-        },*/
   mounted() {
       const auth = getAuth();
       onAuthStateChanged(auth, (user) => {
@@ -124,32 +147,16 @@ export default {
 
 
         });
-      var input = document.querySelector('#input');
-      input.addEventListener('change', load);
-    
-      function load() {
-        alert("test")
-        var fileReader = new FileReader();
-        var fileObject = this.files[0];
-        fileReader.readAsDataURL(fileObject);
-        fileReader.onload = () => {
-          var result = fileReader.result;
-          var img = document.querySelector('#profilePic');
-          img.setAttribute('src', result); 
-        };
-        }
-
         getDoc(doc(db, "Organisations", String(auth.currentUser.email))).then(docSnap => {
-         // alert("wuwuw")
-          //alert(docSnap.data().Name)
-  if (docSnap.exists()) {
-      this.newUser  = false
-      this.name = docSnap.data().Name
-      this.intro = docSnap.data().Introduction
-   // alert("Document data:");
+  if (!docSnap.exists()) {
+      this.newUser  = true
+      
+ 
     
   } else {
-   // alert("No such document!");
+   this.name = docSnap.data().Name
+    this.intro = docSnap.data().Introduction
+    this.displayComments()
   }
 })
 },
@@ -166,9 +173,7 @@ methods: {
         var b = document.getElementById("intro").value 
         var j = document.getElementById("input")
        // var j = '../assets/game.png'
-        alert("dengzhe")
-        //alert(document.getElementById("input").value.);
-        alert(j);
+       
 
         //const accForm = document.getElementById("accForm");
         //accForm.style.display = "none";
@@ -177,7 +182,6 @@ methods: {
 
 // 'file' comes from the Blob or File API
         j.addEventListener('change', function(evt) {
-          alert("yes")
       let firstFile = evt.target.files[0] // upload the first file only
       storageRef.put(firstFile)
   })
@@ -206,7 +210,90 @@ methods: {
       },
       editProfile() {
           this.newUser = true
-      }
+      },
+      
+
+      async displayComments() {
+             // get all events posted by organisations
+             // const postedEvents = query(collectionGroup(db, 'Posted Events'), orderBy('Date'), orderBy('Category'), orderBy('Location'), orderBy('Required_skills'));
+    
+             const allForms = await getDocs(collection(db,"Organisations",this.user.email,"Feedback Form"));
+             // display in table and append button
+             return this.displayTable(allForms);
+         },
+
+         async displayTable(result) {
+             // clear table first
+             var table = document.getElementById("table");
+             while (table.rows.length > 0) {
+                 table.deleteRow(0);
+             }
+
+             var auth = getAuth();
+             var currUser = auth.currentUser.email;
+             this.user = currUser;
+             console.log(this.user)
+
+             let ind = 1;
+             var aveStars = 0;
+
+             result.forEach((docs) => {
+                 let y = docs.data();
+
+                 console.log(y)
+                 
+                 //var table = document.getElementById("table");
+                 var row = table.insertRow(ind - 1);
+
+                 var comment = (y.Comments);
+                
+
+
+                 // variables to be displayed when user clicks on view (to be passed to displayModal)
+                
+                 var stars = (y.Stars);
+                 aveStars = (aveStars*(ind - 1) + stars)/ind
+
+
+                 var cell1 = row.insertCell(0); 
+
+                 cell1.innerHTML = comment; 
+
+                 
+                 ind += 1;
+             });
+             if(aveStars < 0.5) {
+               this.star1 = false
+
+             } else if (aveStars < 1.5) {
+               this.star1 = true
+               
+             } else if (aveStars < 2.5) {
+               
+               this.star2 = true
+              
+             } else if (aveStars < 3.5) {
+               
+               
+               this.star3 = true
+              
+             } else if (aveStars < 4.5) {
+               
+               
+               this.star4 = true
+               
+
+             } else {
+               
+               this.star5 = true
+
+             }
+             console.log(aveStars)
+             return 
+         },
+         back() {
+           this.newUser  = false
+         }
 }
 }
       
@@ -216,6 +303,7 @@ methods: {
 </script>
 
 <style scoped>
+
  th{
   
   border: px solid;
@@ -313,5 +401,7 @@ table {
 #name{
     width: 300px;
 }
+
+
 
 </style>

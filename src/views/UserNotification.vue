@@ -3,7 +3,7 @@
   <div :style="{ 'margin-left': sidebarWidth }">
     <router-view />
   </div>
-  <h3> My Notifications </h3>
+  <h1> Notifications </h1>
   <UserNotifTable/>
   <Logout/>
 </template>

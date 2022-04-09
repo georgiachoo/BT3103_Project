@@ -132,8 +132,7 @@ export default {
           const docRef = await getDoc(currDoc);
 
           if (docRef.exists()) {
-            const accForm = document.getElementById("accForm");
-            accForm.style.display = "none";
+            document.getElementById("accForm").style.display = "none";
             document.getElementById('name').setAttribute('value', docRef.data().Name);
             document.getElementById('age').setAttribute('value', docRef.data().Age);
             document.getElementById('gender').setAttribute('value', docRef.data().Gender);
@@ -156,9 +155,9 @@ export default {
             const docdata = docRef.data();
             this.profilePic = docdata['profilePic'];
 
-            const infoTable = document.getElementById("accTable");
-            infoTable.style.display = "block";
+            document.getElementById("accTable").style.display = "block";
             document.getElementById("uploadBtn").style.display = "none";
+            document.getElementById("editBtn").style.display = "inline-block";
 
           } else {
             await setDoc(doc(db, "Users", this.email), {
@@ -219,8 +218,7 @@ export default {
           });
         }
 
-        const accForm = document.getElementById("accForm");
-        accForm.style.display = "none";
+        document.getElementById("accForm").style.display = "none";
 
         try {
           const docRef = await updateDoc(doc(db, "Users", this.email), 
@@ -246,22 +244,16 @@ export default {
         const docdata = docSnap.data();
         this.profilePic = docdata['profilePic'];
 
-        const infoTable = document.getElementById("accTable");
-        infoTable.style.display = "block";
+        document.getElementById("accTable").style.display = "block";
         document.getElementById("uploadBtn").style.display = "none";
-        const editBtn = document.getElementById("editBtn");
-        editBtn.style.display = "block";
+        document.getElementById("editBtn").style.display = "inline-block";
       },
 
       edit() {
-        const editContainer = document.getElementById("accForm");
-        editContainer.style.display = "block";
-        const infoTable = document.getElementById("accTable");
-        infoTable.style.display = "none";
-        const uploadBtn = document.getElementById("uploadBtn");
-        uploadBtn.style.display = "inline-block";
-        const editBtn = document.getElementById("editBtn");
-        editBtn.style.display = "none";
+        document.getElementById("accForm").style.display = "block";
+        document.getElementById("accTable").style.display = "none";
+        document.getElementById("uploadBtn").style.display = "inline-block";
+        document.getElementById("editBtn").style.display = "none";
       }
     }
 }
@@ -317,6 +309,9 @@ body{
 .save {
   text-align: center;
 }
+#accForm{
+  text-align: center;
+}
 #accTable{
   display: none;
   width: 30%;
@@ -327,6 +322,9 @@ body{
 }
 th, td {
   padding: 8px;
+}
+th{
+  color: rgba(11, 55, 84, 0.609);
 }
 #editBtn{
   background: rgba(231, 207, 27, 0.904);
