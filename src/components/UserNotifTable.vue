@@ -44,7 +44,7 @@ export default {
           var cell1 = row.insertCell(0); 
           var cell2 = row.insertCell(1);
           cell1.innerHTML = "Successfully registered for " + change.doc.data().Event_Name + 
-                            " with " + change.doc.data().Organisation
+                            " with " + change.doc.data().Organisation_Name
           ind += 1
 
           var bu = document.createElement("button");
