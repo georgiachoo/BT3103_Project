@@ -53,7 +53,7 @@
 
      <!-- code for display table -->
      <div id = "oppDisplay" style="overflow: scroll; height: 300px; width: 100%; overflow: auto">
-         <table id= "table" class = "auto-index" align="right">
+         <table id= "table" class = "auto-index">
          <tr>
          <th>Event Name</th>
          <th>Category</th>
@@ -365,10 +365,8 @@
      table {
          font-family: arial, sans-serif;
          border-collapse: collapse;
-         /* width: 100%; */
-         width: 80%;
-         margin-right: 30px;
-         /* padding: 30px; */
+         width: 88%;
+         margin: auto;
      }
 
      tr:nth-child(even) {
