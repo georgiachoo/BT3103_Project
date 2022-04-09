@@ -91,6 +91,13 @@ export default {
             this.user = auth.currentUser.email;
             const orgRef = doc(db, "Organisations",String(this.user));
             const docSnap = await getDoc(orgRef);
+
+            //altert if the new organiser have not key-in their name and intro
+            getDoc(doc(db, "Organisations", String(this.user))).then(docSnap => {
+                if (!docSnap.exists()) {
+                    alert("Please Complete Your Profile before Posting an Event!")
+                } 
+            })
             
             
             var a = document.getElementById("event").value
@@ -106,7 +113,7 @@ export default {
             var i = docSnap.data().Name
             var j = {} 
             var k = {}
-            
+           
 
 
             alert("Confirm to post Event: " + a + "?")
@@ -124,6 +131,7 @@ export default {
             catch(error){
                 console.error("Error adding document: ", error);
             }
+
             }
     }
 }
