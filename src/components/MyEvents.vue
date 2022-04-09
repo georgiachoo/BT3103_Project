@@ -1,8 +1,5 @@
 <template>
-
-
     <h4><span style="font-weight:normal">Select event type to view events</span></h4>
-    <!-- <h4>Select event type to view events</h4> -->
 
     <!-- Menu to select Ongoing or Completed events -->
     <div id = "eventSelect">
@@ -124,7 +121,6 @@ export default {
 
                 cell1.innerHTML = eName; cell2.innerHTML = eDescription; cell3.innerHTML = eDate; cell4.innerHTML = eLoc; cell5.innerHTML = eCat;
                 cell6.innerHTML = eSkills; 
-                // cell7.innerHTML = 0;
 
                 if (selectedEvent === "Completed Events") {
                     let status = (event.Feedback_completed);
@@ -214,10 +210,8 @@ export default {
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
-        /* width: 100%; */
         width: 88%;
         margin: auto;
-        /* padding: 30px; */
     }
 
     tr:nth-child(even) {
@@ -243,27 +237,9 @@ export default {
         border: none;
     }
 
-/* #myevents {
-    background-color: #da8a8a;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: solid #da8a8a;
-} */
-
-/* #eventSelect {
-    margin: 50px;
-    display: -webkit-flex;
-} */
-
-/* label {
-    display: block;
-} */
-
-
-input {
-    /* -webkit-flex: 1; */
-    text-align: center;
-}
+    input {
+        text-align: center;
+    }
 
 
 </style>

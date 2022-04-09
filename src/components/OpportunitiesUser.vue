@@ -62,7 +62,6 @@
 
     <!-- code for display table -->
     <div id = "oppDisplay" style="overflow: scroll; height: 300px; width: 100%; overflow: auto">
-    <!-- <div id = "oppDisplay"> -->
         <table id= "table" class = "auto-index">
         <tr>
         <th>Event Name</th>
@@ -108,11 +107,8 @@
 import firebaseApp from '../firebase.js';
 import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth"; 
-import { getDoc,getDocs, query, where, collectionGroup, doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore"; //collection, getDoc, Timestamp, orderBy 
-// import router from '@/router';
+import { getDoc,getDocs, query, where, collectionGroup, doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore"; 
 const db = getFirestore(firebaseApp);
-
-
 
 
 export default {
@@ -133,7 +129,6 @@ export default {
     },
 
     mounted() {
-
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -146,7 +141,6 @@ export default {
 
         // add event listerner to close button in modal
         document.getElementsByClassName('closeBtn')[0].addEventListener('click', this.closeModal);
-
     },
 
     methods: {
@@ -166,7 +160,6 @@ export default {
 
         async displayAll() {
             // get all events posted by organisations
-            // const postedEvents = query(collectionGroup(db, 'Posted Events'), orderBy('Event_Name'));
             const postedEvents = query(collectionGroup(db, 'Posted Events'));
             const allEvents = await getDocs(postedEvents);
 
@@ -239,14 +232,12 @@ export default {
         },
 
         displayModal(name, description, category, location, date, skills, dl, numV, orgEmail, eOrgName) {
-            // get event info as arguments from displayTable (or query)
-
             // update mustache values
             this.changeValue(name, description, category, location, date, skills, dl, numV, orgEmail, eOrgName);
 
             // check if user has registered for event (disable button if so)
             try {
-            this.checkRegistered();
+                this.checkRegistered();
             } catch(error) {
                 console.error("display modal error: ", error)
             }
@@ -267,7 +258,7 @@ export default {
             modal.style.display = 'none';
         },
 
-        async checkRegistered() { // works
+        async checkRegistered() { 
 
             console.log("checking")
 
@@ -289,23 +280,12 @@ export default {
             return;
         },
 
-        async register() { // works
+        async register() {
             console.log('registering');
 
             // USERS COLLECTION: add event to applied events collection (using mustache values)
             const userDocRef = doc(db, "Users", this.user, "Applied Events", this.eventName);
             try {
-                console.log(this.eventName);
-                console.log(this.eventDescription);
-                console.log(this.eventCategory);
-                console.log(this.eventLocation);
-                console.log(this.eventDate);
-                console.log(this.eventSkills);
-                console.log(this.eventDL);
-                console.log(this.eventNumV);
-                console.log(this.eventOrg);
-                console.log(this.eventOrgName);
-
                 await setDoc(userDocRef, {
                     Event_Name: this.eventName,
                     Description: this.eventDescription,
@@ -337,7 +317,6 @@ export default {
 
 
         async searchQuery() {
-
             // call getX functions to get selected values
             var s_cat = this.getCategory();
             var s_loc = this.getLocation();
@@ -458,10 +437,8 @@ export default {
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
-        /* width: 100%; */
         width: 88%;
         margin: auto;
-        /* padding: 30px; */
     }
 
     tr:nth-child(even) {
