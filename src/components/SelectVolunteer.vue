@@ -38,7 +38,7 @@
              <p> <strong>Interests:</strong> {{ interests }} </p>
              <p> <strong>Skills:</strong> {{ skills }} </p>
              <p> <strong>Introduction:</strong> {{ intro }} </p>
-             <button  style = "margin: 45px 10px 25px;">Message</button>
+             <button  style = "margin: 45px 10px 25px;" v-on:click="msg(email)">Message</button>
 
          </div>
 
@@ -121,6 +121,16 @@ export default {
     },
 
     methods: {
+
+        msg(email) {
+
+                let userEmail = email
+                console.log(userEmail)
+                router.push({name:"OrgMessages", params:{otherID: userEmail}});
+
+                //thisInstance.displayModal(age,certifi,email,exper,gender,interests,intro,name,skills);
+
+        },
 
 
         async displayAll() {
@@ -334,7 +344,6 @@ export default {
             bu.innerHTML = "Message";
             bu.onclick = function() {
 
-                console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!1")
                 let userEmail = email;
                 console.log(userEmail)
                 router.push({name:"OrgMessages", params:{otherID: userEmail}});
