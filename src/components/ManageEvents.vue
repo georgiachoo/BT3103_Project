@@ -98,7 +98,6 @@ export default {
                 await setDoc(db, "User", acceptedArr[i], "Completed Events", docRef)
             }
 
-
             let tb = document.getElementById("table")
             while (tb.rows.length > 1) {
                 tb.deleteRow(1)
