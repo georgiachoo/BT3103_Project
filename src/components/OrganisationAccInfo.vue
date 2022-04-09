@@ -219,11 +219,11 @@ export default {
             })
           });
         }
-        const displayImage = document.getElementById("displayImage");
-       const display = document.getElementById("display");
-       const editForm = document.getElementById("editForm");
+          const displayImage = document.getElementById("displayImage");
+          const display = document.getElementById("display");
+          const editForm = document.getElementById("editForm");
           displayImage.style.display = "block"
-         display.style.display = "block"
+          display.style.display = "block"
           editForm.style.display = "none"
           console.log(this.profilePic)
        
@@ -233,18 +233,18 @@ export default {
       editProfile() {
           //this.newUser = true
           const displayImage = document.getElementById("displayImage");
-       const display = document.getElementById("display");
-       const editForm = document.getElementById("editForm");
+          const display = document.getElementById("display");
+          const editForm = document.getElementById("editForm");
           displayImage.style.display = "none"
-         display.style.display = "none"
+          display.style.display = "none"
           editForm.style.display = "block"
       },
       back() {
-        const displayImage = document.getElementById("displayImage");
-       const display = document.getElementById("display");
-       const editForm = document.getElementById("editForm");
+          const displayImage = document.getElementById("displayImage");
+          const display = document.getElementById("display");
+          const editForm = document.getElementById("editForm");
           displayImage.style.display = "block"
-         display.style.display = "block"
+          display.style.display = "block"
           editForm.style.display = "none"
         
       },
@@ -273,22 +273,15 @@ export default {
              var aveStars = 0;
 
              result.forEach((docs) => {
-                 let y = docs.data();
-
-                 console.log(y)
-                 var row = table.insertRow(ind - 1);
-
-                 var comment = (y.Comments);
-                 var stars = (y.Stars);
-                 aveStars = (aveStars*(ind - 1) + stars)/ind
-
-
-                 var cell1 = row.insertCell(0); 
-
-                 cell1.innerHTML = comment; 
-
-                 
-                 ind += 1;
+                let y = docs.data();
+                console.log(y)
+                var row = table.insertRow(ind - 1);
+                var comment = (y.Comments);
+                var stars = (y.Stars);
+                aveStars = (aveStars*(ind - 1) + stars)/ind
+                var cell1 = row.insertCell(0); 
+                cell1.innerHTML = comment; 
+                ind += 1;
              });
              if(aveStars < 0.5) {
                this.star1 = false

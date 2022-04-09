@@ -2,7 +2,7 @@
 <p align= "left"><a href="#" class="previous" onclick="history.back()">&laquo;</a></p>
 
     <div>
-        <img id = "OrganisationPic" :src="org" class = center>
+        <img id = "OrganisationPic" v-bind:src = this.profilePic>
         
         <h2>{{name}}</h2>
     <table>
@@ -111,6 +111,8 @@ export default {
             star3: false,
             star4: false,
             star5: false,
+            profilePic: ""
+      
         }
     },
 
@@ -132,7 +134,11 @@ export default {
         if (docSnap.exists()) {
             this.name = docSnap.data().Name
             this.intro = docSnap.data().Introduction
+            this.profilePic = docSnap.data().profilePic
+
         } else {
+          this.profilePic = this.org
+
             console.log("error")
         }
         })
