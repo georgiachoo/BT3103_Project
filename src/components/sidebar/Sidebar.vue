@@ -8,7 +8,6 @@
       <span v-else>Easy Volunteer</span>
     </h1>
 
-    <!-- <SidebarLink to="/" icon="fas fa-home">Home</SidebarLink> -->
     <SidebarLink to="/UserOpportunities" icon="fas fa-hand-holding-heart">Opportunities</SidebarLink>
     <SidebarLink to="/UserMyEvents" icon="fas fa-clipboard-list">My Events</SidebarLink>
     <SidebarLink to="/UserNotification" icon="fas fa-bell">Notifications</SidebarLink>

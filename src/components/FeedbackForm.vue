@@ -37,8 +37,7 @@
 import firebaseApp from '../firebase.js';
 import { getFirestore, getDoc, doc,setDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth"; 
-//import { getDocs, query, where, collectionGroup} from "firebase/firestore"; //collection, getDoc, Timestamp, orderBy 
- // import router from '@/router';
+
 const db = getFirestore(firebaseApp);
 
 
@@ -47,7 +46,6 @@ export default {
        return {
            user: false,
            orgName : 'o',
-           //orgEmail : {$route.params.orgID}
        }
      },
      mounted() {
@@ -81,18 +79,12 @@ export default {
          },
          async savetofb(rate,comments) {
             const orgRef = doc(db, "Organisations",this.$route.params.orgID);
-            //const docSnap = await getDoc(orgRef);
-         await setDoc(doc(orgRef, "Feedback Form", this.$route.params.eventName),{
+            await setDoc(doc(orgRef, "Feedback Form", this.$route.params.eventName),{
                 Comments: comments,
                 Stars: rate
-                })
-            
-         }
-
-    
+                })           
+         }   
      }
-
-
 }
 </script>
 

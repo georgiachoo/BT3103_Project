@@ -1,5 +1,4 @@
 <template>
-  <!-- <UserNavBar/> -->
   <Sidebar />
   <div :style="{ 'margin-left': sidebarWidth }">
     <router-view />
@@ -10,7 +9,6 @@
 </template>
 
 <script>
-//import UserNavBar from '@/components/UserNavBar.vue'
 import Sidebar from '@/components/sidebar/Sidebar'
 import { sidebarWidth } from '@/components/sidebar/state.js'
 import MessagesForUsers from '@/components/MessagesForUsers.vue'

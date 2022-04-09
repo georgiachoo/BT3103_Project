@@ -21,8 +21,6 @@ import { getDocs, doc, deleteDoc, getDoc, setDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import OrgSidebar from '@/components/sidebar/OrgSidebar.vue';
 
-// collectionGroup
-// getDocs
 const db = getFirestore(firebaseApp);
 
 export default {
@@ -60,7 +58,7 @@ export default {
                 var cell4 = row.insertCell(3); var cell5 = row.insertCell(4);
 
                 // fill up the row
-                cell1.innerHTML = event; cell2.innerHTML = date; cell3.innerHTML = loc; cell4.innerHTML = deadline; //cell5.innerHTML = 0;
+                cell1.innerHTML = event; cell2.innerHTML = date; cell3.innerHTML = loc; cell4.innerHTML = deadline;
 
                 // create the delete button for that row
                 var bu = document.createElement("button")

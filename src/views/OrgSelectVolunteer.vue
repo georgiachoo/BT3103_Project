@@ -13,20 +13,13 @@ import OrgSidebar from '@/components/sidebar/OrgSidebar.vue'
 import SelectVolunteer from '@/components/SelectVolunteer.vue'
 
 
-
-
-
 export default {
 
     components:{
-      
       Logout,
       OrgSidebar,
-      SelectVolunteer
-      
-    },
-   
-        
+      SelectVolunteer 
+    },  
 }
 </script>
 

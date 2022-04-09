@@ -231,7 +231,6 @@ export default {
         
       },
       editProfile() {
-          //this.newUser = true
           const displayImage = document.getElementById("displayImage");
           const display = document.getElementById("display");
           const editForm = document.getElementById("editForm");
@@ -249,109 +248,86 @@ export default {
         
       },
       async displayComments() {
-             // get all events posted by organisations
-             // const postedEvents = query(collectionGroup(db, 'Posted Events'), orderBy('Date'), orderBy('Category'), orderBy('Location'), orderBy('Required_skills'));
-    
-             const allForms = await getDocs(collection(db,"Organisations",this.user.email,"Feedback Form"));
-             // display in table and append button
-             return this.displayTable(allForms);
-         },
+        const allForms = await getDocs(collection(db,"Organisations",this.user.email,"Feedback Form"));
+        // display in table and append button
+        return this.displayTable(allForms);
+      },
 
-         async displayTable(result) {
-             // clear table first
-             var table = document.getElementById("table");
-             while (table.rows.length > 0) {
-                 table.deleteRow(0);
-             }
+      async displayTable(result) {
+        // clear table first
+        var table = document.getElementById("table");
+        while (table.rows.length > 0) {
+          table.deleteRow(0);
+        }
 
-             var auth = getAuth();
-             var currUser = auth.currentUser.email;
-             this.user = currUser;
-             console.log(this.user)
+        var auth = getAuth();
+        var currUser = auth.currentUser.email;
+        this.user = currUser;
+        console.log(this.user)
 
-             let ind = 1;
-             var aveStars = 0;
+        let ind = 1;
+        var aveStars = 0;
 
-             result.forEach((docs) => {
-                let y = docs.data();
-                console.log(y)
-                var row = table.insertRow(ind - 1);
-                var comment = (y.Comments);
-                var stars = (y.Stars);
-                aveStars = (aveStars*(ind - 1) + stars)/ind
-                var cell1 = row.insertCell(0); 
-                cell1.innerHTML = comment; 
-                ind += 1;
-             });
-             if(aveStars < 0.5) {
-               this.star1 = false
+        result.forEach((docs) => {
+          let y = docs.data();
+          console.log(y)
+          var row = table.insertRow(ind - 1);
+          var comment = (y.Comments);
+          var stars = (y.Stars);
+          aveStars = (aveStars*(ind - 1) + stars)/ind
+          var cell1 = row.insertCell(0); 
+          cell1.innerHTML = comment; 
+          ind += 1;
+        });
+        if(aveStars < 0.5) {
+          this.star1 = false
 
-             } else if (aveStars < 1.5) {
-               this.star1 = true
+        } else if (aveStars < 1.5) {
+          this.star1 = true
                
-             } else if (aveStars < 2.5) {
-               
-               this.star2 = true
+        } else if (aveStars < 2.5) { 
+          this.star2 = true
               
-             } else if (aveStars < 3.5) {
-               
-               
-               this.star3 = true
+        } else if (aveStars < 3.5) {
+          this.star3 = true
               
-             } else if (aveStars < 4.5) {
-               
-               
-               this.star4 = true
-               
+        } else if (aveStars < 4.5) {
+          this.star4 = true    
 
-             } else {
-               
-               this.star5 = true
+        } else {
+          this.star5 = true
 
-             }
-             console.log(aveStars)
-             return 
-         },
+        }
+        console.log(aveStars)
+        return 
+      },
          
-}
-}
-      
-
-    
+  }  
+}   
 
 </script>
 
 <style scoped>
 
- th{
-  
-  border: px solid;
-  
-  
+th{
+    border: px solid; 
 }
 td {
-    
     text-align: start;
     border: 1px solid;
     width: 75%;
     height: 200px;
-
 }
 #comment_td {
     text-align: start;
     width: 75%;
     height: 100px;
-  
-
-
 }
 #comment_tr {
     text-align: start;
     width: 75%;
     height: 100px;
     border: 0ch;
-
-
 }
 table {
     border: 1px solid;
@@ -360,31 +336,25 @@ table {
 .noBorderTb {
     border: 0px solid;
     width: 100%;
-
 }
 .checked {
-  color: orange;
-  
-
+    color: orange;
 }
 .fa {
-  font-size: 30px;
+    font-size: 30px;
 }
-
- .left {
-            width: 25%;
-            float: left;
-            height: 100px;
-            text-align: center;
-            
-            
-        }
+.left {
+    width: 25%;
+    float: left;
+    height: 100px;
+    text-align: center;    
+}
 .right {
-            width: 75%;
-            float:left;
-            height: 100px;
-            text-align: center;
-        }
+    width: 75%;
+    float:left;
+    height: 100px;
+    text-align: center;
+}
 #OrganisationPic{
     display: block;
     margin-left: auto;
@@ -392,26 +362,25 @@ table {
     width:10%;
 }
 #pic{
-  height: 100px;
-  width: 100px;
-  border-radius: 50%;
-  border: 1px solid gray;
-  background-position: center;
-  background-size: cover;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: 1px solid gray;
+    background-position: center;
+    background-size: cover;
 }
-
 #input{
-  display: none;
-  transform: translateX(-10%);
+    display: none;
+    transform: translateX(-10%);
 }
 #uploadBtn{
-  height: 40px;
-  text-align: center;   
-  background: rgba(231, 207, 27, 0.904);
-  color: black;
-  line-height: 20px;
-  font-size: 15px;
-  transform: translate(-100%, 95%)
+    height: 40px;
+    text-align: center;   
+    background: rgba(231, 207, 27, 0.904);
+    color: black;
+    line-height: 20px;
+    font-size: 15px;
+    transform: translate(-100%, 95%)
 }
 #intro {
     width: 300px;
@@ -420,7 +389,5 @@ table {
 #name{
     width: 300px;
 }
-
-
 
 </style>

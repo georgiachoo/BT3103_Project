@@ -1,7 +1,5 @@
 <template>
   
-   
-
     <!-- code for display table -->
     <div id = "oppDisplay">
         <table id= "table" class = "auto-index">
@@ -17,9 +15,7 @@
         </thead>
     </table> <br><br>
     </div>
-
- 
-    
+  
 
     <div id = "search_btn">
             <button v-on:click = "displayModalOtherUsers()" style = "margin: 45px 10px 25px;">View Other users</button>
@@ -54,10 +50,7 @@
     </table>
 
          </div>
-
      </div>
-
-    
 
 </template>
 
@@ -65,14 +58,10 @@
 import firebaseApp from '../firebase.js';
 import { collection, getFirestore,doc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth"; 
-import { getDocs, getDoc, updateDoc, deleteDoc, setDoc } from "firebase/firestore"; //collection, getDoc, Timestamp, orderBy 
+import { getDocs, getDoc, updateDoc, deleteDoc, setDoc } from "firebase/firestore";
 import router from '@/router';
 
 const db = getFirestore(firebaseApp);
-
-            
-
-
 
 
 export default {
@@ -123,24 +112,12 @@ export default {
     methods: {
 
         msg(email) {
-
-                let userEmail = email
-                console.log(userEmail)
-                router.push({name:"OrgMessages", params:{otherID: userEmail}});
-
-                //thisInstance.displayModal(age,certifi,email,exper,gender,interests,intro,name,skills);
-
+            let userEmail = email
+            console.log(userEmail)
+            router.push({name:"OrgMessages", params:{otherID: userEmail}});
         },
 
-
         async displayAll() {
-            // get all events posted by organisations
-            // const postedEvents = query(collectionGroup(db, 'Posted Events'), orderBy('Date'), orderBy('Category'), orderBy('Location'), orderBy('Required_skills'));
-            //const postedEvents = query(collectionGroup(db, 'Posted Events'));
-            //const allEvents = await getDocs(postedEvents);
-            
-            //const orgRef = doc(db, "Organisations",String(this.user));
-            
             const auth = getAuth();
             const currUser = auth.currentUser;
             console.log(currUser.email)
@@ -167,24 +144,19 @@ export default {
             cell1.innerHTML = name + " signed up for " + eventName; 
             var cell2 = row.insertCell(1);
             var cell3 = row.insertCell(2);
-            
              
             var bu = document.createElement("button");
             bu.className = "bwt";
-            //bu.id = String(eName);
             bu.innerHTML = "View Profile";
             bu.onclick = function() {
-
                 thisInstance.displayModal(age,certifi,email,exper,gender,interests,intro,name,skills);
             }
             
             cell2.appendChild(bu); 
             var bu2 = document.createElement("button");
             bu2.className = "bwt";
-            //bu.id = String(eName);
             bu2.innerHTML = "Accept";
             bu2.onclick = function() {
-                //thisInstance.displayModal(eName, eDesc, eCat, eLoc, eDate, eSkills, eDL, eNumV, eOrg,eOrgName);
                 thisInstance.addToAcceptedArray(email,eventName)
                 alert("Accepted " + name + " for " + eventName)
                 thisInstance.removeFromAppliedArray(email,eventName)
@@ -194,17 +166,18 @@ export default {
             cell3.appendChild(bu2); 
             this.oldCustomers.push(email)
             console.log(this.oldCustomers)
-
             
             return
 
         },
+
         async addToAcceptedArray(email,eventName) {
             const thisEventRef = doc(db,"Organisations",this.user.email,"Posted Events",eventName);
             await updateDoc(thisEventRef, {
                 Accepted_volunteers: arrayUnion(email)
             });
         },
+
         async removeFromAppliedArray(email,eventName) {
             const thisEventRef = doc(db,"Organisations",this.user.email,"Posted Events",eventName);
             await updateDoc(thisEventRef, {
@@ -242,23 +215,16 @@ export default {
 
             result.forEach((docs) => {
                 let y = docs.data();
-
-                console.log(y)
-                
-                
+                console.log(y)         
                 var arrayLen = y.Applied_volunteers.length;
-                //console.log(y.Applied_volunteers)
-                //alert(arrayLen)
+
                 if (arrayLen > 0) {
                     for (let i = 0;i < arrayLen;i++) {
                         console.log(y.Applied_volunteers[i])
                         this.getUserNameByEmailAndDisplayEachRow(y.Applied_volunteers[i],ind,y.Event_Name);
                         }
                     ind += 1;
-
-                }
-               
-                
+                }  
             });
             return
         },
@@ -288,7 +254,6 @@ export default {
              // get event info as arguments from displayTable (or query)
 
              // update mustache values
-             //this.changeValue();
              const allUsers = await getDocs(collection(db,"Users"));
              var table = document.getElementById("otherUsersTable");
             while (table.rows.length > 0) {
@@ -310,21 +275,15 @@ export default {
                 
             });
 
-            
-
-             
-
              console.log("display")
              // make modal visible
              this.openModalOtherUsers();
          },
 
          async otherUsersRow(name,intro,ind,email) {
-            //var thisInstance = this; 
             var table = document.getElementById("otherUsersTable");
             var row = table.insertRow(ind);
             var cell1 = row.insertCell(0);
-            //cell1.innerHTML = name + "----" + intro;
             var twoLines = document.createElement("table")
             var nameLine = twoLines.insertRow(0);
             var nameCell = nameLine.insertCell(0);
@@ -336,22 +295,15 @@ export default {
             introCell.innerHTML = intro;
             cell1.appendChild(twoLines)
             var cell2 = row.insertCell(1);
-            
-             
             var bu = document.createElement("button");
             bu.className = "bwt";
-            //bu.id = String(eName);
             bu.innerHTML = "Message";
             bu.onclick = function() {
-
                 let userEmail = email;
                 console.log(userEmail)
                 router.push({name:"OrgMessages", params:{otherID: userEmail}});
-
-                //thisInstance.displayModal(age,certifi,email,exper,gender,interests,intro,name,skills);
             }
             cell2.appendChild(bu); 
-
          },
 
 
@@ -376,10 +328,6 @@ export default {
              var modal = document.getElementById('eventModalOtherUsers');
              modal.style.display = 'none';
          },
-
-
-
-
     }
 }
 </script>
@@ -387,7 +335,6 @@ export default {
 <style scoped>
 
     #field1, #field2, #start_d, #end_d, #field4 {
-        /* display: block; */
         display: flex;
         flex-direction: column;
     }
@@ -401,7 +348,6 @@ export default {
         align-items: center;
     }
 
-
     /* css for the dates */
     input[type="date"] {
         color: #95a5a6;
@@ -413,10 +359,8 @@ export default {
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
-        /* width: 100%; */
         width: 88%;
         margin: auto;
-        /* padding: 30px; */
     }
 
     tr:nth-child(even) {
@@ -503,7 +447,5 @@ export default {
         text-decoration: none;
         cursor: pointer;
     }
-
-    
 
 </style>

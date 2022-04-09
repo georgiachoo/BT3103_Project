@@ -94,11 +94,8 @@
  import { getFirestore } from "firebase/firestore";
  import { getAuth, onAuthStateChanged } from "firebase/auth"; 
  import { getDocs, query, where, collectionGroup} from "firebase/firestore"; //collection, getDoc, Timestamp, orderBy 
- // import router from '@/router';
+
  const db = getFirestore(firebaseApp);
-
-
-
 
  export default {
      data () {
@@ -151,7 +148,6 @@
 
          async displayAll() {
              // get all events posted by organisations
-             // const postedEvents = query(collectionGroup(db, 'Posted Events'), orderBy('Date'), orderBy('Category'), orderBy('Location'), orderBy('Required_skills'));
              const postedEvents = query(collectionGroup(db, 'Posted Events'));
              const allEvents = await getDocs(postedEvents);
 
@@ -209,11 +205,11 @@
                  var bu = document.createElement("button");
                  bu.className = "bwt";
                  bu.id = String(eName);
-                bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
-                bu.style.cursor = "pointer"
-                bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
-                bu.style.textAlign = "center"
-                bu.style.padding = "5px 14px"
+                 bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
+                 bu.style.cursor = "pointer"
+                 bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
+                 bu.style.textAlign = "center"
+                 bu.style.padding = "5px 14px"
 
                  bu.innerHTML = "View";
                  bu.onclick = function() {
@@ -231,7 +227,6 @@
 
              // update mustache values
              this.changeValue(name, description, category, location, date, skills, dl, numV, orgEmail,orgName);
-
 
              // make modal visible
              this.openModal();
@@ -292,12 +287,6 @@
              const sQuery = query(collectionGroup(db, 'Posted Events'), ...filters);
              const result = await getDocs(sQuery);
 
-
-             // test date query
-             // const dateQuery = query(collection(db, "Organisations", 'testperson@gmail.com', 'Posted Events'), where('Date', '>=', dd));
-             // const dateQuery = query(collection(db, "Organisations", 'testperson@gmail.com', 'Posted Events'), where('Date', '<=', e));
-             // const result = await getDocs(dateQuery)
-
              return this.displayTable(result);
          },
 
@@ -342,7 +331,6 @@
  <style scoped>
 
      #field1, #field2, #start_d, #end_d, #field4 {
-         /* display: block; */
          display: flex;
          flex-direction: column;
      }

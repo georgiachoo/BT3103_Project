@@ -8,7 +8,6 @@
 </template>
 
 <script>
-//import UserNavBar from '@/components/UserNavBar.vue'
 import OrgSidebar from '@/components/sidebar/OrgSidebar'
 import { sidebarWidth } from '@/components/sidebar/state.js'
 import MessagesForOrganisations from '@/components/MessagesForOrganisations.vue'

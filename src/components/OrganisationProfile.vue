@@ -117,16 +117,12 @@ export default {
     },
 
     mounted() {
-         const auth = getAuth();
+      const auth = getAuth();
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          this.user = user;
-          
-          
-          }
-
-
-        });
+          this.user = user;    
+        }
+      });
         console.log("org email in profile page");
         console.log(this.orgEmail);
         getDoc(doc(db, "Organisations", String(this.orgEmail))).then(docSnap => {
@@ -146,19 +142,12 @@ export default {
     },
     methods: {
         async displayComments() {
-             // get all events posted by organisations
-             // const postedEvents = query(collectionGroup(db, 'Posted Events'), orderBy('Date'), orderBy('Category'), orderBy('Location'), orderBy('Required_skills'));
-    
              const allForms = await getDocs(collection(db,"Organisations",this.orgEmail,"Feedback Form"));
-             
-               
-                
-             
+
              // display in table and append button
              return this.displayTable(allForms);
          },
         
-
          async displayTable(result) {
              // clear table first
              var table = document.getElementById("table");
@@ -176,27 +165,16 @@ export default {
 
              result.forEach((docs) => {
                  let y = docs.data();
-
                  console.log(y)
-                 
-                 //var table = document.getElementById("table");
                  var row = table.insertRow(ind - 1);
-
                  var comment = (y.Comments);
-                
-
 
                  // variables to be displayed when user clicks on view (to be passed to displayModal)
-                
                  var stars = (y.Stars);
                  aveStars = (aveStars*(ind - 1) + stars)/ind
-
-
                  var cell1 = row.insertCell(0); 
-
                  cell1.innerHTML = comment; 
 
-                 
                  ind += 1;
              });
              console.log(aveStars)
@@ -206,40 +184,30 @@ export default {
              } else if (aveStars < 1.5) {
                this.star1 = true
                
-             } else if (aveStars < 2.5) {
-               
+             } else if (aveStars < 2.5) {              
                this.star2 = true
               
-             } else if (aveStars < 3.5) {
-               
-               
+             } else if (aveStars < 3.5) {  
                this.star3 = true
               
              } else if (aveStars < 4.5) {
-               
-               
                this.star4 = true
-               
 
-             } else {
-               
+             } else {  
                this.star5 = true
 
              }
              console.log(aveStars)
              return 
          },
-    }
-
-
-    
+    }  
 }
 </script>
 
 
 <style scoped>
 th{
-  border: px solid;
+    border: px solid;
 }
 td { 
     text-align: start;
@@ -265,18 +233,14 @@ table {
 .noBorderTb {
     border: 0px solid;
     width: 100%;
-
 }
 .checked {
   color: orange;
-  
-
 }
 .fa {
   font-size: 30px;
 }
-
- .left {
+.left {
     width: 25%;
     float: left;
     height: 100px;
@@ -295,12 +259,12 @@ table {
     width:10%;
 }
 #profilePic{
-  height: 100px;
-  width: 100px;
-  border-radius: 50%;
-  border: 1px solid gray;
-  background-position: center;
-  background-size: cover;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: 1px solid gray;
+    background-position: center;
+    background-size: cover;
 }
 #intro {
     width: 300px;
@@ -310,16 +274,16 @@ table {
     width: 300px;
 }
 .previous {
-  background-color: #f1f1f1;
-  color: black;
+    background-color: #f1f1f1;
+    color: black;
 }
 a {  
-  text-decoration: none;
-  display: inline-block;
-  padding: 8px 16px;
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
 }
 a:hover {
-  background-color: #ddd;
-  color: black;
+    background-color: #ddd;
+    color: black;
 }
 </style>

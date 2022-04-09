@@ -11,10 +11,6 @@
                     <label for="buy1">Date: </label>
                     <input type="date" id="date" required="" placeholder="Date" /> <br><br>
 
-
-
-                    <!-- <label for="quant1">Location: </label> -->
-                    <!-- <input type="number" id="loc" required="" placeholder="Location" /> <br><br> -->
                     <div id = "loc field">
                     <label for="loc">Location: </label>
                     <input list="locations" id="loc" name="loc" onfocus="this.value=''" onchange="this.blur()" placeholder="Location" />
@@ -27,8 +23,6 @@
                     </div>
                     <br>
 
-                    <!-- <label for="quant1">Category: </label> -->
-                    <!-- <input type="text" id="cat" required="" placeholder="Select category" /> <br><br> -->
                     <div id = "cat field">
                     <label for="cat">Category: </label>
                     <input list="categories" id="cat" name="cat" onfocus="this.value=''" onchange="this.blur()" placeholder="Category"/>
@@ -44,8 +38,6 @@
                     </div>
                     <br>
 
-                    <!-- <label for="quant1">Required skills: </label> -->
-                    <!-- <input type="text" id="skills" required="" placeholder="Required skills" /> <br><br> -->
                     <div id = "skill field">
                     <label for="skills">Required skills: </label>
                     <input list="skill" id="skills" name="skills" onfocus="this.value=''" onchange="this.blur()" placeholder="Required skills" />
