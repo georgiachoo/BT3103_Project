@@ -1,9 +1,6 @@
 <template>
-    
-    
-    <div v-if = !newUser>
-        <img id = "OrganisationPic" :src="org" class = center>
-        
+    <div id = "displayImage">
+        <img id = "OrganisationPic" v-bind:src = this.profilePic>
         <h2>{{name}}</h2>
     <table>
         <tr>
@@ -13,9 +10,6 @@
   
     </table>
     <br>
-    
-
-   
     <div class="left"> 
         <h4>Rate:</h4>  </div>
     <div class="right"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -67,10 +61,7 @@
         <span class="fa fa-star checked"></span>
         <span class="fa fa-star checked"></span>
       </div>
-
-      
-   
-     </div>
+      </div>
 
     <table>
         <tr>
@@ -87,13 +78,12 @@
     </table>
     </div>
     <br>
-<div v-if = !newUser>
+<div id = "display">
 <button id = "savebutton" type="button" v-on:click="editProfile()"> Edit Profile </button><br>
 </div>
 
-<div v-if = newUser>
-
-        <img id="profilePic">
+ <div id = "editForm">
+        <img id="pic" v-bind:src = this.profilePic>
         <br>
     <input type="file" id="input" accept="image/*">
      <label for="input" id="uploadBtn"> Choose Profile Picture</label><br><br>
@@ -102,28 +92,29 @@
    
     <div class = "save">
         <br>
-      <button id = "savebutton" type="button" v-on:click="savetofs()"> Save </button><br><br>
+        
+      <button id = "savebutton" type="button" v-on:click="back()"> Back </button> <br> <br>
+      <button id = "savebutton" type="button" v-on:click="savetofs()"> Save </button> <br> <br>
+      
     </div>
 
     
-    </div>
+</div>
 </template>
 
 <script>
 import firebaseApp from '../firebase.js';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getStorage, ref } from "firebase/storage";
-import { doc, getDoc,getFirestore,setDoc,getDocs,collection} from 'firebase/firestore';
+import { getAuth, onAuthStateChanged} from "firebase/auth";
+import { doc, getDoc,getFirestore,setDoc,getDocs,collection,updateDoc} from 'firebase/firestore';
+import { getStorage, ref, getDownloadURL, uploadString } from 'firebase/storage';
 const db = getFirestore(firebaseApp);
-//const auth = getAuth();
-//const email = auth.currentUser.email;
-
 
 export default {
     name: 'OrganisationAccInfo',
+    
     data() {
     return {
-      newUser :false,
+      newUser :"",
       org: require('../assets/organisation.png'),
       name : "",
       intro : "",
@@ -132,6 +123,7 @@ export default {
       star3: false,
       star4: false,
       star5: false,
+      profilePic: ""
       
     }
   },
@@ -141,63 +133,65 @@ export default {
       onAuthStateChanged(auth, (user) => {
         if (user) {
           this.user = user;
-          
-          
-          }
+        }
+      });
 
+      getDoc(doc(db, "Organisations", String(auth.currentUser.email))).then(docSnap => {
+        if (!docSnap.exists()) {
+          this.newUser  = true
+          this.profilePic = this.org
 
-        });
-        getDoc(doc(db, "Organisations", String(auth.currentUser.email))).then(docSnap => {
-  if (!docSnap.exists()) {
-      this.newUser  = true
+        } else {
+          this.name = docSnap.data().Name
+          this.intro = docSnap.data().Introduction
+          this.displayComments()
+          const docdata = docSnap.data()
+          this.profilePic = docdata['profilePic']
+        }
+      }); 
       
- 
-    
-  } else {
-   this.name = docSnap.data().Name
-    this.intro = docSnap.data().Introduction
-    this.displayComments()
-  }
-})
-},
-methods: {
+      var input = document.querySelector('#input');
+      input.addEventListener('change', load);
+
+      function load() {
+        var fileReader = new FileReader();
+        var fileObject = this.files[0];
+        fileReader.readAsDataURL(fileObject);
+        fileReader.onload = () => {
+          var result = fileReader.result;
+          var img = document.querySelector('#pic');
+          img.setAttribute('src', result); 
+        };
+      }
+
+       const displayImage = document.getElementById("displayImage");
+       const display = document.getElementById("display");
+       const editForm = document.getElementById("editForm");
+       if (this.newUser) {
+         displayImage.style.display = "none"
+         display.style.display = "none"
+
+       } else {
+         editForm.style.display = "none"
+         
+
+       }
+      
+  },
+  
+  methods: {
+
       async savetofs() {
-        //const auth = getAuth();
-        //var this.user = auth.currentUser.email;
         const auth = getAuth();
         const email = auth.currentUser.email;
-        //const reader = new FileReader();
         
-
         var a = document.getElementById("name").value 
         var b = document.getElementById("intro").value 
-        var j = document.getElementById("input")
-       // var j = '../assets/game.png'
-       
-
-        //const accForm = document.getElementById("accForm");
-        //accForm.style.display = "none";
-        const storage = getStorage();
-        const storageRef = ref(storage, 'photos/myPictureName');
-
-// 'file' comes from the Blob or File API
-        j.addEventListener('change', function(evt) {
-      let firstFile = evt.target.files[0] // upload the first file only
-      storageRef.put(firstFile)
-  })
-       /* let storageRef = db.storage().ref('photos/myPictureName')
-        let fileUpload = document.getElementById("input")
-
-        fileUpload.addEventListener('change', function(evt) {
-        let firstFile = evt.target.files[0] // upload the first file only
-        storageRef.put(firstFile)
-        })*/
 
         try {
           const docRef = await setDoc(doc(db, "Organisations", email), 
             {Name: a, Introduction: b, });
           console.log(docRef);
-          //this.$emit('userinfo');
         }
         catch(error) {
           console.error("Error making changes: ", error);
@@ -205,14 +199,55 @@ methods: {
 
         this.name = a;
         this.intro = b;
-        this.newUser=false
+        
+        const file = document.getElementById("pic").src
+        if (file.substring(0,4) !== 'http' && file !== '') {
+          const fileURL = file.split(',')[1]
+          const metadata = {
+            contentType: 'image/jpeg',
+          };
+          const storage = getStorage();
+          var imgName = email + '.jpg'
+          const storageRef = ref(storage, imgName);
+          uploadString(storageRef, fileURL, 'base64', metadata).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((downloadURL) => {
+              console.log('File available at', downloadURL);
+              const userRef = doc(db, "Organisations", email);
+              console.log(downloadURL)
+              this.profilePic = downloadURL
+              updateDoc(userRef, {profilePic: downloadURL});
+            })
+          });
+        }
+        const displayImage = document.getElementById("displayImage");
+       const display = document.getElementById("display");
+       const editForm = document.getElementById("editForm");
+          displayImage.style.display = "block"
+         display.style.display = "block"
+          editForm.style.display = "none"
+          console.log(this.profilePic)
+       
+       
         
       },
       editProfile() {
-          this.newUser = true
+          //this.newUser = true
+          const displayImage = document.getElementById("displayImage");
+       const display = document.getElementById("display");
+       const editForm = document.getElementById("editForm");
+          displayImage.style.display = "none"
+         display.style.display = "none"
+          editForm.style.display = "block"
       },
-      
-
+      back() {
+        const displayImage = document.getElementById("displayImage");
+       const display = document.getElementById("display");
+       const editForm = document.getElementById("editForm");
+          displayImage.style.display = "block"
+         display.style.display = "block"
+          editForm.style.display = "none"
+        
+      },
       async displayComments() {
              // get all events posted by organisations
              // const postedEvents = query(collectionGroup(db, 'Posted Events'), orderBy('Date'), orderBy('Category'), orderBy('Location'), orderBy('Required_skills'));
@@ -241,16 +276,9 @@ methods: {
                  let y = docs.data();
 
                  console.log(y)
-                 
-                 //var table = document.getElementById("table");
                  var row = table.insertRow(ind - 1);
 
                  var comment = (y.Comments);
-                
-
-
-                 // variables to be displayed when user clicks on view (to be passed to displayModal)
-                
                  var stars = (y.Stars);
                  aveStars = (aveStars*(ind - 1) + stars)/ind
 
@@ -291,9 +319,7 @@ methods: {
              console.log(aveStars)
              return 
          },
-         back() {
-           this.newUser  = false
-         }
+         
 }
 }
       
@@ -372,7 +398,7 @@ table {
     margin-right: auto;
     width:10%;
 }
-#profilePic{
+#pic{
   height: 100px;
   width: 100px;
   border-radius: 50%;
