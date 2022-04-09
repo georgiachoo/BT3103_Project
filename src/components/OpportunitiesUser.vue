@@ -8,7 +8,9 @@
             <option value="Arts/Culture">Arts/Culture</option>
             <option value="Children/Youth">Children/Youth</option>
             <option value="Education">Education</option>
+            <option value="Elderly">Elderly</option>
             <option value="Environment">Environment</option>
+            <option value="Others">Others</option>
         </datalist>
         </div>
 
@@ -43,6 +45,7 @@
             <option value="IT/Technology">IT/Technology</option>
             <option value="Marketing">Marketing</option>
             <option value="Planning/Organisation">Planning/Organisation</option>
+            <option value="Others">Others</option>
             <option value="None">None</option>
 
         </datalist>
