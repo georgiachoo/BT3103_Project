@@ -1,5 +1,5 @@
 <template>
-<h1>Organisation Opportunities</h1>
+<h1>Opportunities</h1>
 
 <OpportunitiesOrg/>
 <Logout/>
