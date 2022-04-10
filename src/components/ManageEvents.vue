@@ -97,9 +97,14 @@ export default {
                   "Organisation_Name": docRef.data().Organisation_Name,
                   "Org_Email": auth.currentUser.email,
                   "Required_skills": docRef.data().Required_skills,
-                  "Feedback_Completed": false,
-                  "New": true
-                })
+                  "Feedback_Completed": false
+                });
+
+                await setDoc(doc(db, "Users", acceptedArr[i], "Newly Completed", x), {
+                  "Event_Name": x,
+                });
+
+                await deleteDoc(doc(db, "Users", acceptedArr[i], "Registered Events", x));
             }
 
             await deleteDoc(doc(db, "Organisations", auth.currentUser.email, "Posted Events", x))
@@ -142,16 +147,18 @@ th, td {
   text-align: center;
   padding: 20px;
 }
+
 .previous {
   background-color: #f1f1f1;
   color: black;
 }
+
 a {
-  
   text-decoration: none;
   display: inline-block;
   padding: 8px 16px;
 }
+
 a:hover {
   background-color: rgb(234, 220, 86);
   color: black;

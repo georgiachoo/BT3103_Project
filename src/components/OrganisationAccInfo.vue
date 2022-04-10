@@ -79,7 +79,7 @@
     </div>
     <br>
 <div id = "display">
-<button id = "savebutton" type="button" v-on:click="editProfile()"> Edit Profile </button><br>
+<button id = "editBtn" type="button" v-on:click="editProfile()"> Edit Profile </button><br>
 </div>
 
  <div id = "editForm">
@@ -388,6 +388,13 @@ table {
 }
 #name{
     width: 300px;
+}
+#editBtn{
+    background-color: rgba(231, 207, 27, 0.904);
+    cursor: pointer;
+    border-color: rgba(231, 207, 27, 0.904);
+    text-align: center;
+    padding: 5px 14px;
 }
 
 </style>

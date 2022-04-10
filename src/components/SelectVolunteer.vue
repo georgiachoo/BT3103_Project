@@ -211,8 +211,11 @@ export default {
                 "Organisation_Name": docSnap.data().Organisation_Name,
                 "Org_Email": this.user.email,
                 "Required_skills": docSnap.data().Required_skills,
-                "Newly_Registered": true,
                 "Feedback_Completed": false
+            })
+            await setDoc(doc(db, "Users", userEmail, "Newly Registered", eventName), {
+                "Event_Name": eventName,
+                 "Organisation_Name": docSnap.data().Organisation_Name
             })
         },
 

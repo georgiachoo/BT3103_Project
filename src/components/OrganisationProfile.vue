@@ -283,7 +283,7 @@ a {
     padding: 8px 16px;
 }
 a:hover {
-    background-color: #ddd;
+    background-color: rgb(234, 220, 86);
     color: black;
 }
 </style>

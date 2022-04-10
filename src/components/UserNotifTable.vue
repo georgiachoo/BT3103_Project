@@ -13,7 +13,7 @@
 import firebaseApp from '../firebase.js';
 import router from '@/router';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, collection, query, where, doc, updateDoc, onSnapshot } from 'firebase/firestore';
+import { getFirestore, collection, query, doc, onSnapshot, deleteDoc } from 'firebase/firestore';
 
 const db = getFirestore(firebaseApp);
 
@@ -29,20 +29,17 @@ export default {
 
   methods: {
 
-    async updatefs(userEmail, eventName) {
-      const docRef = await updateDoc(doc(db, "Users", userEmail, "Registered Events", eventName), 
-                          {"Newly_Registered": false});
-      console.log(docRef);
+    async deleteReg(userEmail, eventName) {
+      await deleteDoc(doc(db, "Users", userEmail, "Newly Registered", eventName));
     },
 
-    async updateNew(userEmail, eventName) {
-      const docRef = await updateDoc(doc(db, "Users", userEmail, "Registered Events", eventName), {"New": false});
-      console.log(docRef);
+    async deleteCom(userEmail, eventName) {
+      await deleteDoc(doc(db, "Users", userEmail, "Newly Completed", eventName));
     },
 
     getRegistered(table, email, ind) {
-      var thisInstance = this; 
-      const q = query(collection(db, "Users", email, "Registered Events"), where("Newly_Registered", "==", true));
+      const thisInstance = this;
+      const q = query(collection(db, "Users", email, "Newly Registered"));
       const result = onSnapshot(q, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
           var row = table.insertRow(ind);
@@ -65,8 +62,8 @@ export default {
             router.push({name: 'UserMyEvents'});
           }
           cell2.appendChild(bu);
-          thisInstance.updatefs(email, change.doc.data().Event_Name);
-
+          thisInstance.deleteReg(email, change.doc.data().Event_Name);
+          
           console.log(result);
           console.log("Retrieved registered events");
         });
@@ -75,7 +72,7 @@ export default {
 
     getCompleted(table, email, ind) {
       var thisInstance = this; 
-      const q1 = query(collection(db, "Users", email, "Completed Events"), where("Feedback_Completed", "==", false), where("New", "==", true));
+      const q1 = query(collection(db, "Users", email, "Newly Completed"));
       const result1 = onSnapshot(q1, (snapshot) => {
         snapshot.forEach((doc) => {
           var row = table.insertRow(ind);
@@ -97,7 +94,7 @@ export default {
             router.push({name: 'UserMyEvents'});
           }
           cell2.appendChild(bu);
-          thisInstance.updateNew(email, doc.data().Event_Name);
+          thisInstance.deleteCom(email, doc.data().Event_Name);
         });
         console.log(result1);
         console.log("Retrieved completed events");
