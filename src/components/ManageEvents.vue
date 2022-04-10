@@ -36,6 +36,11 @@ export default {
         })
 
         async function display(user) {
+            let table = document.getElementById("table")
+            while (table.rows.length > 1) {
+                table.deleteRow(1)
+            }
+
             const email = auth.currentUser.email
             const q = query(collection(db, "Organisations", email, "Posted Events"), where("Org_Email", "==", email));
             const events = await getDocs(q);
