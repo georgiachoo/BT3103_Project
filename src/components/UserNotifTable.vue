@@ -13,7 +13,7 @@
 import firebaseApp from '../firebase.js';
 import router from '@/router';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, collection, query, doc, onSnapshot, deleteDoc } from 'firebase/firestore';
+import { getFirestore, collection, doc, deleteDoc, getDocs } from 'firebase/firestore';
 
 const db = getFirestore(firebaseApp);
 
@@ -37,69 +37,66 @@ export default {
       await deleteDoc(doc(db, "Users", userEmail, "Newly Completed", eventName));
     },
 
-    getRegistered(table, email, ind) {
+    async getRegistered(table, email, ind) {
       const thisInstance = this;
-      const q = query(collection(db, "Users", email, "Newly Registered"));
-      const result = onSnapshot(q, (snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-          var row = table.insertRow(ind);
-          var cell1 = row.insertCell(0); 
-          var cell2 = row.insertCell(1);
-          cell1.innerHTML = "Successfully registered for " + change.doc.data().Event_Name + 
-                            " with " + change.doc.data().Organisation_Name
-          ind += 1
+      const allEvents = await getDocs(collection(db, "Users", email, "Newly Registered"));
 
-          var bu = document.createElement("button");
-          bu.className = "viewBtn"
-          bu.innerHTML = "View"
-          bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
-          bu.style.cursor = "pointer"
-          bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
-          bu.style.textAlign = "center"
-          bu.style.padding = "5px 14px"
+      allEvents.forEach((doc) => {
+        var row = table.insertRow(ind);
+        var cell1 = row.insertCell(0); 
+        var cell2 = row.insertCell(1);
+        cell1.innerHTML = "Successfully registered for " + doc.data().Event_Name + 
+                          " with " + doc.data().Organisation_Name
+        ind += 1
+
+        var bu = document.createElement("button");
+        bu.className = "viewBtn"
+        bu.innerHTML = "View"
+        bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
+        bu.style.cursor = "pointer"
+        bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
+        bu.style.textAlign = "center"
+        bu.style.padding = "5px 14px"
          
-          bu.onclick = function() {
-            router.push({name: 'UserMyEvents'});
-          }
-          cell2.appendChild(bu);
-          thisInstance.deleteReg(email, change.doc.data().Event_Name);
-          
-          console.log(result);
-          console.log("Retrieved registered events");
-        });
+        bu.onclick = function() {
+          router.push({name: 'UserMyEvents'});
+        }
+        cell2.appendChild(bu);
+        thisInstance.deleteReg(email, doc.data().Event_Name);
       });
+
+      console.log("Retrieved registered events");
     },
 
-    getCompleted(table, email, ind) {
+    async getCompleted(table, email, ind) {
       var thisInstance = this; 
-      const q1 = query(collection(db, "Users", email, "Newly Completed"));
-      const result1 = onSnapshot(q1, (snapshot) => {
-        snapshot.forEach((doc) => {
-          var row = table.insertRow(ind);
-          var cell1 = row.insertCell(0); 
-          var cell2 = row.insertCell(1);
-          cell1.innerHTML = "Leave feedback for " + doc.data().Event_Name
-          ind += 1;
+      const allEvents = await getDocs(collection(db, "Users", email, "Newly Completed"));
 
-          var bu = document.createElement("button");
-          bu.className = "viewBtn"
-          bu.innerHTML = "View"
-          bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
-          bu.style.cursor = "pointer"
-          bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
-          bu.style.textAlign = "center"
-          bu.style.padding = "5px 14px"
+      allEvents.forEach((doc) => {
+        var row = table.insertRow(ind);
+        var cell1 = row.insertCell(0); 
+        var cell2 = row.insertCell(1);
+        cell1.innerHTML = "Leave feedback for " + doc.data().Event_Name
+        ind += 1;
 
-          bu.onclick = function() {
-            router.push({name: 'UserMyEvents'});
-          }
-          cell2.appendChild(bu);
-          thisInstance.deleteCom(email, doc.data().Event_Name);
-        });
-        console.log(result1);
-        console.log("Retrieved completed events");
+        var bu = document.createElement("button");
+        bu.className = "viewBtn"
+        bu.innerHTML = "View"
+        bu.style.backgroundColor = "rgba(231, 207, 27, 0.904)"
+        bu.style.cursor = "pointer"
+        bu.style.borderColor = "rgba(231, 207, 27, 0.904)"
+        bu.style.textAlign = "center"
+        bu.style.padding = "5px 14px"
+
+        bu.onclick = function() {
+          router.push({name: 'UserMyEvents'});
+        }
+        cell2.appendChild(bu);
+        thisInstance.deleteCom(email, doc.data().Event_Name);
       });
-    }, 
+      console.log("Retrieved completed events");
+    }
+
   },
 
   mounted() {
