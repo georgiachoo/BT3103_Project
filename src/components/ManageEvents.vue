@@ -1,6 +1,5 @@
 <template>
     <p align= "right"><a href="#" class="previous" onclick="history.back()">&laquo;</a> </p>
-    <OrgSidebar/>
     <h1 id="Current">Manage Posted Event</h1>
         <table id="table" class="auto-index" align="right">
         <tr>
@@ -11,7 +10,7 @@
             <th>Options</th>
         </tr>
         </table>
-        <br><br>
+        <br><br>    
 </template>
 
 <script>
@@ -19,14 +18,13 @@ import firebaseApp from '../firebase.js';
 import { collection, query, where, getFirestore } from "firebase/firestore";
 import { getDocs, doc, deleteDoc, getDoc, setDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth"
-import OrgSidebar from '@/components/sidebar/OrgSidebar.vue';
+
 
 const db = getFirestore(firebaseApp);
 
 export default {
     name: 'ManageEvents',
     components:{
-        OrgSidebar
     },
 
     mounted(){
@@ -124,7 +122,7 @@ export default {
 
 table {
     font-family: arial, sans-serif;
-    width: 80%;
+    width: 90%;
     border-collapse: collapse;
     margin-right: 30px;
 }
@@ -163,4 +161,6 @@ a:hover {
   background-color: rgb(234, 220, 86);
   color: black;
 }
+
+
 </style>
